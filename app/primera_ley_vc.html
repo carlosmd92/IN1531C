@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Primera ley en volumen de control: masa y dispositivos de flujo</title>
+<script>
+window.MathJax={loader:{load:['[tex]/color']},tex:{packages:{'[+]':['color']},inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'none'}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/primera_ley.css">
+<style>
+@page{@top-right{content:"Primera ley: volumen de control"}}
+#figM,#figD{max-width:640px}
+.readout{overflow-x:auto}
+.readout .formula{margin:6px 0}
+.ctrl .devsel{margin-bottom:2px}
+#devPar{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;width:100%}
+.plcard.bad{--pc:#a8231b}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside id="side" aria-label="Bloques de contenido"></aside>
+<div id="scrim"></div>
+<div class="content">
+<div id="topbar"></div>
+<main>
+
+<!-- 4 -->
+<section class="card" id="s4">
+  <h3><span class="badge">1</span>Conservación de masa en un ducto</h3>
+  <p>En régimen permanente la masa que entra por unidad de tiempo es la que sale. Con agua, de densidad constante, el flujo másico es \( \dot m = \rho\,A\,V \).</p>
+  <div class="formula key">\[ \dot m_1 = \dot m_2 \quad\Rightarrow\quad \rho\,A_1\,V_1 = \rho\,A_2\,V_2 \]</div>
+  <div class="ctrl">
+    <label>\( D_1 = \) <b id="d1Val"></b> cm <input type="range" id="d1Sl" min="4" max="12" step="1" value="10"></label>
+    <label>\( D_2 = \) <b id="d2Val"></b> cm <input type="range" id="d2Sl" min="4" max="12" step="1" value="5"></label>
+    <label>\( V_1 = \) <b id="v1Val"></b> m/s <input type="range" id="v1Sl" min="0.5" max="3" step="0.1" value="2"></label>
+  </div>
+  <figure>
+    <div class="plwrap wide">
+      <svg id="figM" class="plfig" role="img" aria-label="Tubería de agua que cambia de diámetro, con partículas cuya rapidez refleja la velocidad"></svg>
+      <div class="plpanel" id="panelM" aria-live="polite"></div>
+    </div>
+    <figcaption>Agua con \( \rho = 1000\ \mathrm{kg/m^3} \). En la sección angosta las partículas avanzan más rápido.</figcaption>
+  </figure>
+  <div class="readout" id="outM"></div>
+</section>
+
+<!-- 5 -->
+<section class="card" id="s5">
+  <h3><span class="badge">2</span>Dispositivos de flujo estacionario</h3>
+  <p>Todos parten del mismo balance de energía; cada equipo anula los términos que no intervienen. Se elige el dispositivo y se mueven sus datos; el término desconocido sale del balance.</p>
+  <div class="formula key">\[ 0 = \dot Q - \dot W + \dot m\left[(h_1-h_2) + \frac{V_1^2-V_2^2}{2}\right] \]</div>
+  <div class="ctrl">
+    <span class="seg devsel" id="devSel" role="group" aria-label="Dispositivo">
+      <button type="button" data-dev="tobera" aria-pressed="true">Tobera</button>
+      <button type="button" data-dev="difusor" aria-pressed="false">Difusor</button>
+      <button type="button" data-dev="turbina" aria-pressed="false">Turbina</button>
+      <button type="button" data-dev="compresor" aria-pressed="false">Compresor</button>
+      <button type="button" data-dev="valvula" aria-pressed="false">Válvula</button>
+      <button type="button" data-dev="interc" aria-pressed="false">Intercambiador</button>
+    </span>
+    <div id="devPar"></div>
+  </div>
+  <figure>
+    <div class="plwrap wide">
+      <svg id="figD" class="plfig" role="img" aria-label="Dispositivo de flujo estacionario con sus entradas, salidas, calor y trabajo"></svg>
+      <div class="plpanel" id="panelD" aria-live="polite"></div>
+    </div>
+    <figcaption id="capD"></figcaption>
+  </figure>
+  <div class="readout" id="outD"></div>
+</section>
+
+</main>
+</div>
+</div>
+<script src="js/base.js"></script>
+<script src="js/primera_ley_kit.js"></script>
+<script>
+(function(){
+"use strict";
+var $=QUIM.$,M=QUIM.m,tn=QUIM.tn,U=PL.U,N=PL.N,F=PL.F,comma=PL.comma,shown=PL.shown;
+var BLU='#1f5fbf',RED='#a8231b',DRK='#1c2333',MUT='#59627a',TEAL='#0c8486';
+function inFormula(t){return '<div class="formula">'+t+'</div>';}
+function fit(){try{QUIM.fit();}catch(e){}}
+function sm(t){t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);}
+
+/* ---------- Partículas que siguen el conducto ---------- */
+/* lanes: {x0,x1,yc,hh(x),v(x) px/s,spr}. Cada partícula recorre su carril y reaparece con otra trayectoria. */
+function Flow(prefix,n,lanes,seed){
+  var rg=PL.lcg(seed),i,cnt=lanes.map(function(){return 0;});
+  this.pf=prefix;this.lanes=lanes;this.rg=rg;this.p=[];
+  for(i=0;i<n;i++){var L=i%lanes.length;this.p.push({lane:L,idx:cnt[L]++,f:rg()*2-1,vap:rg(),s:0,el:null});}
+  this.p.forEach(function(q){q.s=q.idx/cnt[q.lane];});
+}
+Flow.prototype.markup=function(){
+  var s='',pf=this.pf;
+  this.p.forEach(function(q,i){s+='<g id="'+pf+i+'" opacity="0">'+this.lanes[q.lane].spr+'</g>';},this);
+  return s;
+};
+Flow.prototype.bind=function(){var pf=this.pf;this.p.forEach(function(q,i){q.el=document.getElementById(pf+i);});};
+Flow.prototype.step=function(dt,hook){
+  var self=this;
+  this.p.forEach(function(q){
+    var L=self.lanes[q.lane],x=L.x0+(L.x1-L.x0)*q.s,len=Math.abs(L.x1-L.x0);
+    q.s+=L.v(x)*dt/len;
+    if(q.s>=1){q.s-=1;q.f=self.rg()*2-1;q.vap=self.rg();}
+    x=L.x0+(L.x1-L.x0)*q.s;
+    var y=L.yc+q.f*0.74*L.hh(x);
+    if(q.el){q.el.setAttribute('transform','translate('+x.toFixed(1)+' '+y.toFixed(1)+')');
+      q.el.setAttribute('opacity',Math.min(1,q.s/0.04,(1-q.s)/0.04).toFixed(2));}
+    if(hook)hook(q,x);
+  });
+};
+
+function spG(p){return '<circle r="4.6" fill="url(#'+p+'-mol)" stroke="#174a96" stroke-opacity=".5" stroke-width=".6"/>';}
+function spH(){return '<circle r="4.6" fill="url(#d-hotmol)" stroke="#7d1a14" stroke-opacity=".5" stroke-width=".6"/>';}
+function extraDefs(){
+  return '<defs><radialGradient id="d-hotmol" cx=".35" cy=".32" r=".7"><stop offset="0" stop-color="#fff"/><stop offset=".3" stop-color="#f0a79d"/><stop offset="1" stop-color="#b92c20"/></radialGradient></defs>';
+}
+function ductPath(CY,hh,x0,x1){
+  var up=[],dn=[],x;
+  for(x=x0;x<=x1;x+=10){up.push((x)+' '+(CY-hh(x)).toFixed(1));dn.unshift((x)+' '+(CY+hh(x)).toFixed(1));}
+  return 'M'+up.join('L')+'L'+dn.join('L')+'Z';
+}
+function topEdge(CY,hh,x0,x1,off){
+  var pts=[],x;for(x=x0;x<=x1;x+=10)pts.push(x+' '+(CY-hh(x)+off).toFixed(1));return 'M'+pts.join('L');
+}
+
+/* ---------- 4. Conservación de masa ---------- */
+var S4={built:false,fl:null,v1:2,v2:8,last:0};
+var CY4=88;
+function hh4(x){var a=S4.r1,b=S4.r2;return x<=190?a:x>=300?b:a+(b-a)*(x-190)/110;}
+function buildM(){
+  var svg=$('#figM');svg.setAttribute('viewBox','0 0 520 180');
+  var h=PL.defs('m')+'<rect width="520" height="180" rx="14" fill="url(#m-bg)"/>';
+  S4.r1=22;S4.r2=11;
+  h+='<g id="mPipe"><path id="mDuct" d="" fill="url(#m-water)" stroke="url(#m-rim)" stroke-width="4" stroke-linejoin="round" filter="url(#m-sh)"/><path id="mHi" d="" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/></g>';
+  S4.fl=new Flow('mp',20,[{x0:14,x1:506,yc:CY4,hh:hh4,v:function(x){return S4.vp(x);},spr:spG('m')}],5);
+  h+=S4.fl.markup();
+  h+=' <text id="mL1" x="30" y="30" font-size="14" fill="'+MUT+'" class="plsvgtxt"></text> <text id="mL2" x="490" y="30" font-size="14" fill="'+MUT+'" text-anchor="end" class="plsvgtxt"></text>';
+  h+=' <text x="30" y="164" font-size="13" fill="'+MUT+'" class="plsvgtxt">sección 1</text><text x="490" y="164" font-size="13" fill="'+MUT+'" text-anchor="end" class="plsvgtxt">sección 2</text>';
+  svg.innerHTML=h;S4.fl.bind();S4.built=true;
+  $('#panelM').innerHTML='<div class="plrow"><div class="plcard u hl"><div class="pt">Flujo másico de entrada</div><div class="pv"><span id="m-m1">0</span><small>kg/s</small></div></div>'+
+    '<div class="plcard u hl"><div class="pt">Flujo másico de salida</div><div class="pv"><span id="m-m2">0</span><small>kg/s</small></div></div>'+
+    '<div class="plcard g"><div class="pt">Velocidad en la sección 2</div><div class="pv"><span id="m-v2">0</span><small>m/s</small></div></div></div>';
+}
+PL.ticks.push(function(t){
+  var svg=$('#figM');if(!svg||!S4.built||!shown(svg))return;
+  var dt=S4.last?Math.min(0.05,Math.max(0,(t-S4.last)/1000)):0.016;S4.last=t;
+  S4.fl.step(dt);
+});
+function paintM(){
+  if(!S4.built)buildM();
+  var D1=+$('#d1Sl').value,D2=+$('#d2Sl').value,V1=+$('#v1Sl').value,first=!S4.once;S4.once=true;
+  $('#d1Val').textContent=comma(D1,0);$('#d2Val').textContent=comma(D2,0);$('#v1Val').textContent=comma(V1,1);
+  var A1=Math.PI*Math.pow(D1/100,2)/4,A2=Math.PI*Math.pow(D2/100,2)/4,rho=1000,m=rho*A1*V1,V2=m/(rho*A2);
+  S4.r1=D1*2.0;S4.r2=D2*2.0;S4.v1=V1;S4.v2=V2;
+  S4.vp=function(x){var V=V1*Math.pow(S4.r1/hh4(x),2);return Math.min(300,10+9*V);};
+  PL.set('mDuct',{d:ductPath(CY4,hh4,10,510)});PL.set('mHi',{d:topEdge(CY4,hh4,16,504,5)});
+  var l1=$('#mL1'),l2=$('#mL2');l1.textContent='D₁ = '+comma(D1,0)+' cm · V₁ = '+comma(V1,1)+' m/s';l2.textContent='D₂ = '+comma(D2,0)+' cm · V₂ = '+comma(V2,1)+' m/s';
+  PL.setNum('m-m1',m,2,first);PL.setNum('m-m2',m,2,first);PL.setNum('m-v2',V2,1,first);
+  var cm=F('1 m','100 cm'),sq='^2';
+  var a1='A_1=\\dfrac{\\pi D_1^2}{4}=\\dfrac{\\pi\\,('+N(tn(D1,3),'cm')+')^2}{4}\\left('+cm+'\\right)^2='+N(tn(A1,3),'m^2');
+  var a2='A_2=\\dfrac{\\pi D_2^2}{4}=\\dfrac{\\pi\\,('+N(tn(D2,3),'cm')+')^2}{4}\\left('+cm+'\\right)^2='+N(tn(A2,3),'m^2');
+  var mm='\\dot m_1=\\rho\\,A_1\\,V_1=\\left('+N('1000','kg/m^3')+'\\right)('+N(tn(A1,3),'m^2')+')('+N(tn(V1,3),'m/s')+')='+N(tn(m,3),'kg/s');
+  var vv='V_2=\\dfrac{\\dot m_2}{\\rho\\,A_2}=\\dfrac{'+N(tn(m,3),'kg/s')+'}{\\left('+N('1000','kg/m^3')+'\\right)('+N(tn(A2,3),'m^2')+')}='+N(tn(V2,3),'m/s');
+  $('#outM').innerHTML=inFormula(M(a1))+inFormula(M(a2))+inFormula(M(mm))+inFormula(M(vv))+
+    '<p class="plnote">Con \\( \\dot m_1 = \\dot m_2 \\) y densidad constante, la velocidad crece en la razón inversa de las áreas: \\( V_2 / V_1 = (D_1/D_2)^2 = '+comma(Math.pow(D1/D2,2),2)+' \\).</p>';
+  try{QUIM.typeset($('#outM'));}catch(e){}
+  fit();
+}
+
+/* ---------- 5. Dispositivos ---------- */
+var CP=1.005,CW=4.18,CY=170;
+var VR=[{p:0.6,T:-37.07,hf:3.46,hg:224.72},{p:0.8,T:-31.21,hf:10.47,hg:228.39},{p:1.0,T:-26.43,hf:16.29,hg:231.35},{p:1.2,T:-22.36,hf:21.32,hg:233.86},
+  {p:1.6,T:-15.62,hf:29.78,hg:237.97},{p:2.0,T:-10.09,hf:36.84,hg:241.30},{p:2.4,T:-5.37,hf:42.95,hg:244.09},{p:2.8,T:-1.23,hf:48.39,hg:246.52},{p:3.2,T:2.48,hf:53.31,hg:248.66}];
+var H1R=93.42; /* R-134a, líquido saturado a 8 bar */
+var HS1=3422.2,HSF=191.83,HSG=2584.7; /* agua: 60 bar y 500 °C; 0,10 bar */
+
+function mkduct(a,b){return function(x){return x<=150?a:x>=370?b:a+(b-a)*(x-150)/220;};}
+var DEV={
+  tobera:{name:'Tobera de aire',hh:mkduct(40,12),
+    par:[{id:'T2',sym:'T_2',unit:'K',min:380,max:500,step:5,v:440,d:0}],
+    cap:'Aire como gas ideal, \\( c_p = 1{,}005\\ \\mathrm{kJ/(kg\\cdot K)} \\), \\( \\dot m = 0{,}60\\ \\mathrm{kg/s} \\), entrada a \\( T_1 = 500\\ \\mathrm{K} \\) y \\( V_1 = 25\\ \\mathrm{m/s} \\). Sin calor ni trabajo de eje.',
+    calc:function(p){var T1=500,V1=25,m=0.6,dh=CP*(T1-p.T2);var V2=Math.sqrt(Math.max(0,V1*V1+2*dh*1000)),dec=(V1*V1-V2*V2)/2/1000;
+      return {T1:T1,V1:V1,m:m,dh:dh,V2:V2,dec:dec,Q:0,W:0,vin:V1,vout:V2,sol:'ec'};}},
+  difusor:{name:'Difusor de aire',hh:mkduct(12,40),
+    par:[{id:'T2',sym:'T_2',unit:'K',min:300,max:340,step:2,v:330,d:0}],
+    cap:'Aire como gas ideal, \\( c_p = 1{,}005\\ \\mathrm{kJ/(kg\\cdot K)} \\), \\( \\dot m = 0{,}60\\ \\mathrm{kg/s} \\), entrada a \\( T_1 = 300\\ \\mathrm{K} \\) y \\( V_1 = 300\\ \\mathrm{m/s} \\). Sin calor ni trabajo de eje.',
+    calc:function(p){var T1=300,V1=300,m=0.6,dh=CP*(T1-p.T2),V2=Math.sqrt(Math.max(0,V1*V1+2*dh*1000)),dec=(V1*V1-V2*V2)/2/1000;
+      return {T1:T1,V1:V1,m:m,dh:dh,V2:V2,dec:dec,Q:0,W:0,vin:V1,vout:V2,sol:'ec'};}},
+  turbina:{name:'Turbina de vapor',hh:mkduct(18,46),
+    par:[{id:'x',sym:'x_2',unit:'',min:0.80,max:0.95,step:0.01,v:0.90,d:2},{id:'m',sym:'\\dot m',unit:'kg/s',min:1,max:8,step:0.5,v:5,d:1},{id:'Q',sym:'\\dot Q',unit:'kW',min:-200,max:0,step:10,v:-90,d:0}],
+    cap:'Vapor de agua que entra a \\( 60\\ \\mathrm{bar} \\) y \\( 500\\ ^\\circ\\mathrm{C} \\), con \\( V_1 = 15\\ \\mathrm{m/s} \\), y sale a \\( 0{,}10\\ \\mathrm{bar} \\) con calidad \\( x_2 \\) y \\( V_2 = 50\\ \\mathrm{m/s} \\). El calor sale por la carcasa.',
+    calc:function(p){var h2=HSF+p.x*(HSG-HSF),dh=HS1-h2,V1=15,V2=50,dec=(V1*V1-V2*V2)/2/1000,W=p.Q+p.m*(dh+dec);
+      return {h2:h2,dh:dh,V1:V1,V2:V2,dec:dec,m:p.m,Q:p.Q,W:W,vin:V1,vout:V2,sol:'W'};}},
+  compresor:{name:'Compresor de aire',hh:mkduct(46,18),
+    par:[{id:'T2',sym:'T_2',unit:'K',min:400,max:620,step:10,v:520,d:0},{id:'m',sym:'\\dot m',unit:'kg/s',min:0.2,max:1,step:0.1,v:0.6,d:1},{id:'Q',sym:'\\dot Q',unit:'kW',min:-30,max:0,step:1,v:-9,d:0}],
+    cap:'Aire como gas ideal, \\( c_p = 1{,}005\\ \\mathrm{kJ/(kg\\cdot K)} \\), que entra a \\( T_1 = 300\\ \\mathrm{K} \\). Se retira calor con agua de enfriamiento y los cambios de energía cinética y potencial son despreciables.',
+    calc:function(p){var dh=CP*(300-p.T2),W=p.Q+p.m*dh;
+      return {T1:300,dh:dh,m:p.m,Q:p.Q,W:W,dec:0,vin:30,vout:40,sol:'W'};}},
+  valvula:{name:'Válvula de estrangulamiento',hh:function(){return 18;},
+    par:[{id:'i',sym:'p_2',unit:'bar',min:0,max:8,step:1,v:3,d:1,tab:true}],
+    cap:'R-134a que entra como líquido saturado a \\( 8\\ \\mathrm{bar} \\) y se estrangula a \\( p_2 \\). Sin calor ni trabajo de eje y con cambio de energía cinética despreciable.',
+    calc:function(p){var r=VR[p.i],x=(H1R-r.hf)/(r.hg-r.hf);return {r:r,x:x,h:H1R,Q:0,W:0,vin:40,vout:85,sol:'x'};}},
+  interc:{name:'Intercambiador a contracorriente',
+    par:[{id:'mh',sym:'\\dot m_h',unit:'kg/s',min:0.5,max:2.5,step:0.1,v:1.5,d:1},{id:'Th2',sym:'T_{h2}',unit:'°C',min:50,max:85,step:1,v:60,d:0},{id:'mc',sym:'\\dot m_c',unit:'kg/s',min:1,max:4,step:0.1,v:2,d:1}],
+    cap:'Agua líquida, \\( c = 4{,}18\\ \\mathrm{kJ/(kg\\cdot K)} \\). La corriente caliente entra a \\( 90\\ ^\\circ\\mathrm{C} \\) y la fría a \\( 15\\ ^\\circ\\mathrm{C} \\). El volumen de control encierra ambas corrientes, sin calor al exterior ni trabajo.',
+    calc:function(p){var Q=p.mh*CW*(90-p.Th2),Tc2=15+Q/(p.mc*CW);return {Q:Q,Tc2:Tc2,mh:p.mh,mc:p.mc,Th2:p.Th2,bad:Tc2>90,vin:20+40*p.mh,vout:20+40*p.mc,sol:'Tc'};}}
+};
+var D={key:'tobera',built:false,fl:null,vin:30,vout:30,Qs:0,Wr:0,xq:0,last:0,r:null,p:{}};
+
+function lane1(dev,spr){return [{x0:14,x1:506,yc:CY,hh:DEV[dev].hh,v:function(x){var t=sm((x-150)/220);return 20+0.45*(D.vin+(D.vout-D.vin)*t);},spr:spr}];}
+function buildD(key){
+  var dev=DEV[key],svg=$('#figD'),oy=(key==='turbina'||key==='compresor'||key==='interc')?0:48;D.key=key;svg.setAttribute('viewBox','0 '+oy+' 520 '+(300-oy));
+  var h=PL.defs('d')+extraDefs()+'<rect y="'+oy+'" width="520" height="'+(300-oy)+'" rx="14" fill="url(#d-bg)"/>',lanes;
+  if(key==='interc'){
+    lanes=[{x0:20,x1:500,yc:112,hh:function(){return 16;},v:function(){return 20+D.vin;},spr:spH()},
+           {x0:500,x1:20,yc:222,hh:function(){return 16;},v:function(){return 20+D.vout;},spr:spG('d')}];
+    h+='<g filter="url(#d-sh)"><rect x="150" y="70" width="220" height="194" rx="14" fill="url(#d-glass)" stroke="url(#d-rim)" stroke-width="5"/></g>';
+    h+='<rect x="10" y="92" width="500" height="40" rx="6" fill="url(#d-hot)" stroke="#a8231b" stroke-opacity=".6" stroke-width="2"/>';
+    h+='<rect x="10" y="202" width="500" height="40" rx="6" fill="url(#d-water)" stroke="#5d7399" stroke-width="2"/>';
+    h+='<rect x="14" y="96" width="492" height="5" rx="2.5" fill="#fff" opacity=".5"/><rect x="14" y="206" width="492" height="5" rx="2.5" fill="#fff" opacity=".5"/>';
+    for(var k=0;k<3;k++)h+='<g id="dW'+k+'" opacity="0">'+PL.waveSprite('#c0392b',20)+'</g>';
+    h+='<text x="20" y="84" font-size="14" fill="'+RED+'" class="plsvgtxt">caliente</text><text x="500" y="260" font-size="14" fill="'+BLU+'" text-anchor="end" class="plsvgtxt">fría</text>';
+  }else{
+    lanes=lane1(key,key==='valvula'?'<g class="a"><circle r="3.6" fill="url(#d-mol)" stroke="#174a96" stroke-opacity=".5" stroke-width=".5"/></g><g class="b" display="none"><circle r="6" fill="url(#d-bub)" stroke="#7d93b8" stroke-width=".8"/></g>':spG('d'));
+    var hf=dev.hh;
+    h+='<path d="'+ductPath(CY,hf,10,510)+'" fill="url(#d-water)" stroke="url(#d-rim)" stroke-width="4" stroke-linejoin="round" filter="url(#d-sh)"/>';
+    h+='<path d="'+topEdge(CY,hf,16,504,6)+'" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/>';
+    if(key==='turbina'||key==='compresor'){
+      var x;for(x=170;x<=350;x+=22){var a=hf(x)-5;h+='<line x1="'+x+'" y1="'+(CY-a)+'" x2="'+(x+7)+'" y2="'+(CY+a)+'" stroke="#2a3247" stroke-width="3" stroke-linecap="round" opacity=".75"/>';}
+      h+='<rect x="150" y="'+(CY-4)+'" width="220" height="8" rx="3" fill="url(#d-shaft)" opacity=".55"/>';
+      h+='<rect x="254" y="68" width="12" height="'+(CY-hf(260)-68)+'" rx="2" fill="url(#d-shaft)" stroke="#10141f" stroke-width=".8"/>';
+      h+='<line id="dStripe" x1="260" y1="76" x2="260" y2="'+(CY-hf(260)-6)+'" stroke="#fff" stroke-opacity=".45" stroke-width="2" stroke-dasharray="7 9"/>';
+      h+='<g filter="url(#d-sh)">'+PL.gearG('d','dGear',260,52,22)+'</g>';
+      h+='<text x="300" y="46" font-size="22" font-style="italic" fill="'+DRK+'" class="plsvgtxt">Ẇ</text>';
+      for(var j=0;j<3;j++)h+='<g id="dW'+j+'" opacity="0">'+PL.waveSprite('#c0392b',22)+'</g>';
+      h+='<text x="296" y="262" font-size="22" font-style="italic" fill="'+RED+'" class="plsvgtxt">Q̇</text>';
+    }
+    if(key==='valvula'){
+      h+='<g filter="url(#d-sh)"><path d="M218 '+(CY-34)+' L260 '+CY+' L218 '+(CY+34)+' Z" fill="url(#d-metal)" stroke="#2c3347" stroke-width="1.2"/><path d="M302 '+(CY-34)+' L260 '+CY+' L302 '+(CY+34)+' Z" fill="url(#d-metal)" stroke="#2c3347" stroke-width="1.2"/>'+
+         '<rect x="255" y="96" width="10" height="'+(CY-34-96)+'" fill="url(#d-shaft)"/><circle cx="260" cy="88" r="17" fill="none" stroke="#2a3247" stroke-width="5"/><line x1="243" y1="88" x2="277" y2="88" stroke="#2a3247" stroke-width="3"/><line x1="260" y1="71" x2="260" y2="105" stroke="#2a3247" stroke-width="3"/></g>';
+    }
+  }
+  D.fl=new Flow('dp',key==='interc'?24:22,lanes,13);
+  h+=D.fl.markup();
+  h+='<g id="dLab"><text id="dl1" x="14" y="'+(26+oy)+'" font-size="14" fill="'+MUT+'" class="plsvgtxt"></text><text id="dl2" x="14" y="'+(44+oy)+'" font-size="14" fill="'+MUT+'" class="plsvgtxt"></text>'+
+     '<text id="dl3" x="506" y="'+(26+oy)+'" font-size="14" fill="'+MUT+'" text-anchor="end" class="plsvgtxt"></text><text id="dl4" x="506" y="'+(44+oy)+'" font-size="14" fill="'+MUT+'" text-anchor="end" class="plsvgtxt"></text></g>';
+  svg.innerHTML=h;D.fl.bind();D.built=true;
+  /* controles */
+  var par=$('#devPar');par.innerHTML='';
+  dev.par.forEach(function(q){
+    var lab=document.createElement('label');
+    lab.innerHTML=M(q.sym)+' = <b id="pv-'+q.id+'"></b> '+(q.unit?q.unit+' ':'')+'<input type="range" id="ps-'+q.id+'" min="'+q.min+'" max="'+q.max+'" step="'+q.step+'" value="'+q.v+'">';
+    par.appendChild(lab);
+    lab.querySelector('input').addEventListener('input',paintD);
+  });
+  try{QUIM.typeset(par);}catch(e){}
+  [].forEach.call(document.querySelectorAll('[data-dev]'),function(b){b.setAttribute('aria-pressed',b.getAttribute('data-dev')===key?'true':'false');});
+  $('#capD').innerHTML=dev.cap;try{QUIM.typeset($('#capD'));}catch(e){}
+  /* panel: tarjetas y barras */
+  var P=$('#panelD'),cards='',rows;
+  if(key==='tobera'||key==='difusor'){
+    cards='<div class="plcard g hl"><div class="pt">Velocidad de salida \\( V_2 \\)</div><div class="pv"><span id="d-a">0</span><small>m/s</small></div></div><div class="plcard n"><div class="pt">Caída de entalpía \\( h_1-h_2 \\)</div><div class="pv"><span id="d-b">0</span><small>kJ/kg</small></div></div>';
+    rows=[{id:'dq',label:'Calor <i>Q&#775;</i>',col:RED},{id:'dw',label:'&minus;<i>W&#775;</i>',col:DRK},{id:'dh',label:'<i>m&#775;</i>(<i>h</i><sub>1</sub> &minus; <i>h</i><sub>2</sub>)',col:BLU},{id:'de',label:'<i>m&#775;</i>(<i>e</i><sub>c1</sub> &minus; <i>e</i><sub>c2</sub>)',col:TEAL,unk:true}];
+  }else if(key==='turbina'||key==='compresor'){
+    cards='<div class="plcard '+(key==='turbina'?'g':'w')+' hl"><div class="pt">Potencia de eje \\( \\dot W \\)</div><div class="pv"><span id="d-a">0</span><small>kW</small></div><span class="ps" id="d-s"></span></div>'+
+          '<div class="plcard n"><div class="pt">Variación de entalpía \\( h_1-h_2 \\)</div><div class="pv"><span id="d-b">0</span><small>kJ/kg</small></div></div>';
+    rows=[{id:'dq',label:'Calor <i>Q&#775;</i>',col:RED},{id:'dw',label:'&minus;<i>W&#775;</i>',col:DRK,unk:true},{id:'dh',label:'<i>m&#775;</i>(<i>h</i><sub>1</sub> &minus; <i>h</i><sub>2</sub>)',col:BLU},{id:'de',label:'<i>m&#775;</i>(<i>e</i><sub>c1</sub> &minus; <i>e</i><sub>c2</sub>)',col:TEAL}];
+  }else if(key==='valvula'){
+    cards='<div class="plcard g hl"><div class="pt">Calidad a la salida \\( x_2 \\)</div><div class="pv"><span id="d-a">0</span></div></div><div class="plcard n"><div class="pt">Temperatura de saturación a \\( p_2 \\)</div><div class="pv"><span id="d-b">0</span><small>°C</small></div></div><div class="plcard u"><div class="pt">Entalpía específica \\( h \\)</div><div class="pv"><span id="d-c">0</span><small>kJ/kg</small></div></div>';
+    rows=[{id:'dh1',label:'<i>h</i><sub>1</sub> (entra)',col:BLU,pos:true,scale:120},{id:'dh2',label:'<i>h</i><sub>2</sub> (sale)',col:BLU,pos:true,scale:120},{id:'dx',label:'Calidad <i>x</i><sub>2</sub>',col:TEAL,pos:true,scale:1,unk:true}];
+  }else{
+    cards='<div class="plcard g hl" id="d-card"><div class="pt">Temperatura de salida del agua fría \\( T_{c2} \\)</div><div class="pv"><span id="d-a">0</span><small>°C</small></div><span class="ps" id="d-s"></span></div><div class="plcard q"><div class="pt">Calor que pasa de una corriente a otra</div><div class="pv"><span id="d-b">0</span><small>kW</small></div></div>';
+    rows=[{id:'dhh',label:'<i>m&#775;</i><sub>h</sub>(<i>h</i><sub>h1</sub> &minus; <i>h</i><sub>h2</sub>)',col:RED},{id:'dcc',label:'<i>m&#775;</i><sub>c</sub>(<i>h</i><sub>c1</sub> &minus; <i>h</i><sub>c2</sub>)',col:BLU,unk:true}];
+  }
+  P.innerHTML='<div class="plrow">'+cards+'</div><div id="barsD"></div>';
+  rows.forEach(function(r){if(!r.pos)r.scale=100;});
+  PL.bars($('#barsD'),key==='valvula'?'Entalpía específica (kJ/kg) y calidad':'Balance de energía en kW (suma de los términos = 0)',rows);
+  try{QUIM.typeset(P);}catch(e){}
+  D.once=false;
+}
+PL.ticks.push(function(t){
+  var svg=$('#figD');if(!svg||!D.built||!shown(svg))return;
+  var dt=D.last?Math.min(0.05,Math.max(0,(t-D.last)/1000)):0.016;D.last=t;
+  var key=D.key;
+  D.fl.step(dt,key==='valvula'?function(q,x){
+    if(!q.el)return;var a=q.el.querySelector('.a'),b=q.el.querySelector('.b');if(!a||!b)return;
+    var bub=(x>268&&q.vap<D.xq);a.setAttribute('display',bub?'none':'inline');b.setAttribute('display',bub?'inline':'none');
+  }:null);
+  if(key==='turbina'||key==='compresor'){
+    D.ang=(D.ang||0)+D.Wr*dt;D.sd=(D.sd||0)+D.Wr*0.2*dt;
+    PL.set('dGear',{transform:'translate(260 52) rotate('+D.ang.toFixed(1)+')'});
+    PL.set('dStripe',{'stroke-dashoffset':(-(D.sd%16)).toFixed(1)});
+  }
+  if(key==='turbina'||key==='compresor'||key==='interc'){
+    for(var j=0;j<3;j++){
+      var p=((t/2300)+j/3)%1,x,y;
+      if(key==='interc'){x=170+j*90;y=136+60*p;}else{x=260;y=CY+DEV[key].hh(260)+14+46*p;}
+      PL.set('dW'+j,{transform:'translate('+x+' '+y.toFixed(1)+')',opacity:(Math.sin(Math.PI*p)*D.Qs).toFixed(2)});
+    }
+  }
+});
+function nceil(v){var e=Math.pow(10,Math.floor(Math.log(v)/Math.LN10)),f=v/e;return (f<=1?1:f<=2?2:f<=5?5:10)*e;}
+function barsSet(vals){ /* vals: {id: valor en kW} */
+  var mx=0;Object.keys(vals).forEach(function(k){mx=Math.max(mx,Math.abs(vals[k]));});
+  var S=mx<1e-9?1:nceil(mx*1.05);
+  Object.keys(vals).forEach(function(k){PL.rows[k].scale=S;PL.setBar(k,[[0,vals[k]]],PL.signed(vals[k],Math.abs(vals[k])<10?2:1)+' kW');});
+}
+function paintD(){
+  if(!D.built)buildD(D.key);
+  var key=D.key,dev=DEV[key],p={},first=!D.once;D.once=true;
+  dev.par.forEach(function(q){
+    var e=$('#ps-'+q.id);p[q.id]=+e.value;
+    var shownV=q.tab?comma(VR[p[q.id]].p,1):comma(p[q.id],q.d);
+    var b=$('#pv-'+q.id);if(b)b.textContent=shownV;
+  });
+  var r=dev.calc(p),tex=[],note='';
+  D.vin=r.vin;D.vout=r.vout;
+  var kw=F('1 kW','1 kJ/s'),dec;
+  var lab=function(a,b2,c,d){$('#dl1').textContent=a;$('#dl2').textContent=b2;$('#dl3').textContent=c;$('#dl4').textContent=d;};
+  if(key==='tobera'||key==='difusor'){
+    var T1=r.T1,mt=N(tn(r.m,3),'kg/s');
+    D.Qs=0;D.Wr=0;
+    lab('Entrada: T₁ = '+comma(T1,0)+' K','V₁ = '+comma(r.V1,0)+' m/s','Salida: T₂ = '+comma(p.T2,0)+' K','V₂ = '+comma(r.V2,1)+' m/s');
+    PL.setNum('d-a',r.V2,1,first);PL.setNum('d-b',r.dh,2,first);
+    barsSet({dq:0,dw:0,dh:r.m*r.dh,de:r.m*r.dec});
+    tex.push('h_1-h_2=c_p\\,(T_1-T_2)=\\left('+N('1{,}005','kJ/(kg\\cdot K)')+'\\right)('+N(tn(T1,3),'K')+'-'+N(tn(p.T2,3),'K')+')='+N(tn(r.dh,3),'kJ/kg'));
+    tex.push('V_2=\\sqrt{V_1^2+2\\,(h_1-h_2)}=\\sqrt{('+N(tn(r.V1,3),'m/s')+')^2+2\\,('+N(tn(r.dh,3),'kJ/kg')+')\\,'+F('1000 J','1 kJ')+'\\,'+F('1 m^2/s^2','1 J/kg')+'}='+N(tn(r.V2,4),'m/s'));
+    tex.push('\\dot m\\,(h_1-h_2)='+mt+'\\,('+N(tn(r.dh,3),'kJ/kg')+')\\,'+kw+'='+N(tn(r.m*r.dh,3),'kW')+',\\qquad \\dot m\\,\\dfrac{V_1^2-V_2^2}{2}='+N(tn(r.m*r.dec,3),'kW')+',\\qquad \\text{suma}=0');
+    note=key==='tobera'?'Se enfría y se acelera: la entalpía que baja aparece como energía cinética.':'Se desacelera y se calienta: la energía cinética que baja aparece como entalpía.';
+  }else if(key==='turbina'){
+    D.Qs=Math.abs(p.Q)<1?0:Math.min(1,0.25+0.75*Math.abs(p.Q)/200);D.Wr=Math.max(0,r.W)/6000*240;
+    lab('Entrada: 60 bar, 500 °C','V₁ = 15 m/s','Salida: 0,10 bar, x₂ = '+comma(p.x,2),'V₂ = 50 m/s');
+    PL.setNum('d-a',r.W,0,first);PL.setNum('d-b',r.dh,1,first);
+    barsSet({dq:p.Q,dw:-r.W,dh:r.m*r.dh,de:r.m*r.dec});
+    tex.push('h_2=h_f+x_2\\,(h_g-h_f)='+N('191{,}83','kJ/kg')+'+'+tn(p.x,2)+'\\left('+N('2584{,}7','kJ/kg')+'-'+N('191{,}83','kJ/kg')+'\\right)='+N(tn(r.h2,5),'kJ/kg'));
+    tex.push('\\dfrac{V_1^2-V_2^2}{2}=\\dfrac{('+N('15','m/s')+')^2-('+N('50','m/s')+')^2}{2}\\,'+F('1 J/kg','1 m^2/s^2')+'\\,'+F('1 kJ','1000 J')+'='+N(tn(r.dec,3),'kJ/kg'));
+    tex.push('\\dot W=\\dot Q+\\dot m\\left[(h_1-h_2)+\\dfrac{V_1^2-V_2^2}{2}\\right]=('+N(tn(p.Q,3),'kW')+')+('+N(tn(p.m,3),'kg/s')+')\\left[('+N('3422{,}2','kJ/kg')+'-'+N(tn(r.h2,5),'kJ/kg')+')+('+N(tn(r.dec,3),'kJ/kg')+')\\right]\\,'+kw+'='+N(tn(r.W,4),'kW'));
+    note='El signo positivo de \\( \\dot W \\) indica trabajo que entrega la turbina; el calor negativo indica pérdida por la carcasa. El término cinético es mínimo frente al de entalpía.';
+    $('#d-s').textContent=r.W>=0?'Positivo: el equipo entrega trabajo.':'Negativo: entra trabajo.';
+  }else if(key==='compresor'){
+    D.Qs=Math.abs(p.Q)<1?0:Math.min(1,0.25+0.75*Math.abs(p.Q)/30);D.Wr=Math.min(0,r.W)/200*240;
+    lab('Entrada: 300 K','energía cinética despreciable','Salida: T₂ = '+comma(p.T2,0)+' K','');
+    PL.setNum('d-a',r.W,1,first);PL.setNum('d-b',r.dh,1,first);
+    barsSet({dq:p.Q,dw:-r.W,dh:r.m*r.dh,de:0});
+    tex.push('h_2-h_1=c_p\\,(T_2-T_1)=\\left('+N('1{,}005','kJ/(kg\\cdot K)')+'\\right)('+N(tn(p.T2,3),'K')+'-'+N('300','K')+')='+N(tn(-r.dh,3),'kJ/kg'));
+    tex.push('\\dot W=\\dot Q-\\dot m\\,(h_2-h_1)=('+N(tn(p.Q,3),'kW')+')-('+N(tn(p.m,3),'kg/s')+')('+N(tn(-r.dh,3),'kJ/kg')+')\\,'+kw+'='+N(tn(r.W,4),'kW'));
+    note='El balance da \\( \\dot W < 0 \\): el signo negativo indica trabajo que entra al compresor.';
+    $('#d-s').textContent=r.W>=0?'Positivo: el equipo entrega trabajo.':'Negativo: entra trabajo.';
+  }else if(key==='valvula'){
+    D.Qs=0;D.Wr=0;D.xq=r.x;
+    lab('Entrada: líquido sat., 8 bar','h₁ = 93,42 kJ/kg','Salida: p₂ = '+comma(r.r.p,1)+' bar','h₂ = 93,42 kJ/kg');
+    PL.setNum('d-a',r.x,3,first);PL.setNum('d-b',r.r.T,1,first);PL.setNum('d-c',r.h,2,first);
+    PL.setBar('dh1',[[0,r.h]],comma(r.h,2)+' kJ/kg');PL.setBar('dh2',[[0,r.h]],comma(r.h,2)+' kJ/kg');PL.setMark('dh1',r.h);PL.setMark('dh2',r.h);PL.setBar('dx',[[0,r.x]],comma(r.x,3));
+    tex.push('0=\\dot m\\,(h_1-h_2)\\ \\Rightarrow\\ h_2=h_1='+N('93{,}42','kJ/kg'));
+    tex.push('x_2=\\dfrac{h_2-h_f}{h_g-h_f}=\\dfrac{'+N('93{,}42','kJ/kg')+'-'+N(tn(r.r.hf,4),'kJ/kg')+'}{'+N(tn(r.r.hg,4),'kJ/kg')+'-'+N(tn(r.r.hf,4),'kJ/kg')+'}='+tn(r.x,3));
+    note='La presión baja a entalpía constante: parte del líquido se evapora y la temperatura desciende hasta la de saturación a \\( p_2 \\).';
+  }else{
+    D.Qs=Math.min(1,0.25+0.75*r.Q/300);D.Wr=0;
+    lab('Caliente: 90 °C → '+comma(p.Th2,0)+' °C','ṁ = '+comma(p.mh,1)+' kg/s','Fría: 15 °C → '+comma(r.Tc2,1)+' °C','ṁ = '+comma(p.mc,1)+' kg/s');
+    PL.setNum('d-a',r.Tc2,1,first);PL.setNum('d-b',r.Q,1,first);
+    barsSet({dhh:r.Q,dcc:-r.Q});
+    var card=$('#d-card');if(card)card.classList.toggle('bad',r.bad);
+    $('#d-s').textContent=r.bad?'No es posible: la fría saldría más caliente que la entrada caliente.':'';
+    tex.push('\\dot m_h\\,c\\,(T_{h1}-T_{h2})=\\left('+N(tn(p.mh,3),'kg/s')+'\\right)\\left('+N('4{,}18','kJ/(kg\\cdot K)')+'\\right)('+N('90','^\\circ C')+'-'+N(tn(p.Th2,3),'^\\circ C')+')\\,'+kw+'='+N(tn(r.Q,4),'kW'));
+    tex.push('T_{c2}=T_{c1}+\\dfrac{\\dot Q}{\\dot m_c\\,c}='+N('15','^\\circ C')+'+\\dfrac{'+N(tn(r.Q,4),'kW')+'}{\\left('+N(tn(p.mc,3),'kg/s')+'\\right)\\left('+N('4{,}18','kJ/(kg\\cdot K)')+'\\right)}\\,'+F('1 kJ/s','1 kW')+'='+N(tn(r.Tc2,4),'^\\circ C'));
+    note='Lo que cede la corriente caliente lo recibe la fría: \\( \\dot m_h\\,\\Delta h_h + \\dot m_c\\,\\Delta h_c = 0 \\), con \\( \\Delta h = c\\,\\Delta T \\).';
+  }
+  $('#outD').innerHTML=tex.map(function(t){return inFormula(M(t));}).join('')+'<p class="plnote">'+note+'</p>';
+  try{QUIM.typeset($('#outD'));}catch(e){}
+  fit();
+}
+
+QUIM.init({
+  title:'Primera ley: volumen de control',
+  subtitle:'Masa y dispositivos de flujo',
+  pdf:'../pdf/primera_ley.pdf',
+  sections:[
+    {id:'s4',title:'Conservación de masa'},
+    {id:'s5',title:'Dispositivos de flujo'}
+  ],
+  ready:function(){
+    try{['#d1Sl','#d2Sl','#v1Sl'].forEach(function(s){$(s).addEventListener('input',paintM);});}catch(e){}
+    try{[].forEach.call(document.querySelectorAll('[data-dev]'),function(b){b.addEventListener('click',function(){buildD(b.getAttribute('data-dev'));paintD();});});}catch(e){}
+    try{paintM();}catch(e){}
+    try{buildD('tobera');paintD();}catch(e){}
+  }
+});
+})();
+</script>
+</body>
+</html>

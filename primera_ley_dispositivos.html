@@ -1,0 +1,591 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Dispositivos de flujo estacionario &#8212; Termodinámica IN1531C</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=b8dd5e65" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=bb6f747e"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script src="_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'primera_ley_dispositivos';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="_static/embed.js?v=95691c4f"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Autoevaluación: Primera ley" href="primera_ley_autoevaluacion.html" />
+    <link rel="prev" title="Volumen de control: masa y energía" href="primera_ley_vc.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navegación del sitio">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Termodinámica IN1531C</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Conceptos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="conceptos.html">Presentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conceptos_sistemas.html">Sistema, frontera y entorno</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conceptos_propiedades.html">Propiedades, estado y unidades</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conceptos_presion.html">Presión</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conceptos_temperatura.html">Temperatura y Ley Cero</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conceptos_autoevaluacion.html">Autoevaluación: Conceptos fundamentales</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sustancia pura</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="sustancia_pura.html">Presentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sustancia_pura_fases.html">Fases y diagramas de propiedades</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sustancia_pura_tablas.html">Tablas, región y calidad</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sustancia_pura_interpolacion.html">Interpolación y líquido comprimido</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sustancia_pura_gas_ideal.html">Modelo de gas ideal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sustancia_pura_autoevaluacion.html">Autoevaluación: Sustancia pura</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Primera ley, sistemas cerrados y abiertos</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="primera_ley.html">Presentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="primera_ley_balance.html">Energía y balance en sistemas cerrados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="primera_ley_trabajo.html">Trabajo de frontera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="primera_ley_gas_ideal.html">Gas ideal y calores específicos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="primera_ley_vc.html">Volumen de control: masa y energía</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Dispositivos de flujo estacionario</a></li>
+<li class="toctree-l1"><a class="reference internal" href="primera_ley_autoevaluacion.html">Autoevaluación: Primera ley</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Máquinas térmicas y segunda ley, cerrados y abiertos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley.html">Presentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley_maquinas.html">Máquinas térmicas y refrigeradores</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley_carnot.html">Ciclo de Carnot y escala termodinámica</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley_entropia.html">Desigualdad de Clausius y entropía</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley_cambio_entropia.html">Cambio de entropía de una sustancia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley_balance.html">Balance de entropía</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley_isentropica.html">Eficiencia isentrópica</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley_autoevaluacion.html">Autoevaluación: Máquinas térmicas y segunda ley</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ciclos de potencia y refrigeración</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ciclos.html">En preparación</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Tema" data-bs-title="Tema"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Claro"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Oscuro"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Sistema"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Dispositivos de flujo estacionario</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="dispositivos-de-flujo-estacionario">
+<h1>Dispositivos de flujo estacionario<a class="headerlink" href="#dispositivos-de-flujo-estacionario" title="Link to this heading">#</a></h1>
+<p>Cada dispositivo es el mismo balance con algunos términos anulados. La tabla resume los casos; el signo del trabajo y el del calor salen del balance, no se fijan de antemano.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Dispositivo</p></th>
+<th class="head text-left"><p>Términos que se anulan</p></th>
+<th class="head text-left"><p>Balance resultante</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Tobera, difusor</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\dot W=0\)</span>, <span class="math notranslate nohighlight">\(\dot Q\approx 0\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(0=(h_1-h_2)+\tfrac{1}{2}(V_1^2-V_2^2)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Turbina</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\Delta e_c\approx 0\)</span>, <span class="math notranslate nohighlight">\(\Delta e_p\approx 0\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\dot W=\dot Q+\dot m\,(h_1-h_2)\)</span>, con <span class="math notranslate nohighlight">\(\dot W&gt;0\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Compresor, bomba</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\Delta e_c\approx 0\)</span>, <span class="math notranslate nohighlight">\(\Delta e_p\approx 0\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\dot W=\dot Q+\dot m\,(h_1-h_2)\)</span>, con <span class="math notranslate nohighlight">\(\dot W&lt;0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Válvula de estrangulamiento</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\dot W=0\)</span>, <span class="math notranslate nohighlight">\(\dot Q\approx 0\)</span>, <span class="math notranslate nohighlight">\(\Delta e_c\approx 0\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(h_2=h_1\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Intercambiador de calor</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\dot W=0\)</span>, calor al exterior <span class="math notranslate nohighlight">\(\approx 0\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\dot m_h\,(h_{h1}-h_{h2})+\dot m_c\,(h_{c1}-h_{c2})=0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Cámara de mezcla</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\dot W=0\)</span>, <span class="math notranslate nohighlight">\(\dot Q\approx 0\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\dot m_3=\dot m_1+\dot m_2\)</span> y <span class="math notranslate nohighlight">\(\dot m_3\,h_3=\dot m_1\,h_1+\dot m_2\,h_2\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>La figura resuelve un dispositivo a la vez: se mueven los datos y el término desconocido sale de las barras del balance, cuya suma es cero.</p>
+<iframe class="quim-embed" title="Dispositivos de flujo estacionario y su balance de energía" data-src="app/primera_ley_vc.html?embed=1&only=%23s5%20.ctrl%7C%23s5%20figure%7C%23outD"></iframe><div class="admonition-turbina-de-vapor-con-perdida-de-calor admonition">
+<p class="admonition-title">Turbina de vapor con pérdida de calor</p>
+<p>Una turbina recibe <span class="math notranslate nohighlight">\(5{,}0\ \mathrm{kg/s}\)</span> de vapor de agua a <span class="math notranslate nohighlight">\(60\ \mathrm{bar}\)</span> y <span class="math notranslate nohighlight">\(500\ ^\circ\mathrm{C}\)</span>, con <span class="math notranslate nohighlight">\(15\ \mathrm{m/s}\)</span>, y lo descarga a <span class="math notranslate nohighlight">\(0{,}10\ \mathrm{bar}\)</span> con calidad <span class="math notranslate nohighlight">\(0{,}92\)</span> y <span class="math notranslate nohighlight">\(50\ \mathrm{m/s}\)</span>. La carcasa pierde <span class="math notranslate nohighlight">\(90\ \mathrm{kW}\)</span> de calor al ambiente. Determine la potencia en el eje.</p>
+<p>El flujo másico se conserva, <span class="math notranslate nohighlight">\(\dot m_1=\dot m_2=\dot m=5{,}0\ \mathrm{kg/s}\)</span>, y el calor sale del volumen de control, <span class="math notranslate nohighlight">\(\dot Q=-90\ \mathrm{kW}\)</span>. Las tablas dan <span class="math notranslate nohighlight">\(h_1=3422{,}2\ \mathrm{kJ/kg}\)</span> (A.4, <span class="math notranslate nohighlight">\(60\ \mathrm{bar}\)</span> y <span class="math notranslate nohighlight">\(500\ ^\circ\mathrm{C}\)</span>) y, a <span class="math notranslate nohighlight">\(0{,}10\ \mathrm{bar}\)</span> (A.3), <span class="math notranslate nohighlight">\(h_f=191{,}83\ \mathrm{kJ/kg}\)</span> y <span class="math notranslate nohighlight">\(h_g=2584{,}7\ \mathrm{kJ/kg}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+h_2 = h_f + x\,(h_g-h_f) = 191{,}83\ {\color{#1f5fbf}\mathrm{kJ/kg}} + 0{,}92\,(2584{,}7\ {\color{#1f5fbf}\mathrm{kJ/kg}} - 191{,}83\ {\color{#1f5fbf}\mathrm{kJ/kg}}) = 2393{,}3\ {\color{#1f5fbf}\mathrm{kJ/kg}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\frac{V_1^2-V_2^2}{2} = \frac{(15\ {\color{#1f5fbf}\mathrm{m/s}})^2-(50\ {\color{#1f5fbf}\mathrm{m/s}})^2}{2}\,{\color{#1a7f4b}\dfrac{1\ \mathrm{J/kg}}{1\ \mathrm{m^2/s^2}}}\,{\color{#1a7f4b}\dfrac{1\ \mathrm{kJ}}{1000\ \mathrm{J}}} = -1{,}14\ {\color{#1f5fbf}\mathrm{kJ/kg}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+(h_1-h_2) + \frac{V_1^2-V_2^2}{2} = (3422{,}2\ {\color{#1f5fbf}\mathrm{kJ/kg}}-2393{,}3\ {\color{#1f5fbf}\mathrm{kJ/kg}}) + (-1{,}14\ {\color{#1f5fbf}\mathrm{kJ/kg}}) = 1027{,}8\ {\color{#1f5fbf}\mathrm{kJ/kg}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\dot W = \dot Q + \dot m\left[(h_1-h_2) + \frac{V_1^2-V_2^2}{2}\right] = (-90\ {\color{#1f5fbf}\mathrm{kW}}) + (5{,}0\ {\color{#1f5fbf}\mathrm{kg/s}})(1027{,}8\ {\color{#1f5fbf}\mathrm{kJ/kg}})\,{\color{#1a7f4b}\dfrac{1\ \mathrm{kW}}{1\ \mathrm{kJ/s}}} = 5049\ {\color{#1f5fbf}\mathrm{kW}}
+\]</div>
+<p>El signo positivo indica que la turbina entrega trabajo. El término cinético es el <span class="math notranslate nohighlight">\(0{,}1\ \%\)</span> del entálpico.</p>
+</div>
+<div class="admonition-compresor-de-aire-refrigerado admonition">
+<p class="admonition-title">Compresor de aire refrigerado</p>
+<p>Un compresor admite <span class="math notranslate nohighlight">\(0{,}60\ \mathrm{kg/s}\)</span> de aire a <span class="math notranslate nohighlight">\(100\ \mathrm{kPa}\)</span> y <span class="math notranslate nohighlight">\(300\ \mathrm{K}\)</span> y lo descarga a <span class="math notranslate nohighlight">\(520\ \mathrm{K}\)</span>. El agua de enfriamiento retira <span class="math notranslate nohighlight">\(9\ \mathrm{kW}\)</span> de calor. El aire se trata como gas ideal y las variaciones de energía cinética y potencial son despreciables. Determine la potencia.</p>
+<div class="math notranslate nohighlight">
+\[
+h_2-h_1 = c_p\,(T_2-T_1) = (1{,}005\ {\color{#1f5fbf}\mathrm{kJ/(kg\cdot K)}})(520\ {\color{#1f5fbf}\mathrm{K}}-300\ {\color{#1f5fbf}\mathrm{K}}) = 221{,}1\ {\color{#1f5fbf}\mathrm{kJ/kg}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\dot W = \dot Q - \dot m\,(h_2-h_1) = (-9\ {\color{#1f5fbf}\mathrm{kW}}) - (0{,}60\ {\color{#1f5fbf}\mathrm{kg/s}})(221{,}1\ {\color{#1f5fbf}\mathrm{kJ/kg}})\,{\color{#1a7f4b}\dfrac{1\ \mathrm{kW}}{1\ \mathrm{kJ/s}}} = -141{,}7\ {\color{#1f5fbf}\mathrm{kW}}
+\]</div>
+<p>El balance da una potencia negativa: el signo indica trabajo que entra al compresor.</p>
+</div>
+<div class="admonition-mezcla-de-dos-corrientes-de-agua admonition">
+<p class="admonition-title">Mezcla de dos corrientes de agua</p>
+<p>En una cámara de mezcla aislada se juntan <span class="math notranslate nohighlight">\(4{,}0\ \mathrm{kg/s}\)</span> de agua líquida a <span class="math notranslate nohighlight">\(30\ ^\circ\mathrm{C}\)</span> con una segunda corriente de agua líquida a <span class="math notranslate nohighlight">\(80\ ^\circ\mathrm{C}\)</span>, y sale agua a <span class="math notranslate nohighlight">\(50\ ^\circ\mathrm{C}\)</span>. Determine los flujos másicos de la corriente caliente y de la salida.</p>
+<p>Sin trabajo ni calor, los balances de masa y de energía son <span class="math notranslate nohighlight">\(\dot m_3=\dot m_1+\dot m_2\)</span> y <span class="math notranslate nohighlight">\(\dot m_1\,h_1+\dot m_2\,h_2=\dot m_3\,h_3\)</span>. Para el líquido, <span class="math notranslate nohighlight">\(h\approx h_f(T)\)</span> (A.2): <span class="math notranslate nohighlight">\(h_1=125{,}79\ \mathrm{kJ/kg}\)</span>, <span class="math notranslate nohighlight">\(h_2=334{,}91\ \mathrm{kJ/kg}\)</span> y <span class="math notranslate nohighlight">\(h_3=209{,}33\ \mathrm{kJ/kg}\)</span>. Eliminando <span class="math notranslate nohighlight">\(\dot m_3\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\dot m_2 = \dot m_1\,\frac{h_3-h_1}{h_2-h_3} = (4{,}0\ {\color{#1f5fbf}\mathrm{kg/s}})\,\frac{209{,}33\ {\color{#1f5fbf}\mathrm{kJ/kg}}-125{,}79\ {\color{#1f5fbf}\mathrm{kJ/kg}}}{334{,}91\ {\color{#1f5fbf}\mathrm{kJ/kg}}-209{,}33\ {\color{#1f5fbf}\mathrm{kJ/kg}}} = 2{,}66\ {\color{#1f5fbf}\mathrm{kg/s}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\dot m_3 = \dot m_1 + \dot m_2 = 4{,}0\ {\color{#1f5fbf}\mathrm{kg/s}} + 2{,}66\ {\color{#1f5fbf}\mathrm{kg/s}} = 6{,}66\ {\color{#1f5fbf}\mathrm{kg/s}}
+\]</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="primera_ley_vc.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">Volumen de control: masa y energía</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="primera_ley_autoevaluacion.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">Autoevaluación: Primera ley</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Prof. Carlos Morales
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

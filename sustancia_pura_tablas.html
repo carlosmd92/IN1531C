@@ -1,0 +1,633 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Tablas, región y calidad &#8212; Termodinámica IN1531C</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=b8dd5e65" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=bb6f747e"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script src="_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'sustancia_pura_tablas';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="_static/embed.js?v=95691c4f"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Interpolación y líquido comprimido" href="sustancia_pura_interpolacion.html" />
+    <link rel="prev" title="Fases y diagramas de propiedades" href="sustancia_pura_fases.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navegación del sitio">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="En esta página">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Termodinámica IN1531C</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Búsqueda</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Conceptos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="conceptos.html">Presentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conceptos_sistemas.html">Sistema, frontera y entorno</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conceptos_propiedades.html">Propiedades, estado y unidades</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conceptos_presion.html">Presión</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conceptos_temperatura.html">Temperatura y Ley Cero</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conceptos_autoevaluacion.html">Autoevaluación: Conceptos fundamentales</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sustancia pura</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="sustancia_pura.html">Presentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sustancia_pura_fases.html">Fases y diagramas de propiedades</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tablas, región y calidad</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sustancia_pura_interpolacion.html">Interpolación y líquido comprimido</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sustancia_pura_gas_ideal.html">Modelo de gas ideal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sustancia_pura_autoevaluacion.html">Autoevaluación: Sustancia pura</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Primera ley, sistemas cerrados y abiertos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="primera_ley.html">Presentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="primera_ley_balance.html">Energía y balance en sistemas cerrados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="primera_ley_trabajo.html">Trabajo de frontera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="primera_ley_gas_ideal.html">Gas ideal y calores específicos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="primera_ley_vc.html">Volumen de control: masa y energía</a></li>
+<li class="toctree-l1"><a class="reference internal" href="primera_ley_dispositivos.html">Dispositivos de flujo estacionario</a></li>
+<li class="toctree-l1"><a class="reference internal" href="primera_ley_autoevaluacion.html">Autoevaluación: Primera ley</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Máquinas térmicas y segunda ley, cerrados y abiertos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley.html">Presentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley_maquinas.html">Máquinas térmicas y refrigeradores</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley_carnot.html">Ciclo de Carnot y escala termodinámica</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley_entropia.html">Desigualdad de Clausius y entropía</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley_cambio_entropia.html">Cambio de entropía de una sustancia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley_balance.html">Balance de entropía</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley_isentropica.html">Eficiencia isentrópica</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maquinas_segunda_ley_autoevaluacion.html">Autoevaluación: Máquinas térmicas y segunda ley</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ciclos de potencia y refrigeración</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ciclos.html">En preparación</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Tema" data-bs-title="Tema"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Claro"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Oscuro"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Sistema"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Tablas, región y calidad</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tablas-de-propiedades">Tablas de propiedades</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#region-y-calidad">Región y calidad</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tablas-region-y-calidad">
+<h1>Tablas, región y calidad<a class="headerlink" href="#tablas-region-y-calidad" title="Link to this heading">#</a></h1>
+<section id="tablas-de-propiedades">
+<h2>Tablas de propiedades<a class="headerlink" href="#tablas-de-propiedades" title="Link to this heading">#</a></h2>
+<p>El estado de una sustancia pura simple compresible queda fijado por dos propiedades intensivas independientes, y de ahí sale la estructura de las tablas de Moran y Shapiro:</p>
+<ul class="simple">
+<li><p>En una sola fase (líquido comprimido o vapor sobrecalentado) <span class="math notranslate nohighlight">\(p\)</span> y <span class="math notranslate nohighlight">\(T\)</span> son independientes. El par <span class="math notranslate nohighlight">\((p,T)\)</span> fija el estado y las tablas son de doble entrada.</p></li>
+<li><p>En saturación <span class="math notranslate nohighlight">\(p\)</span> y <span class="math notranslate nohighlight">\(T\)</span> están ligadas por <span class="math notranslate nohighlight">\(T_\text{sat}(p)\)</span>. Una de ellas fija la fila de la tabla, y la calidad completa el estado dentro de la mezcla.</p></li>
+</ul>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Región</p></th>
+<th class="head text-center"><p>Tabla</p></th>
+<th class="head text-center"><p>Entrada</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Saturación (líquido saturado, mezcla, vapor saturado)</p></td>
+<td class="text-center"><p>A.2 por temperatura, A.3 por presión</p></td>
+<td class="text-center"><p>una propiedad</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Vapor sobrecalentado</p></td>
+<td class="text-center"><p>A.4</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(p\)</span> y <span class="math notranslate nohighlight">\(T\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Líquido comprimido</p></td>
+<td class="text-center"><p>A.5</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(p\)</span> y <span class="math notranslate nohighlight">\(T\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Las tablas entregan <span class="math notranslate nohighlight">\(v\)</span>, <span class="math notranslate nohighlight">\(u\)</span>, <span class="math notranslate nohighlight">\(h\)</span> y <span class="math notranslate nohighlight">\(s\)</span>. El subíndice <span class="math notranslate nohighlight">\(f\)</span> indica líquido saturado, <span class="math notranslate nohighlight">\(g\)</span> vapor saturado y <span class="math notranslate nohighlight">\(fg\)</span> la diferencia <span class="math notranslate nohighlight">\(y_{fg}=y_g-y_f\)</span>. El volumen <span class="math notranslate nohighlight">\(v_f\)</span> viene multiplicado por <span class="math notranslate nohighlight">\(10^{3}\)</span>: un valor de <span class="math notranslate nohighlight">\(1{,}1767\)</span> en la columna corresponde a <span class="math notranslate nohighlight">\(1{,}1767\times10^{-3}\ \mathrm{m^3/kg}\)</span>. La entalpía específica <span class="math notranslate nohighlight">\(h=u+p\,v\)</span> es una propiedad que se tabula junto con las demás. Las tablas del refrigerante 134a, el amoníaco y el propano (A.10 a A.18) tienen la misma estructura.</p>
+<p>La región se decide antes de abrir la tabla. Con la presión conocida se compara la temperatura con <span class="math notranslate nohighlight">\(T_\text{sat}(p)\)</span>: si es menor, es líquido comprimido; si es igual, saturación; si es mayor, vapor sobrecalentado. Con la temperatura conocida se compara el volumen específico con <span class="math notranslate nohighlight">\(v_f\)</span> y <span class="math notranslate nohighlight">\(v_g\)</span> de esa temperatura: <span class="math notranslate nohighlight">\(v&lt;v_f\)</span> es líquido comprimido, <span class="math notranslate nohighlight">\(v_f\le v\le v_g\)</span> es mezcla y <span class="math notranslate nohighlight">\(v&gt;v_g\)</span> es vapor sobrecalentado.</p>
+<div class="admonition-agua-saturada-a-20-bar admonition">
+<p class="admonition-title">Agua saturada a 20 bar</p>
+<p>La tabla A.3 entra por presión y entrega toda la fila con una sola variable:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p><span class="math notranslate nohighlight">\(p\)</span> (bar)</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(T_\text{sat}\)</span> (°C)</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(v_f\)</span> (m³/kg)</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(v_g\)</span> (m³/kg)</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(h_f\)</span> (kJ/kg)</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(h_g\)</span> (kJ/kg)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(20\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(212{,}4\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(1{,}1767\times10^{-3}\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(0{,}09963\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(908{,}79\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(2799{,}5\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="region-y-calidad">
+<h2>Región y calidad<a class="headerlink" href="#region-y-calidad" title="Link to this heading">#</a></h2>
+<p>La <strong>calidad</strong> <span class="math notranslate nohighlight">\(x\)</span> es la fracción de la masa total que está como vapor. Se define solo en la mezcla y ubica el estado entre <span class="math notranslate nohighlight">\(v_f\)</span> y <span class="math notranslate nohighlight">\(v_g\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+x=\frac{m_\text{vapor}}{m_\text{total}}=\frac{v-v_f}{v_g-v_f},\qquad 0\le x\le 1
+\]</div>
+<p>Cualquier propiedad específica <span class="math notranslate nohighlight">\(y\)</span> de la mezcla es el promedio ponderado por la masa de cada fase:</p>
+<div class="math notranslate nohighlight">
+\[
+y=y_f+x\,(y_g-y_f)
+\]</div>
+<p>La figura sitúa un estado en el diagrama <span class="math notranslate nohighlight">\(T\)</span>–<span class="math notranslate nohighlight">\(v\)</span>. La temperatura toma los valores de la tabla A.2; el volumen específico se desplaza, y la región y la calidad se recalculan en cada posición.</p>
+<iframe class="quim-embed" title="Región y calidad en el diagrama T–v" data-src="app/sustancia_pura.html?embed=1&only=%23s3%20.ctrl%7C%23s3%20figure%7C%23out3"></iframe><div class="admonition-recipiente-rigido-con-agua-a-150-c admonition">
+<p class="admonition-title">Recipiente rígido con agua a 150 °C</p>
+<p>Un recipiente rígido de <span class="math notranslate nohighlight">\(0{,}5\ \mathrm{m^3}\)</span> contiene <span class="math notranslate nohighlight">\(4\ \mathrm{kg}\)</span> de agua a <span class="math notranslate nohighlight">\(150\ ^\circ\mathrm{C}\)</span>. El volumen específico es</p>
+<div class="math notranslate nohighlight">
+\[
+v=\frac{V}{m}=\frac{0{,}5\ {\color{#1f5fbf}\mathrm{m^3}}}{4\ {\color{#1f5fbf}\mathrm{kg}}}=0{,}125\ {\color{#1f5fbf}\dfrac{\mathrm{m^3}}{\mathrm{kg}}}
+\]</div>
+<p>La tabla A.2 a <span class="math notranslate nohighlight">\(150\ ^\circ\mathrm{C}\)</span> da <span class="math notranslate nohighlight">\(v_f=1{,}0905\times10^{-3}\ {\color{#1f5fbf}\dfrac{\mathrm{m^3}}{\mathrm{kg}}}\)</span> y <span class="math notranslate nohighlight">\(v_g=0{,}3928\ {\color{#1f5fbf}\dfrac{\mathrm{m^3}}{\mathrm{kg}}}\)</span>. Como <span class="math notranslate nohighlight">\(v_f&lt;v&lt;v_g\)</span>, el estado es una mezcla a <span class="math notranslate nohighlight">\(p_\text{sat}=4{,}758\ {\color{#1f5fbf}\mathrm{bar}}\)</span>. La calidad y la masa de vapor son</p>
+<div class="math notranslate nohighlight">
+\[
+x=\frac{v-v_f}{v_g-v_f}=\frac{(0{,}125-0{,}0010905)\ {\color{#1f5fbf}\dfrac{\mathrm{m^3}}{\mathrm{kg}}}}{(0{,}3928-0{,}0010905)\ {\color{#1f5fbf}\dfrac{\mathrm{m^3}}{\mathrm{kg}}}}=0{,}3163
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+m_\text{vapor}=x\,m=0{,}3163\,(4\ {\color{#1f5fbf}\mathrm{kg}})=1{,}265\ {\color{#1f5fbf}\mathrm{kg}}
+\]</div>
+<p>La energía interna específica sale de la misma ponderación, con <span class="math notranslate nohighlight">\(u_f=631{,}68\ {\color{#1f5fbf}\dfrac{\mathrm{kJ}}{\mathrm{kg}}}\)</span> y <span class="math notranslate nohighlight">\(u_g=2559{,}5\ {\color{#1f5fbf}\dfrac{\mathrm{kJ}}{\mathrm{kg}}}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+u=u_f+x\,(u_g-u_f)=631{,}68\ {\color{#1f5fbf}\dfrac{\mathrm{kJ}}{\mathrm{kg}}}+0{,}3163\,(2559{,}5-631{,}68)\ {\color{#1f5fbf}\dfrac{\mathrm{kJ}}{\mathrm{kg}}}=1241{,}5\ {\color{#1f5fbf}\dfrac{\mathrm{kJ}}{\mathrm{kg}}}
+\]</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="sustancia_pura_fases.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">Fases y diagramas de propiedades</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="sustancia_pura_interpolacion.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">Interpolación y líquido comprimido</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tablas-de-propiedades">Tablas de propiedades</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#region-y-calidad">Región y calidad</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Prof. Carlos Morales
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

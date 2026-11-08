@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sustancia pura: fases, tablas y calidad</title>
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],packages:{'[+]':['color']}},loader:{load:['[tex]/color']},svg:{fontCache:'none'}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<link rel="stylesheet" href="css/base.css">
+<style>
+@page{@top-right{content:"Sustancia pura"}}
+html:has(body.embed){overflow:hidden}
+.ctrl button.btn{padding:6px 14px}
+.ctrl select{max-width:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.88rem;color:var(--muted);margin:4px 0 0}
+.legend i{display:inline-block;width:14px;height:10px;border-radius:2px;vertical-align:0;margin-right:5px}
+.dwrap{display:grid;grid-template-columns:1fr;gap:14px;align-items:start}
+@media (min-width:620px){.dwrap{grid-template-columns:minmax(0,236px) minmax(0,1fr)}.dwrap.r{grid-template-columns:minmax(0,1fr) minmax(0,250px)}}
+.dright{display:flex;flex-direction:column;gap:10px;min-width:0}
+#figPh,#figPTb,#figRQb,#figGIb{max-width:320px;margin-left:auto;margin-right:auto}
+.fsvg{width:100%;height:auto;display:block;background:linear-gradient(#fdfeff,#f3f6fc);border:1px solid var(--line);border-radius:14px;box-shadow:0 2px 10px rgba(20,30,60,.08);user-select:none;-webkit-user-select:none}
+.fsvg.drag{touch-action:none;cursor:crosshair}
+.pcard{--pc:#59627a;position:relative;border:1px solid var(--line);border-radius:12px;padding:8px 14px 8px 18px;background:linear-gradient(180deg,#fff,#f6f8fc);box-shadow:0 1px 3px rgba(20,30,60,.08);min-width:0;overflow:hidden}
+.pcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--pc)}
+.pcard.prs{border:1.5px solid #1f5fbf;--pc:#1f5fbf}
+.pcard .pt{font-size:.82rem;color:var(--muted)}
+.sreg{font-size:1.2rem;font-weight:700;line-height:1.2;color:var(--pc);margin:1px 0 4px}
+.sreg.liq{--pc:#1f5fbf}.sreg.mix{--pc:#6b4fa0}.sreg.vap{--pc:#a8231b}.sreg.sol{--pc:#3d6b8a}
+.srow{display:block;font-size:.9rem;color:#1c2333;overflow-x:auto;overflow-y:hidden;padding:1px 0}
+.srow.m{color:var(--muted);font-size:.82rem}
+.sbar{display:flex;height:9px;border-radius:5px;background:#e7ebf3;margin:5px 0 3px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(20,30,60,.15)}
+.sbar i{display:block;height:100%;transition:width .3s ease}
+.sbar i.l{background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(0,0,0,.12)),#1f5fbf}
+.sbar i.g{background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(0,0,0,.12)),#a8231b}
+.sleg{display:flex;flex-wrap:wrap;gap:2px 12px;font-size:.76rem;color:var(--muted)}
+.sleg i{display:inline-block;width:10px;height:8px;border-radius:2px;margin-right:4px}
+.ctrl input[type=range]{-webkit-appearance:none;appearance:none;height:8px;border-radius:5px;background:linear-gradient(180deg,#d5dcea,#e9edf6);box-shadow:inset 0 1px 2px rgba(20,30,60,.25);vertical-align:middle;margin-left:6px;outline:none}
+.ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#9db9ea 45%,#1f5fbf 100%);border:1px solid #174a96;box-shadow:0 2px 4px rgba(20,30,60,.35);cursor:grab}
+.ctrl input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#9db9ea 45%,#1f5fbf 100%);border:1px solid #174a96;box-shadow:0 2px 4px rgba(20,30,60,.35);cursor:grab}
+.ctrl input[type=range]::-moz-range-track{height:8px;border-radius:5px;background:#dfe5f1}
+.ctrl input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px rgba(31,95,191,.3),0 2px 4px rgba(20,30,60,.35)}
+.itab{border-collapse:separate;border-spacing:0;width:100%;font-size:.86rem;font-variant-numeric:tabular-nums;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+.itab th,.itab td{padding:5px 8px;text-align:right;border-bottom:1px solid #e7ebf3}
+.itab th{background:#eef3fb;color:#1c2333;font-weight:600}
+.itab td:first-child,.itab th:first-child{text-align:left}
+.itab tr:last-child td{border-bottom:0}
+.itab td.hl{background:#fff4cf;font-weight:700}
+.itab td.res{background:#e3f2ea;font-weight:700}
+.itab td.dim{color:#9aa3b8}
+.tiwrap{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:720px){.tiwrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside id="side" aria-label="Bloques de contenido"></aside>
+<div id="scrim"></div>
+<div class="content">
+<div id="topbar"></div>
+<main>
+
+<!-- 1 -->
+<section class="card" id="s1">
+  <h3><span class="badge">1</span>Calentamiento a presión constante</h3>
+  <p>Un cilindro con émbolo mantiene la presión fija mientras se calienta una sustancia pura. El estado pasa por líquido comprimido, líquido saturado, mezcla líquido–vapor, vapor saturado y vapor sobrecalentado. En la mezcla la temperatura permanece en \( T_\text{sat}(p) \).</p>
+  <div class="ctrl">
+    <label>Presión <select id="phP">
+      <option value="1">1 bar</option><option value="5">5 bar</option><option value="10">10 bar</option><option value="20">20 bar</option>
+    </select></label>
+    <label>Avance del calentamiento <input type="range" id="phS" min="0" max="16" step="1" value="0"></label>
+  </div>
+  <figure>
+    <div class="dwrap">
+      <svg id="figPh" class="fsvg" role="img" aria-label="Cilindro con émbolo sobre un quemador: las moléculas pasan de líquido a vapor al calentar a presión constante"></svg>
+      <div class="dright">
+        <svg id="figPhD" class="fsvg" role="img" aria-label="Diagrama T–v con la campana de saturación y las isobaras de 1, 5, 10 y 20 bar"></svg>
+        <div class="pcard prs" id="phCard" aria-live="polite"></div>
+      </div>
+    </div>
+    <figcaption>Agua. Diagrama \( T \)–\( v \) esquemático, con \( v \) en escala logarítmica y sin cifras en los ejes. Las isobaras salen de las tablas A.2, A.3 y A.4; en líquido comprimido se usa \( v\approx v_f(T) \).</figcaption></figure>
+  <p class="readout" id="out1"></p>
+</section>
+
+<!-- 2 -->
+<section class="card" id="s2">
+  <h3><span class="badge">2</span>Diagrama de fases p–T</h3>
+  <p>En el plano \( p \)–\( T \) cada fase ocupa una región y las fronteras son las líneas de coexistencia. En el punto triple conviven sólido, líquido y vapor; en el punto crítico desaparece la diferencia entre líquido y vapor. La región de mezcla líquido–vapor de los diagramas \( p \)–\( v \) y \( T \)–\( v \) colapsa en \( p \)–\( T \) a la curva de vaporización.</p>
+  <div class="ctrl">
+    <label>Sustancia <select id="ptF"><option value="agua">Agua</option><option value="co2">Dióxido de carbono</option></select></label>
+    <label>Temperatura <input type="range" id="ptT" min="0" max="100" step="1" value="50"></label>
+    <label>Presión <input type="range" id="ptPr" min="0" max="100" step="1" value="50"></label>
+  </div>
+  <figure>
+    <div class="dwrap r">
+      <svg id="figPT" class="fsvg" role="img" aria-label="Diagrama de fases presión–temperatura con el punto triple, el punto crítico y un estado móvil"></svg>
+      <div class="dright">
+        <svg id="figPTb" class="fsvg" role="img" aria-label="Moléculas en la fase del estado elegido"></svg>
+        <div class="pcard prs" id="ptCard" aria-live="polite"></div>
+      </div>
+    </div>
+    <figcaption>Diagrama esquemático, sin escala. La línea de trazos marca la presión atmosférica.</figcaption></figure>
+  <p class="readout" id="out2"></p>
+</section>
+
+<!-- 3 -->
+<section class="card" id="s3">
+  <h3><span class="badge">3</span>Región y calidad</h3>
+  <p>A una temperatura dada, el volumen específico decide la región: \( v\lt v_f \) es líquido comprimido, \( v_f\le v\le v_g \) es mezcla y \( v\gt v_g \) es vapor sobrecalentado. Dentro de la mezcla, la calidad \( x \) ubica el estado entre \( v_f \) y \( v_g \) y pondera cualquier propiedad específica \( y \).</p>
+  <div class="formula key">\[ x=\frac{v-v_f}{v_g-v_f},\qquad y=y_f+x\,(y_g-y_f) \]</div>
+  <div class="ctrl">
+    <label>Temperatura \( T= \) <b id="rqTv"></b> °C <input type="range" id="rqT" min="0" max="31" step="1" value="13"></label>
+    <label>Volumen específico <input type="range" id="rqV" min="-3100" max="2100" step="1" value="-903"></label>
+    <label>Propiedad \( y \) <select id="rqY"><option value="u">energía interna u</option><option value="h">entalpía h</option></select></label>
+    <button type="button" class="btn sec" id="rqSL">Líquido saturado</button>
+    <button type="button" class="btn sec" id="rqSV">Vapor saturado</button>
+  </div>
+  <figure>
+    <div class="dwrap r">
+      <svg id="figRQ" class="fsvg drag" role="img" aria-label="Diagrama T–v con la campana de saturación y un estado que se arrastra"></svg>
+      <div class="dright">
+        <svg id="figRQb" class="fsvg" role="img" aria-label="Reparto de moléculas entre líquido y vapor según la calidad"></svg>
+      </div>
+    </div>
+    <div class="pcard prs" id="rqCard" aria-live="polite" style="margin-top:12px"></div>
+    <figcaption>Agua, tabla A.2. La temperatura toma los valores tabulados. El diagrama es esquemático, con \( v \) en escala logarítmica; el reparto de moléculas sigue la masa de cada fase, y el volumen que ocupa cada una no está a escala.</figcaption></figure>
+  <p class="readout" id="out3"></p>
+</section>
+
+<!-- 4 -->
+<section class="card" id="s4">
+  <h3><span class="badge">4</span>Interpolación en la tabla de vapor sobrecalentado</h3>
+  <p>Cuando la presión o la temperatura caen entre dos valores tabulados se interpola con la fracción del intervalo: primero \( f \), luego \( y=y_0+f\,(y_1-y_0) \). Si ninguna de las dos está tabulada se interpola en la temperatura para cada presión y después en la presión.</p>
+  <div class="ctrl">
+    <label>Presión \( p= \) <b id="tiPv"></b> bar <input type="range" id="tiP" min="10" max="30" step="1" value="24"></label>
+    <label>Temperatura \( T= \) <b id="tiTv"></b> °C <input type="range" id="tiT" min="240" max="500" step="1" value="348"></label>
+  </div>
+  <figure>
+    <div class="tiwrap">
+      <div id="tiTab"></div>
+      <svg id="figTI" class="fsvg" role="img" aria-label="Interpolación lineal en temperatura para dos presiones y luego en presión"></svg>
+    </div>
+    <figcaption>Agua, tabla A.4. Cada panel muestra la recta que une los dos valores tabulados y el punto que corresponde a la fracción \( f \).</figcaption></figure>
+  <div class="pcard prs" id="tiCard" aria-live="polite" style="margin-top:12px"></div>
+  <p class="readout" id="out4"></p>
+</section>
+
+<!-- 5 -->
+<section class="card" id="s5">
+  <h3><span class="badge">5</span>Gas ideal frente a la tabla</h3>
+  <p>El modelo \( p\,v=R\,T \) describe a un gas a baja densidad, lejos de la campana de saturación. Con \( R=\bar R/M \) y la temperatura en kelvin, el volumen específico del modelo se compara con el de la tabla A.4 para el vapor de agua.</p>
+  <div class="ctrl">
+    <label>Presión <select id="giP"></select></label>
+    <label>Temperatura <select id="giT"></select></label>
+  </div>
+  <figure>
+    <div class="dwrap r">
+      <svg id="figGI" class="fsvg drag" role="img" aria-label="Mapa de error del modelo de gas ideal para el vapor de agua según presión y temperatura"></svg>
+      <div class="dright">
+        <svg id="figGIb" class="fsvg" role="img" aria-label="Densidad de moléculas del estado elegido"></svg>
+      </div>
+    </div>
+    <div class="pcard prs" id="giCard" aria-live="polite" style="margin:12px 0"></div>
+    <div class="legend"><span><i style="background:#2e8b57"></i>error menor que 2 %</span><span><i style="background:#e0a82e"></i>entre 2 % y 10 %</span><span><i style="background:#c0392b"></i>mayor que 10 %</span></div>
+    <figcaption>Cada celda es un estado de la tabla A.4; las celdas vacías no están tabuladas.</figcaption></figure>
+  <p class="readout" id="out5"></p>
+</section>
+
+</main>
+</div>
+</div>
+<script src="js/base.js"></script>
+<script>
+(function(){
+"use strict";
+var D={"bell":[[10.0,0.01228,0.0010004,106.379,42.0,2389.2,42.01,2519.8],[20.0,0.02339,0.0010018,57.791,83.95,2402.9,83.96,2538.1],[30.0,0.04246,0.0010043,32.894,125.78,2416.6,125.79,2556.3],[40.0,0.07384,0.0010078,19.523,167.56,2430.1,167.57,2574.3],[50.0,0.1235,0.0010121,12.032,209.32,2443.5,209.33,2592.1],[60.0,0.1994,0.0010172,7.671,251.11,2456.6,251.13,2609.6],[70.0,0.3119,0.0010228,5.042,292.95,2469.6,292.98,2626.8],[80.0,0.4739,0.0010290999999999998,3.407,334.86,2482.2,334.91,2643.7],[90.0,0.7014,0.001036,2.361,376.85,2494.5,376.92,2660.1],[100.0,1.014,0.0010435000000000002,1.673,418.94,2506.5,419.04,2676.1],[110.0,1.433,0.0010516000000000002,1.21,461.14,2518.1,461.3,2691.5],[120.0,1.985,0.0010603,0.8919,503.5,2529.3,503.71,2706.3],[130.0,2.701,0.0010697,0.6685,546.02,2539.9,546.31,2720.5],[140.0,3.613,0.0010797,0.5089,588.74,2550.0,589.13,2733.9],[150.0,4.758,0.0010905,0.3928,631.68,2559.5,632.2,2746.5],[160.0,6.178,0.0011020000000000001,0.3071,674.86,2568.4,675.55,2758.1],[170.0,7.917,0.0011143000000000001,0.2428,718.33,2576.5,719.21,2768.7],[180.0,10.02,0.0011274,0.1941,762.09,2583.7,763.22,2778.2],[190.0,12.54,0.0011413999999999999,0.1565,806.19,2590.0,807.62,2786.4],[200.0,15.54,0.0011565,0.1274,850.65,2595.3,852.45,2793.2],[210.0,19.06,0.0011726,0.1044,895.53,2599.5,897.76,2798.5],[220.0,23.18,0.0011899999999999999,0.08619,940.87,2602.4,943.62,2802.1],[230.0,27.95,0.0012088000000000001,0.07158,986.74,2603.9,990.12,2804.0],[240.0,33.44,0.0012291000000000001,0.05976,1033.2,2604.0,1037.3,2803.8],[250.0,39.73,0.0012512,0.05013,1080.4,2602.4,1085.4,2801.5],[260.0,46.88,0.0012755000000000002,0.04221,1128.4,2599.0,1134.4,2796.6],[270.0,54.99,0.0013023,0.03564,1177.4,2593.7,1184.5,2789.7],[280.0,64.12,0.0013321000000000001,0.03017,1227.5,2586.1,1236.0,2779.6],[290.0,74.36,0.0013656,0.02557,1278.9,2576.0,1289.1,2766.2],[300.0,85.81,0.0014035999999999999,0.02167,1332.0,2563.0,1344.0,2749.0],[320.0,112.7,0.0014988,0.01549,1444.6,2525.5,1461.5,2700.1],[340.0,145.9,0.0016378999999999999,0.0108,1570.3,2464.6,1594.2,2622.0],[360.0,186.5,0.0018925,0.006945,1725.2,2351.5,1760.5,2481.0],[374.14,220.9,0.003155,0.003155,2029.6,2029.6,2099.3,2099.3]],"iso":{"1":{"ts":99.63,"vf":0.0010432,"vg":1.694,"liq":[[20.0,0.0010018],[40.0,0.0010078],[60.0,0.0010172],[80.0,0.0010290999999999998]],"sup":[[120.0,1.793],[160.0,1.984],[200.0,2.172],[240.0,2.359],[280.0,2.546],[320.0,2.732],[360.0,2.917],[400.0,3.103],[440.0,3.288],[500.0,3.565]]},"5":{"ts":151.9,"vf":0.0010926,"vg":0.3749,"liq":[[20.0,0.0010018],[40.0,0.0010078],[60.0,0.0010172],[80.0,0.0010290999999999998],[100.0,0.0010435000000000002],[120.0,0.0010603],[140.0,0.0010797]],"sup":[[180.0,0.4045],[200.0,0.4249],[240.0,0.4646],[280.0,0.5034],[320.0,0.5416],[360.0,0.5796],[400.0,0.6173],[440.0,0.6548],[500.0,0.7109]]},"10":{"ts":179.9,"vf":0.0011273,"vg":0.1944,"liq":[[20.0,0.0010018],[40.0,0.0010078],[60.0,0.0010172],[80.0,0.0010290999999999998],[100.0,0.0010435000000000002],[120.0,0.0010603],[140.0,0.0010797],[160.0,0.0011020000000000001]],"sup":[[200.0,0.206],[240.0,0.2275],[280.0,0.248],[320.0,0.2678],[360.0,0.2873],[400.0,0.3066],[440.0,0.3257],[500.0,0.3541]]},"20":{"ts":212.4,"vf":0.0011767000000000001,"vg":0.09963,"liq":[[20.0,0.0010018],[40.0,0.0010078],[60.0,0.0010172],[80.0,0.0010290999999999998],[100.0,0.0010435000000000002],[120.0,0.0010603],[140.0,0.0010797],[160.0,0.0011020000000000001],[180.0,0.0011274],[200.0,0.0011565]],"sup":[[240.0,0.1085],[280.0,0.12],[320.0,0.1308],[360.0,0.1411],[400.0,0.1512],[440.0,0.1611],[500.0,0.1757]]}},"itab":{"P":[10,15,20,30],"T":[240,280,320,360,400,440,500],"v":{"10":[0.2275,0.248,0.2678,0.2873,0.3066,0.3257,0.3541],"15":[0.1483,0.1627,0.1765,0.1899,0.203,0.216,0.2352],"20":[0.1085,0.12,0.1308,0.1411,0.1512,0.1611,0.1757],"30":[0.0682,0.0771,0.085,0.0923,0.0994,0.1062,0.1162]},"h":{"10":[2920.4,3008.2,3093.9,3178.9,3263.9,3349.3,3478.5],"15":[2899.3,2992.7,3081.9,3169.2,3255.8,3342.5,3473.1],"20":[2876.5,2976.4,3069.5,3159.3,3247.6,3335.5,3467.6],"30":[2824.3,2941.3,3043.4,3138.7,3230.9,3321.5,3456.5]},"ts":{"10":179.9,"15":198.3,"20":212.4,"30":233.9}},"gas":{"P":[1,5,10,20,40,60,100],"T":[200,240,280,320,360,400,440,500,600],"R":0.46137624861265264,"M":18.02,"v":{"1":[2.172,2.359,2.546,2.732,2.917,3.103,3.288,3.565,null],"5":[0.4249,0.4646,0.5034,0.5416,0.5796,0.6173,0.6548,0.7109,0.8041],"10":[0.206,0.2275,0.248,0.2678,0.2873,0.3066,0.3257,0.3541,0.4011],"20":[null,0.1085,0.12,0.1308,0.1411,0.1512,0.1611,0.1757,0.1996],"40":[null,null,0.05546,0.06199,0.06788,0.07341,0.07872,0.08643,0.09885],"60":[null,null,0.03317,0.03876,0.04331,0.04739,0.05122,0.05665,0.06525],"100":[null,null,null,0.01925,0.02331,0.02641,0.02911,null,0.03837]}}};
+var $=QUIM.$,M=QUIM.m,tn=QUIM.tn;
+function comma(x,d){return x.toFixed(d).replace('.',',').replace('-','\u2212');}
+function lcg(seed){var s=seed;return function(){s=(s*1664525+1013904223)%4294967296;return s/4294967296;};}
+function G(id){return document.getElementById(id);}
+function at(id,o){var e=G(id);if(e)for(var q in o)e.setAttribute(q,o[q]);}
+function clamp(x,a,b){return Math.max(a,Math.min(b,x));}
+
+/* Unidades en azul y factores de conversión en verde, como TeX para QUIM.m */
+var BLU='#1f5fbf',GRN='#1a7f4b';
+function U(u){return '{\\color{'+BLU+'}\\mathrm{'+u+'}}';}
+function Uf(a,b){return '{\\color{'+BLU+'}\\dfrac{\\mathrm{'+a+'}}{\\mathrm{'+b+'}}}';}
+function F(a,b){return '{\\color{'+GRN+'}\\dfrac{'+a+'}{'+b+'}}';}
+function Q(n,u){return n+'\\ '+u;}
+var UV=Uf('m^3','kg'),UH=Uf('kJ','kg');
+
+/* ---------- Animación: bucle único ---------- */
+var ticks=[];
+(function loop(t){requestAnimationFrame(loop);ticks.forEach(function(f){try{f(t);}catch(e){}});})(0);
+function shown(e){if(document.body.classList.contains('embed'))return true;var v=e.closest('.view');return !!v&&!v.hidden;}
+
+/* ---------- Gráficos comunes ---------- */
+function defs(p){
+  return '<defs>'+
+   '<linearGradient id="'+p+'-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fcfdff"/><stop offset="1" stop-color="#ecf2fb"/></linearGradient>'+
+   '<linearGradient id="'+p+'-metal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8d97ab"/><stop offset=".2" stop-color="#dde3ef"/><stop offset=".5" stop-color="#f7f9fc"/><stop offset=".8" stop-color="#c2cad9"/><stop offset="1" stop-color="#7d879c"/></linearGradient>'+
+   '<linearGradient id="'+p+'-basev" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3e8f2"/><stop offset="1" stop-color="#8b95aa"/></linearGradient>'+
+   '<linearGradient id="'+p+'-glass" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9cc0ee" stop-opacity=".6"/><stop offset=".45" stop-color="#ffffff" stop-opacity=".9"/><stop offset="1" stop-color="#8fb4e6" stop-opacity=".6"/></linearGradient>'+
+   '<linearGradient id="'+p+'-gas" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef5fe"/><stop offset="1" stop-color="#d3e3f8"/></linearGradient>'+
+   '<linearGradient id="'+p+'-liq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fbcf1" stop-opacity=".75"/><stop offset="1" stop-color="#4f8fe0" stop-opacity=".85"/></linearGradient>'+
+   '<linearGradient id="'+p+'-blk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8f98ac"/><stop offset="1" stop-color="#4a5266"/></linearGradient>'+
+   '<radialGradient id="'+p+'-mol" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#ffffff"/><stop offset=".3" stop-color="#8bb8f2"/><stop offset=".8" stop-color="#1f5fbf"/><stop offset="1" stop-color="#174a96"/></radialGradient>'+
+   '<radialGradient id="'+p+'-dot" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#ffffff"/><stop offset=".35" stop-color="#ffb3a8"/><stop offset=".85" stop-color="#a8231b"/><stop offset="1" stop-color="#7d1912"/></radialGradient>'+
+   '<filter id="'+p+'-sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#1c2333" flood-opacity=".28"/></filter>'+
+   '<filter id="'+p+'-ds" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="1.5" stdDeviation="1.6" flood-color="#1c2333" flood-opacity=".4"/></filter>'+
+   '</defs>';
+}
+
+/* Cuadro de moléculas: modo L (líquido), S (sólido) o V (vapor), con rebotes y vibración */
+function MolBox(pre,n,r,B,sp){
+  this.pre=pre;this.n=n;this.r=r;this.B=B;this.sp=sp||12;this.liqRows=0;this.a=[];
+  var rg=lcg(pre.length*37+n*11),i,k;
+  for(i=0;i<n;i++){k=rg()*6.2832;this.a.push({i:i,mode:'V',vis:true,x:B.x0+10+rg()*(B.x1-B.x0-20),y:B.floor()-12-rg()*20,vx:Math.cos(k),vy:Math.sin(k),ph:rg()*6.28,gx:0,gy:0,el:null});}
+}
+MolBox.prototype.bind=function(){var s=this;this.a.forEach(function(m){m.el=G(s.pre+m.i);});};
+MolBox.prototype.setMode=function(i,mode){
+  var m=this.a[i];if(m.mode===mode)return false;
+  if(mode==='V'){var k=Math.random()*6.2832;m.vx=Math.cos(k);m.vy=-Math.abs(Math.sin(k))-0.3;}
+  m.mode=mode;return true;
+};
+MolBox.prototype.layout=function(){
+  var B=this.B,sp=this.sp,w=B.x1-B.x0,ncol=Math.max(1,Math.floor(w/sp)),fl=B.floor(),kL=0,kS=0,self=this;
+  this.liqRows=0;
+  this.a.forEach(function(m){
+    if(!m.vis)return;
+    var r,c,off=(w-ncol*sp)/2;
+    if(m.mode==='L'){r=Math.floor(kL/ncol);c=kL%ncol;m.gx=B.x0+off+sp/2+c*sp+(r%2?sp*0.25:-sp*0.25);m.gy=fl-sp/2-r*sp*0.9;kL++;self.liqRows=Math.max(self.liqRows,r+1);}
+    else if(m.mode==='S'){var s2=sp*1.18;ncol=Math.max(1,Math.floor(w/s2));off=(w-ncol*s2)/2;r=Math.floor(kS/ncol);c=kS%ncol;m.gx=B.x0+off+s2/2+c*s2;m.gy=fl-s2/2-r*s2;kS++;self.liqRows=Math.max(self.liqRows,r+1);self.solid=true;}
+  });
+};
+MolBox.prototype.liqTop=function(){var fl=this.B.floor();if(!this.liqRows)return fl;return fl-this.liqRows*this.sp*(this.solid?1.18:0.9)-3;};
+MolBox.prototype.step=function(dt,speed){
+  var B=this.B,r=this.r,x0=B.x0+r,x1=B.x1-r,top=B.top()+r,yl=this.liqTop()-r;
+  this.a.forEach(function(m){
+    if(!m.vis)return;
+    if(m.mode==='V'){
+      m.x+=m.vx*speed*dt;m.y+=m.vy*speed*dt;
+      if(m.x<x0){m.x=x0;m.vx=Math.abs(m.vx);}
+      if(m.x>x1){m.x=x1;m.vx=-Math.abs(m.vx);}
+      if(m.y>yl){m.y=yl;m.vy=-Math.abs(m.vy);}
+      if(m.y<top){m.y=top;m.vy=Math.abs(m.vy);}
+      if(top>yl)m.y=yl;
+    }else{var k=Math.min(1,dt*9);m.x+=(m.gx-m.x)*k;m.y+=(m.gy-m.y)*k;}
+  });
+};
+MolBox.prototype.draw=function(t,amp){
+  this.a.forEach(function(m){
+    if(!m.el)return;
+    if(!m.vis){m.el.setAttribute('visibility','hidden');return;}
+    m.el.setAttribute('visibility','visible');
+    var jx=0,jy=0;
+    if(m.mode!=='V'){jx=amp*Math.sin(t/140+m.ph*3);jy=amp*Math.cos(t/170+m.ph*5);}
+    m.el.setAttribute('transform','translate('+(m.x+jx).toFixed(1)+' '+(m.y+jy).toFixed(1)+')');
+  });
+};
+
+/* ---------- 1. Calentamiento a presión constante ---------- */
+var LV0=-3.1,LV1=2.1,TMX=520;
+var PH={built:false,p:1,idx:0,u:0,st:[],mb:null,last:0,nl:-1,Pb:234,lowT:0};
+var PHR={liq:'Líquido comprimido',sl:'Líquido saturado',mix:'Mezcla líquido–vapor',sv:'Vapor saturado',sup:'Vapor sobrecalentado'};
+function phStates(p){
+  var d=D.iso[p],S=[];
+  d.liq.forEach(function(q){if([20,60,100,140,180].indexOf(q[0])>=0)S.push({k:'liq',T:q[0],v:q[1],x:0});});
+  S.push({k:'sl',T:d.ts,v:d.vf,x:0});
+  [0.25,0.5,0.75].forEach(function(x){S.push({k:'mix',T:d.ts,v:d.vf+x*(d.vg-d.vf),x:x});});
+  S.push({k:'sv',T:d.ts,v:d.vg,x:1});
+  d.sup.forEach(function(q){if([200,240,280,320,360,400,440,500].indexOf(q[0])>=0)S.push({k:'sup',T:q[0],v:q[1],x:1});});
+  return S;
+}
+function phMap(u){
+  var S=PH.st,n=S.length,i=clamp(Math.floor(u),0,n-2),f=clamp(u-i,0,1),a=S[i],b=S[i+1];
+  var la=Math.log(a.v)/Math.LN10,lb=Math.log(b.v)/Math.LN10;
+  return {T:a.T+(b.T-a.T)*f,lv:la+(lb-la)*f,x:a.x+(b.x-a.x)*f};
+}
+function XV(lv){return 34+(lv-LV0)/(LV1-LV0)*314;}
+function YT(T){return 244-T/TMX*228;}
+function bellPath(){
+  var P=D.bell,d='',i;
+  for(i=0;i<P.length;i++)d+=(i?'L':'M')+XV(Math.log(P[i][2])/Math.LN10).toFixed(1)+' '+YT(P[i][0]).toFixed(1);
+  for(i=P.length-1;i>=0;i--)d+='L'+XV(Math.log(P[i][3])/Math.LN10).toFixed(1)+' '+YT(P[i][0]).toFixed(1);
+  return d+'Z';
+}
+function isoPath(p){
+  var d=D.iso[p],pts=[],i;
+  d.liq.forEach(function(q){pts.push([q[1],q[0]]);});
+  pts.push([d.vf,d.ts]);pts.push([d.vg,d.ts]);
+  d.sup.forEach(function(q){pts.push([q[1],q[0]]);});
+  var s='';for(i=0;i<pts.length;i++)s+=(i?'L':'M')+XV(Math.log(pts[i][0])/Math.LN10).toFixed(1)+' '+YT(pts[i][1]).toFixed(1);
+  return s;
+}
+function axesTV(pre,txtT,txtV){
+  return '<line x1="34" y1="244" x2="352" y2="244" stroke="#59627a" stroke-width="1.6"/><path d="M352 244l-7-3.5v7z" fill="#59627a"/>'+
+         '<line x1="34" y1="244" x2="34" y2="10" stroke="#59627a" stroke-width="1.6"/><path d="M34 8l-3.5 7h7z" fill="#59627a"/>'+
+         '<text x="346" y="260" text-anchor="end" font-size="14" font-style="italic" fill="#59627a">'+txtV+'</text>'+
+         '<text x="24" y="16" text-anchor="end" font-size="14" font-style="italic" fill="#59627a">'+txtT+'</text>';
+}
+function buildPh(){
+  var svg=$('#figPh');svg.setAttribute('viewBox','0 0 220 336');
+  var x1=56,x2=164,yb=270,iw=x2-x1,h=defs('ph');
+  h+='<rect width="220" height="336" fill="url(#ph-bg)"/>';
+  h+='<ellipse cx="110" cy="326" rx="74" ry="4" fill="#1c2333" opacity=".12"/>';
+  h+='<rect x="'+x1+'" y="30" width="'+iw+'" height="'+(yb-30)+'" fill="url(#ph-gas)"/>';
+  h+='<rect id="phLq" x="'+x1+'" width="'+iw+'" fill="url(#ph-liq)"/>';
+  h+='<g id="phMol">';for(var i=0;i<24;i++)h+='<g id="phm'+i+'"><circle r="5" fill="url(#ph-mol)"/></g>';h+='</g>';
+  h+='<rect x="'+(x1-6)+'" y="30" width="6" height="'+(yb-30)+'" fill="url(#ph-glass)" stroke="#59627a" stroke-opacity=".55" stroke-width=".8"/>'+
+     '<rect x="'+x2+'" y="30" width="6" height="'+(yb-30)+'" fill="url(#ph-glass)" stroke="#59627a" stroke-opacity=".55" stroke-width=".8"/>'+
+     '<line x1="'+(x1-3)+'" y1="38" x2="'+(x1-3)+'" y2="'+(yb-8)+'" stroke="#fff" stroke-opacity=".85" stroke-width="1.2" stroke-linecap="round"/>';
+  h+='<rect x="'+(x1-12)+'" y="'+yb+'" width="'+(iw+24)+'" height="14" rx="3" fill="url(#ph-basev)" stroke="#59627a" stroke-width=".8" filter="url(#ph-sh)"/>';
+  /* émbolo con su pesa, que sube con el volumen */
+  h+='<g id="phPis"><rect x="'+x1+'" y="-16" width="'+iw+'" height="16" rx="2" fill="url(#ph-metal)" stroke="#59627a" stroke-width=".8" filter="url(#ph-sh)"/>'+
+     '<rect x="'+x1+'" y="-12" width="'+iw+'" height="2.4" fill="#2f3647" opacity=".8"/><rect x="'+x1+'" y="-6" width="'+iw+'" height="2.4" fill="#2f3647" opacity=".8"/>'+
+     '<rect x="'+(x1+22)+'" y="-40" width="'+(iw-44)+'" height="24" rx="3" fill="url(#ph-blk)" stroke="#3a4152" stroke-width=".9" filter="url(#ph-sh)"/>'+
+     '<text id="phPt" x="110" y="-23" text-anchor="middle" font-size="11.5" font-weight="600" fill="#fff"></text></g>';
+  /* quemador */
+  h+='<g id="phFl"><path d="M110 305c-13-10-15-22-7-32c1 7 5 9 8 8c-3-9 1-17 7-24c0 12 9 17 9 29c0 9-7 15-17 19z" fill="#e3641c"/><path d="M110 303c-7-6-8-13-4-19c1 4 3 5 5 4c-1-5 1-9 4-13c0 7 5 10 5 17c0 6-4 9-10 11z" fill="#ffd25a"/></g>';
+  h+='<rect x="96" y="306" width="28" height="12" rx="3" fill="url(#ph-basev)" stroke="#59627a" stroke-width=".8"/>';
+  h+='<text x="150" y="304" font-size="17" font-style="italic" fill="#a8231b">Q</text>';
+  svg.innerHTML=h;
+  PH.mb=new MolBox('phm',24,5,{x0:x1,x1:x2,floor:function(){return yb;},top:function(){return PH.Pb;}},13);
+  PH.mb.bind();
+  /* diagrama T–v */
+  var s=$('#figPhD');s.setAttribute('viewBox','0 0 360 270');
+  var g=defs('phd')+'<rect width="360" height="270" fill="url(#phd-bg)"/>';
+  g+='<path d="'+bellPath()+'" fill="#e9defa" fill-opacity=".7" stroke="#6b4fa0" stroke-width="1.6"/>';
+  g+='<text x="'+XV(-0.5)+'" y="'+YT(42)+'" text-anchor="middle" font-size="11" fill="#6b4fa0">mezcla L+V</text>';
+  g+='<text x="'+XV(-2.95)+'" y="'+YT(440)+'" font-size="10.5" fill="#1f5fbf">líquido</text><text x="'+XV(-2.95)+'" y="'+(YT(440)+12)+'" font-size="10.5" fill="#1f5fbf">comprimido</text>';
+  g+='<text x="'+XV(0.62)+'" y="'+YT(300)+'" font-size="10.5" fill="#a8231b">vapor</text><text x="'+XV(0.62)+'" y="'+(YT(300)+12)+'" font-size="10.5" fill="#a8231b">sobrecalentado</text>';
+  ['1','5','10','20'].forEach(function(p){g+='<path id="phI'+p+'" d="'+isoPath(p)+'" fill="none" stroke="#8d97ab" stroke-width="1.4" stroke-linejoin="round"/>';});
+  ['1','5','10','20'].forEach(function(p){var d=D.iso[p];g+='<text id="phL'+p+'" x="'+(XV(Math.log(d.vg)/Math.LN10)-5)+'" y="'+(YT(d.ts)-4)+'" text-anchor="end" font-size="10.5" fill="#59627a">'+p+' bar</text>';});
+  g+=axesTV('phd','T','v');
+  g+='<line id="phGx" stroke="#a8231b" stroke-opacity=".45" stroke-dasharray="3 3"/><line id="phGy" stroke="#a8231b" stroke-opacity=".45" stroke-dasharray="3 3"/>';
+  g+='<circle id="phDot" r="7" fill="url(#phd-dot)" stroke="#fff" stroke-width="1.6" filter="url(#phd-ds)"/>';
+  s.innerHTML=g;
+  PH.built=true;
+}
+function phCard(){
+  var S=PH.st[PH.idx],d=D.iso[PH.p],cls=S.k==='liq'||S.k==='sl'?'liq':(S.k==='mix'?'mix':'vap');
+  var h='<div class="pt">Estado a '+M('p='+PH.p+'\\ '+U('bar'))+'</div><div class="sreg '+cls+'">'+PHR[S.k]+'</div>';
+  var tsat=comma(d.ts,d.ts<100?2:1);
+  var cmp={liq:'T='+comma(S.T,0)+'\\ ^\\circ\\mathrm{C}\\lt T_\\text{sat}='+tsat+'\\ ^\\circ\\mathrm{C}',
+           sl:'T=T_\\text{sat}='+tsat+'\\ ^\\circ\\mathrm{C}\\quad(x=0)',
+           mix:'T=T_\\text{sat}='+tsat+'\\ ^\\circ\\mathrm{C}\\quad(v_f\\lt v\\lt v_g)',
+           sv:'T=T_\\text{sat}='+tsat+'\\ ^\\circ\\mathrm{C}\\quad(x=1)',
+           sup:'T='+comma(S.T,0)+'\\ ^\\circ\\mathrm{C}\\gt T_\\text{sat}='+tsat+'\\ ^\\circ\\mathrm{C}'}[S.k];
+  h+='<span class="srow">'+M(cmp)+'</span>';
+  var vf=d.vf,vg=d.vg,vt;
+  if(S.k==='liq')vt='v\\approx v_f(T)='+Q(tn(S.v,5),UV);
+  else if(S.k==='sl')vt='v=v_f='+Q(tn(vf,5),UV);
+  else if(S.k==='sv')vt='v=v_g='+Q(tn(vg,5),UV);
+  else if(S.k==='mix')vt='v=v_f+x\\,(v_g-v_f)='+Q(tn(vf,5),UV)+'+'+tn(S.x,3)+'\\,\\left('+Q(tn(vg,5),UV)+'-'+Q(tn(vf,5),UV)+'\\right)='+Q(tn(S.v,4),UV);
+  else vt='v='+Q(tn(S.v,5),UV)+'\\quad(v\\gt v_g='+Q(tn(vg,5),UV)+')';
+  h+='<span class="srow">'+M(vt)+'</span>';
+  if(S.k==='mix')h+='<div class="sbar"><i class="l" style="width:'+((1-S.x)*100).toFixed(0)+'%"></i><i class="g" style="width:'+(S.x*100).toFixed(0)+'%"></i></div><div class="sleg"><span><i style="background:#1f5fbf"></i>líquido '+comma((1-S.x)*100,0)+' % de la masa</span><span><i style="background:#a8231b"></i>vapor '+comma(S.x*100,0)+' % de la masa</span></div>';
+  $('#phCard').innerHTML=h;
+  $('#out1').innerHTML='A '+M(PH.p+'\\ '+U('bar'))+' la saturación ocurre a '+M('T_\\text{sat}='+tsat+'\\ '+U('^\\circ C'))+' (tabla A.3).';
+}
+function paintPh(){
+  if(!PH.built)buildPh();
+  var p=+$('#phP').value;
+  if(p!==PH.p||!PH.st.length){
+    PH.p=p;PH.st=phStates(String(p));
+    var sl=$('#phS');sl.max=PH.st.length-1;
+    if(+sl.value>PH.st.length-1)sl.value=PH.st.length-1;
+    ['1','5','10','20'].forEach(function(q){at('phI'+q,{stroke:q===String(p)?'#a8231b':'#b4bccd','stroke-width':q===String(p)?3:1.4});at('phL'+q,{fill:q===String(p)?'#a8231b':'#59627a','font-weight':q===String(p)?'700':'400'});});
+    at('phPt',{});$('#phPt').textContent='p = '+p+' bar';
+    var first=PH.u===0&&PH.idx===0;
+  }
+  PH.idx=clamp(+$('#phS').value,0,PH.st.length-1);
+  if(PH.u>PH.st.length-1)PH.u=PH.st.length-1;
+  phCard();
+}
+ticks.push(function(t){
+  var svg=$('#figPh');if(!svg||!PH.built||!PH.st.length||!shown(svg))return;
+  var dt=PH.last?Math.min(0.05,Math.max(0,(t-PH.last)/1000)):0.016;PH.last=t;
+  var d=PH.idx-PH.u;PH.u+=d*(1-Math.exp(-dt*5));if(Math.abs(PH.idx-PH.u)<0.002)PH.u=PH.idx;
+  var s=phMap(PH.u),H=36+52*(s.lv+3),mb=PH.mb;
+  PH.Pb=270-H;
+  at('phPis',{transform:'translate(0 '+PH.Pb.toFixed(1)+')'});
+  var nl=Math.round(24*(1-s.x)),i,ch=false;
+  for(i=0;i<24;i++)ch=mb.setMode(i,i<nl?'L':'V')||ch;
+  if(ch||nl!==PH.nl){mb.layout();PH.nl=nl;}
+  var ltop=mb.liqTop();
+  at('phLq',{y:ltop.toFixed(1),height:Math.max(0,270-ltop).toFixed(1),visibility:nl>0?'visible':'hidden'});
+  var sp=60+55*Math.sqrt((s.T+273.15)/773);
+  mb.step(dt,sp);mb.draw(t,0.5+1.6*s.T/500);
+  var k=0.55+0.55*(PH.u/Math.max(1,PH.st.length-1))+0.06*Math.sin(t/90)+0.04*Math.sin(t/37);
+  at('phFl',{transform:'translate(110 318) scale('+(0.9+0.15*Math.sin(t/110)).toFixed(3)+' '+k.toFixed(3)+') translate(-110 -318)'});
+  var cx=XV(s.lv),cy=YT(s.T);
+  at('phDot',{cx:cx.toFixed(1),cy:cy.toFixed(1)});
+  at('phGx',{x1:34,y1:cy.toFixed(1),x2:cx.toFixed(1),y2:cy.toFixed(1)});at('phGy',{x1:cx.toFixed(1),y1:cy.toFixed(1),x2:cx.toFixed(1),y2:244});
+});
+
+/* ---------- 2. Diagrama de fases p–T ---------- */
+var PTF={
+  agua:{n:'Agua',xt:0.30,yt:0.13,xc:0.80,yc:0.64,fs:-0.10,atm:0.27},
+  co2:{n:'Dióxido de carbono',xt:0.40,yt:0.42,xc:0.74,yc:0.84,fs:0.12,atm:0.22}
+};
+var PT={built:false,f:'agua',mb:null,last:0,reg:'L',nx:0.5};
+var PTN={S:'Sólido',L:'Líquido',V:'Vapor',C:'Fluido supercrítico'};
+function ptX(nx){return 34+nx*274;}
+function ptY(ny){return 244-ny*230;}
+function ptReg(F,x,y){
+  if(y<F.yt){var xs=F.xt*Math.pow(y/F.yt,1/2.2);return x<xs?'S':'V';}
+  var xf=F.xt+F.fs*(y-F.yt)/(1-F.yt);
+  if(x<xf)return 'S';
+  if(x>F.xc)return y>F.yc?'C':'V';
+  if(x<F.xt)return 'L';
+  var yv=F.yt+(F.yc-F.yt)*Math.pow((x-F.xt)/(F.xc-F.xt),1.35);
+  return y>yv?'L':'V';
+}
+function ptSeq(F,y){
+  var seq=[],last='',x,r;
+  for(x=0.002;x<1;x+=0.002){r=ptReg(F,x,y);if(r!==last){seq.push(r);last=r;}}
+  return seq;
+}
+function ptCross(F,y,from,to){var a=from,b=to,i,m;for(i=0;i<30;i++){m=(a+b)/2;if(ptReg(F,m,y)===ptReg(F,a,y))a=m;else b=m;}return (a+b)/2;}
+function buildPT(){
+  var F=PTF[PT.f],svg=$('#figPT');svg.setAttribute('viewBox','0 0 320 280');
+  var h=defs('pt')+'<rect width="320" height="280" fill="url(#pt-bg)"/>',i,x,y,d;
+  /* regiones: tintes suaves */
+  h+='<text x="'+ptX(F.xt*0.38)+'" y="'+ptY(0.66)+'" text-anchor="middle" font-size="12" font-weight="700" fill="#3d6b8a">SÓLIDO</text>';
+  var ly=F.yc*0.8,lx=F.xt+F.fs*(ly-F.yt)/(1-F.yt)+0.13;
+  h+='<text x="'+ptX(lx)+'" y="'+ptY(ly)+'" text-anchor="middle" font-size="12" font-weight="700" fill="#1f5fbf">LÍQUIDO</text>';
+  h+='<text x="'+ptX(0.7)+'" y="'+ptY(0.1)+'" text-anchor="middle" font-size="12" font-weight="700" fill="#a8231b">VAPOR</text>';
+  /* curvas de coexistencia */
+  d='';for(i=0;i<=40;i++){x=F.xt*i/40;y=F.yt*Math.pow(x/F.xt,2.2);d+=(i?'L':'M')+ptX(x).toFixed(1)+' '+ptY(y).toFixed(1);}
+  h+='<path d="'+d+'" fill="none" stroke="#3d6b8a" stroke-width="2.4"/>';
+  d='';for(i=0;i<=60;i++){x=F.xt+(F.xc-F.xt)*i/60;y=F.yt+(F.yc-F.yt)*Math.pow(i/60,1.35);d+=(i?'L':'M')+ptX(x).toFixed(1)+' '+ptY(y).toFixed(1);}
+  h+='<path d="'+d+'" fill="none" stroke="#a8231b" stroke-width="2.4"/>';
+  h+='<line x1="'+ptX(F.xt)+'" y1="'+ptY(F.yt)+'" x2="'+ptX(F.xt+F.fs)+'" y2="'+ptY(1)+'" stroke="#1f5fbf" stroke-width="2.4"/>';
+  /* presión atmosférica */
+  h+='<line x1="34" y1="'+ptY(F.atm)+'" x2="308" y2="'+ptY(F.atm)+'" stroke="#1c2333" stroke-opacity=".55" stroke-dasharray="5 4"/>';
+  h+='<text x="304" y="'+(ptY(F.atm)-4)+'" text-anchor="end" font-size="10.5" fill="#1c2333">1 atm</text>';
+  if(PT.f==='agua'){
+    var c1=ptCross(F,F.atm,0.01,F.xt),c2=ptCross(F,F.atm,F.xt+0.001,0.99);
+    h+='<circle cx="'+ptX(c1)+'" cy="'+ptY(F.atm)+'" r="3" fill="#1c2333"/><circle cx="'+ptX(c2)+'" cy="'+ptY(F.atm)+'" r="3" fill="#1c2333"/>';
+    h+='<text x="'+(ptX(c1)-5)+'" y="'+(ptY(F.atm)+14)+'" text-anchor="end" font-size="10.5" fill="#1c2333">0 °C</text>';
+    h+='<text x="'+(ptX(c2)+5)+'" y="'+(ptY(F.atm)+14)+'" font-size="10.5" fill="#1c2333">100 °C</text>';
+  }else{
+    var cs=F.xt*Math.pow(F.atm/F.yt,1/2.2);
+    h+='<circle cx="'+ptX(cs)+'" cy="'+ptY(F.atm)+'" r="3" fill="#1c2333"/><text x="'+(ptX(cs)+5)+'" y="'+(ptY(F.atm)+14)+'" font-size="10.5" fill="#1c2333">sublimación</text>';
+  }
+  /* punto triple y crítico */
+  h+='<circle cx="'+ptX(F.xt)+'" cy="'+ptY(F.yt)+'" r="4.5" fill="#fff" stroke="#1c2333" stroke-width="1.8"/><text x="'+(ptX(F.xt)+9)+'" y="'+(ptY(F.yt)+16)+'" font-size="10.5" fill="#1c2333">punto triple</text>';
+  h+='<circle cx="'+ptX(F.xc)+'" cy="'+ptY(F.yc)+'" r="4.5" fill="#fff" stroke="#1c2333" stroke-width="1.8"/><text x="'+(ptX(F.xc)-7)+'" y="'+(ptY(F.yc)-7)+'" text-anchor="end" font-size="10.5" fill="#1c2333">punto crítico</text>';
+  /* ejes */
+  h+='<line x1="34" y1="244" x2="312" y2="244" stroke="#59627a" stroke-width="1.6"/><path d="M312 244l-7-3.5v7z" fill="#59627a"/>'+
+     '<line x1="34" y1="244" x2="34" y2="8" stroke="#59627a" stroke-width="1.6"/><path d="M34 6l-3.5 7h7z" fill="#59627a"/>'+
+     '<text x="306" y="262" text-anchor="end" font-size="13" font-style="italic" fill="#59627a">T</text><text x="26" y="16" text-anchor="end" font-size="13" font-style="italic" fill="#59627a">p</text>';
+  h+='<line id="ptGx" stroke="#a8231b" stroke-opacity=".4" stroke-dasharray="3 3"/><line id="ptGy" stroke="#a8231b" stroke-opacity=".4" stroke-dasharray="3 3"/>';
+  h+='<circle id="ptDot" r="7" fill="url(#pt-dot)" stroke="#fff" stroke-width="1.6" filter="url(#pt-ds)"/>';
+  svg.innerHTML=h;
+}
+function buildPTb(){
+  var svg=$('#figPTb');svg.setAttribute('viewBox','0 0 230 190');
+  var h=defs('ptb')+'<rect width="230" height="190" fill="url(#ptb-bg)"/>';
+  h+='<rect x="14" y="12" width="202" height="150" fill="url(#ptb-gas)"/><rect id="ptLq" x="14" width="202" fill="url(#ptb-liq)"/>';
+  h+='<g>';for(var i=0;i<30;i++)h+='<g id="ptm'+i+'"><circle r="5.5" fill="url(#ptb-mol)"/></g>';h+='</g>';
+  h+='<rect x="8" y="12" width="6" height="156" fill="url(#ptb-glass)" stroke="#59627a" stroke-opacity=".55" stroke-width=".8"/><rect x="216" y="12" width="6" height="156" fill="url(#ptb-glass)" stroke="#59627a" stroke-opacity=".55" stroke-width=".8"/>';
+  h+='<rect x="4" y="162" width="222" height="12" rx="3" fill="url(#ptb-basev)" stroke="#59627a" stroke-width=".8"/>';
+  h+='<text id="ptLbl" x="115" y="186" text-anchor="middle" font-size="12" fill="#59627a"></text>';
+  svg.innerHTML=h;
+  PT.mb=new MolBox('ptm',30,5.5,{x0:14,x1:216,floor:function(){return 162;},top:function(){return 12;}},15);
+  PT.mb.bind();
+}
+function paintPT(){
+  var F=PTF[PT.f];
+  if(!PT.built){buildPT();buildPTb();PT.built=true;}
+  var nx=+$('#ptT').value/100,ny=+$('#ptPr').value/100,r=ptReg(F,nx,ny);
+  PT.reg=r;PT.nx=nx;
+  var cx=ptX(nx),cy=ptY(ny);
+  at('ptDot',{cx:cx.toFixed(1),cy:cy.toFixed(1)});
+  at('ptGx',{x1:34,y1:cy.toFixed(1),x2:cx.toFixed(1),y2:cy.toFixed(1)});at('ptGy',{x1:cx.toFixed(1),y1:cy.toFixed(1),x2:cx.toFixed(1),y2:244});
+  var mode=r==='S'?'S':(r==='L'?'L':'V'),mb=PT.mb,i,ch=false;
+  mb.solid=false;
+  for(i=0;i<30;i++)ch=mb.setMode(i,mode)||ch;
+  mb.layout();
+  var seq=ptSeq(F,ny).map(function(q){return PTN[q].toLowerCase();});
+  var cls=r==='S'?'sol':(r==='L'?'liq':'vap');
+  var h='<div class="pt">'+F.n+'</div><div class="sreg '+cls+'">'+PTN[r]+'</div>';
+  h+='<span class="srow m">Al calentar a esta presión: '+seq.join(' → ')+'.</span>';
+  var extra='';
+  if(Math.abs(ny-F.atm)<0.006){
+    extra=PT.f==='agua'?'A presión atmosférica el agua se funde a 0 °C y hierve a 100 °C.':'A presión atmosférica el dióxido de carbono sublima: pasa de sólido a vapor sin fundirse.';
+  }else if(ny<F.yt){extra='La presión es menor que la del punto triple: no existe fase líquida.';}
+  else if(ny>F.yc){extra='La presión supera la crítica: no hay cambio de fase líquido–vapor.';}
+  if(extra)h+='<span class="srow m">'+extra+'</span>';
+  $('#ptCard').innerHTML=h;
+  $('#out2').innerHTML=F.n+': a la presión elegida, la sustancia pasa por '+seq.join(', luego ')+'.';
+  at('ptLbl',{});$('#ptLbl').textContent=PTN[r];
+}
+ticks.push(function(t){
+  var svg=$('#figPTb');if(!svg||!PT.built||!shown(svg))return;
+  var dt=PT.last?Math.min(0.05,Math.max(0,(t-PT.last)/1000)):0.016;PT.last=t;
+  var mb=PT.mb,r=PT.reg,amp=r==='S'?0.5+PT.nx*1.2:(r==='L'?1.2+PT.nx*1.4:0);
+  mb.step(dt,40+90*PT.nx);mb.draw(t,amp);
+  var lt=mb.liqTop();at('ptLq',{y:lt.toFixed(1),height:Math.max(0,162-lt).toFixed(1),visibility:r==='L'?'visible':'hidden'});
+});
+function ptFluid(){
+  PT.f=$('#ptF').value;var F=PTF[PT.f];
+  $('#ptPr').value=Math.round(F.atm*100);$('#ptT').value=PT.f==='agua'?78:72;
+  PT.built=false;paintPT();
+}
+/* ---------- 3. Región y calidad ---------- */
+var RQ={built:false,rows:[],mb:null,last:0,nl:-1,reg:'mix'};
+RQ.rows=D.bell.filter(function(r){return r[0]>=20&&r[0]<=360;});
+function rqBuild(){
+  var svg=$('#figRQ');svg.setAttribute('viewBox','0 0 360 270');
+  var g=defs('rq')+'<rect width="360" height="270" fill="url(#rq-bg)"/>';
+  g+='<path d="'+bellPath()+'" fill="#e9defa" fill-opacity=".7" stroke="#6b4fa0" stroke-width="1.8"/>';
+  g+='<text x="'+XV(-0.5)+'" y="'+YT(42)+'" text-anchor="middle" font-size="11" fill="#6b4fa0">mezcla L+V</text>';
+  g+='<text x="'+XV(-2.95)+'" y="'+YT(505)+'" font-size="10.5" fill="#1f5fbf">líquido</text><text x="'+XV(-2.95)+'" y="'+(YT(505)+12)+'" font-size="10.5" fill="#1f5fbf">comprimido</text>';
+  g+='<text x="'+XV(0.62)+'" y="'+YT(300)+'" font-size="10.5" fill="#a8231b">vapor</text><text x="'+XV(0.62)+'" y="'+(YT(300)+12)+'" font-size="10.5" fill="#a8231b">sobrecalentado</text>';
+  g+='<circle cx="'+XV(Math.log(D.bell[D.bell.length-1][2])/Math.LN10)+'" cy="'+YT(374.14)+'" r="3.2" fill="#fff" stroke="#6b4fa0" stroke-width="1.6"/><text x="'+(XV(Math.log(D.bell[D.bell.length-1][2])/Math.LN10)+7)+'" y="'+(YT(374.14)-5)+'" font-size="10" fill="#59627a">punto crítico</text>';
+  g+=axesTV('rq','T','v');
+  g+='<line id="rqIsoT" x1="34" x2="352" stroke="#6b4fa0" stroke-opacity=".5" stroke-dasharray="2 3"/>';
+  g+='<line id="rqMf" stroke="#1f5fbf" stroke-width="3" stroke-linecap="round"/><line id="rqMg" stroke="#a8231b" stroke-width="3" stroke-linecap="round"/>';
+  g+='<text id="rqTf" font-size="10.5" fill="#1f5fbf" text-anchor="middle">v_f</text><text id="rqTg" font-size="10.5" fill="#a8231b" text-anchor="middle">v_g</text>';
+  g+='<line id="rqGy" stroke="#a8231b" stroke-opacity=".45" stroke-dasharray="3 3"/>';
+  g+='<circle id="rqDot" r="7" fill="url(#rq-dot)" stroke="#fff" stroke-width="1.6" filter="url(#rq-ds)"/>';
+  svg.innerHTML=g;
+  var s=$('#figRQb');s.setAttribute('viewBox','0 0 230 190');
+  var h=defs('rqb')+'<rect width="230" height="190" fill="url(#rqb-bg)"/>';
+  h+='<rect x="14" y="12" width="202" height="150" fill="url(#rqb-gas)"/><rect id="rqLq" x="14" width="202" fill="url(#rqb-liq)"/>';
+  h+='<g>';for(var i=0;i<20;i++)h+='<g id="rqm'+i+'"><circle r="6" fill="url(#rqb-mol)"/></g>';h+='</g>';
+  h+='<rect x="8" y="12" width="6" height="156" fill="url(#rqb-glass)" stroke="#59627a" stroke-opacity=".55" stroke-width=".8"/><rect x="216" y="12" width="6" height="156" fill="url(#rqb-glass)" stroke="#59627a" stroke-opacity=".55" stroke-width=".8"/>';
+  h+='<rect x="4" y="162" width="222" height="12" rx="3" fill="url(#rqb-basev)" stroke="#59627a" stroke-width=".8"/>';
+  h+='<text id="rqLbl" x="115" y="186" text-anchor="middle" font-size="12" fill="#59627a"></text>';
+  s.innerHTML=h;
+  RQ.mb=new MolBox('rqm',20,6,{x0:14,x1:216,floor:function(){return 162;},top:function(){return 12;}},17);
+  RQ.mb.bind();
+  RQ.built=true;
+}
+function paintRQ(){
+  if(!RQ.built)rqBuild();
+  var i=clamp(+$('#rqT').value,0,RQ.rows.length-1),R=RQ.rows[i],T=R[0],p=R[1],vf=R[2],vg=R[3],yk=$('#rqY').value;
+  var lv=clamp(+$('#rqV').value/1000,LV0+0.05,LV1-0.05),v=Math.pow(10,lv);
+  if(Math.abs(v-vf)/vf<0.0025){v=vf;lv=Math.log(v)/Math.LN10;}
+  if(Math.abs(v-vg)/vg<0.0025){v=vg;lv=Math.log(v)/Math.LN10;}
+  $('#rqTv').textContent=comma(T,0);
+  var reg=v<vf?'liq':(v>vg?'sup':'mix'),x=reg==='mix'?(v-vf)/(vg-vf):(reg==='liq'?0:1);
+  RQ.reg=reg;RQ.x=x;
+  /* diagrama */
+  var cx=XV(lv),cy=YT(T),xf=XV(Math.log(vf)/Math.LN10),xg=XV(Math.log(vg)/Math.LN10);
+  at('rqDot',{cx:cx.toFixed(1),cy:cy.toFixed(1)});
+  at('rqIsoT',{y1:cy.toFixed(1),y2:cy.toFixed(1)});
+  at('rqGy',{x1:cx.toFixed(1),y1:cy.toFixed(1),x2:cx.toFixed(1),y2:244});
+  at('rqMf',{x1:xf.toFixed(1),y1:(cy-6).toFixed(1),x2:xf.toFixed(1),y2:(cy+6).toFixed(1)});
+  at('rqMg',{x1:xg.toFixed(1),y1:(cy-6).toFixed(1),x2:xg.toFixed(1),y2:(cy+6).toFixed(1)});
+  at('rqTf',{x:Math.max(xf,46).toFixed(1),y:(cy+19).toFixed(1)});at('rqTg',{x:(xg+2).toFixed(1),y:(cy-9).toFixed(1)});
+  $('#rqTf').innerHTML='<tspan font-style="italic">v</tspan><tspan font-size="8" dy="2.5">f</tspan>';
+  $('#rqTg').innerHTML='<tspan font-style="italic">v</tspan><tspan font-size="8" dy="2.5">g</tspan>';
+  /* tarjeta */
+  var names={liq:'Líquido comprimido',mix:(x===0?'Líquido saturado':(x===1?'Vapor saturado':'Mezcla líquido–vapor')),sup:'Vapor sobrecalentado'},cls={liq:'liq',mix:'mix',sup:'vap'}[reg];
+  var h='<div class="pt">Agua a '+M('T='+Q(tn(T,4),U('^\\circ C'))+',\\ p_\\text{sat}='+Q(tn(p,4),U('bar')))+'</div><div class="sreg '+cls+'">'+names[reg]+'</div>';
+  h+='<span class="srow">'+M('v_f='+Q(tn(vf,5),UV)+',\\quad v_g='+Q(tn(vg,5),UV))+'</span>';
+  h+='<span class="srow">'+M('v='+Q(tn(v,4),UV))+'</span>';
+  var yv,out3;
+  if(reg==='mix'){
+    var f0=R[yk==='u'?4:6],g0=R[yk==='u'?5:7],yy=f0+x*(g0-f0),Un=UH;
+    h+='<span class="srow">'+M('x=\\dfrac{v-v_f}{v_g-v_f}=\\dfrac{('+tn(v,4)+'-'+tn(vf,5)+')\\ '+UV+'}{('+tn(vg,5)+'-'+tn(vf,5)+')\\ '+UV+'}='+tn(x,3))+'</span>';
+    h+='<span class="srow">'+M(yk+'='+yk+'_f+x\\,('+yk+'_g-'+yk+'_f)='+Q(tn(f0,5),UH)+'+'+tn(x,3)+'\\,('+tn(g0,5)+'-'+tn(f0,5)+')\\ '+UH+'='+Q(tn(yy,5),UH))+'</span>';
+    h+='<div class="sbar"><i class="l" style="width:'+((1-x)*100).toFixed(1)+'%"></i><i class="g" style="width:'+(x*100).toFixed(1)+'%"></i></div><div class="sleg"><span><i style="background:#1f5fbf"></i>líquido '+comma((1-x)*100,1)+' % de la masa</span><span><i style="background:#a8231b"></i>vapor '+comma(x*100,1)+' % de la masa</span></div>';
+  }else if(reg==='liq'){
+    h+='<span class="srow m">'+M('v\\lt v_f')+': no hay calidad. Las propiedades salen de la tabla A.5, o de '+M('y\\approx y_f(T)')+'.</span>';
+  }else{
+    h+='<span class="srow m">'+M('v\\gt v_g')+': no hay calidad. Las propiedades salen de la tabla A.4.</span>';
+  }
+  $('#rqCard').innerHTML=h;
+  $('#out3').innerHTML=reg==='mix'?'Con '+M('x='+tn(x,3))+' el '+comma(x*100,1)+' % de la masa es vapor.':'El estado está fuera de la campana: la calidad no se define.';
+  at('rqLbl',{});$('#rqLbl').textContent=reg==='mix'?'x = '+comma(x,3):(reg==='liq'?'líquido':'vapor');
+  /* moléculas */
+  var mb=RQ.mb,n=20,nl=reg==='mix'?Math.round(n*(1-x)):(reg==='liq'?n:0),k,ch=false;
+  if(reg==='mix'&&x>0&&nl>=n)nl=n-1;if(reg==='mix'&&x<1&&nl<=0)nl=1;
+  for(k=0;k<n;k++)ch=mb.setMode(k,k<nl?'L':'V')||ch;
+  mb.layout();
+}
+ticks.push(function(t){
+  var svg=$('#figRQb');if(!svg||!RQ.built||!shown(svg))return;
+  var dt=RQ.last?Math.min(0.05,Math.max(0,(t-RQ.last)/1000)):0.016;RQ.last=t;
+  var mb=RQ.mb;mb.step(dt,70);mb.draw(t,1.3);
+  var lt=mb.liqTop();at('rqLq',{y:lt.toFixed(1),height:Math.max(0,162-lt).toFixed(1),visibility:mb.liqRows?'visible':'hidden'});
+});
+function rqSet(which){
+  var R=RQ.rows[clamp(+$('#rqT').value,0,RQ.rows.length-1)];
+  $('#rqV').value=Math.round(Math.log(which==='f'?R[2]:R[3])/Math.LN10*1000);paintRQ();
+}
+function rqDrag(){
+  var svg=$('#figRQ'),act=null;
+  function from(e){
+    var p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;var q=p.matrixTransform(svg.getScreenCTM().inverse());
+    var lv=clamp(LV0+(q.x-34)/314*(LV1-LV0),LV0+0.05,LV1-0.05),T=clamp((244-q.y)/228*TMX,0,TMX),best=0,bd=1e9;
+    RQ.rows.forEach(function(r,i){var dd=Math.abs(r[0]-T);if(dd<bd){bd=dd;best=i;}});
+    $('#rqT').value=best;$('#rqV').value=Math.round(lv*1000);paintRQ();
+  }
+  svg.addEventListener('pointerdown',function(e){act=e.pointerId;try{svg.setPointerCapture(e.pointerId);}catch(_){}from(e);});
+  svg.addEventListener('pointermove',function(e){if(act===e.pointerId)from(e);});
+  function fin(e){if(act===e.pointerId){act=null;try{svg.releasePointerCapture(e.pointerId);}catch(_){}}}
+  svg.addEventListener('pointerup',fin);svg.addEventListener('pointercancel',fin);
+}
+/* ---------- 4. Interpolación en la tabla A.4 ---------- */
+var TI={built:false};
+function tiBrk(arr,x){
+  var i=arr.indexOf(x);if(i>=0)return [i,i];
+  for(var k=0;k<arr.length-1;k++)if(arr[k]<x&&x<arr[k+1])return [k,k+1];
+  return [0,0];
+}
+function tiPanel(x0,w,ttl,xl,a,b,f,col,res,fmtv){
+  /* a, b: valores en los extremos; f: fracción; col: color del punto interpolado */
+  var y0=40,hh=150,lo=Math.min(a,b),hi=Math.max(a,b),rg=(hi-lo)||Math.abs(hi)*0.2||1,ya=y0+hh-(a-lo)/rg*hh*0.8-hh*0.1,yb=y0+hh-(b-lo)/rg*hh*0.8-hh*0.1;
+  var xa=x0+14,xb=x0+w-14,xm=xa+(xb-xa)*f,ym=ya+(yb-ya)*f,s='';
+  s+='<rect x="'+x0+'" y="6" width="'+w+'" height="214" rx="10" fill="#fff" stroke="#dfe4ef"/>';
+  s+='<text x="'+(x0+w/2)+'" y="24" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1c2333">'+ttl+'</text>';
+  s+='<line x1="'+xa+'" y1="'+(y0+hh)+'" x2="'+xb+'" y2="'+(y0+hh)+'" stroke="#59627a" stroke-width="1.2"/><line x1="'+xa+'" y1="'+(y0+hh)+'" x2="'+xa+'" y2="'+(y0-4)+'" stroke="#59627a" stroke-width="1.2"/>';
+  s+='<text x="'+xb+'" y="'+(y0+hh+14)+'" text-anchor="end" font-size="10.5" font-style="italic" fill="#59627a">'+xl+'</text>';
+  s+='<line x1="'+xa+'" y1="'+ya.toFixed(1)+'" x2="'+xb+'" y2="'+yb.toFixed(1)+'" stroke="#8d97ab" stroke-width="2"/>';
+  s+='<line x1="'+xm.toFixed(1)+'" y1="'+ym.toFixed(1)+'" x2="'+xm.toFixed(1)+'" y2="'+(y0+hh)+'" stroke="'+col+'" stroke-opacity=".6" stroke-dasharray="3 3"/>';
+  s+='<line x1="'+xa+'" y1="'+ym.toFixed(1)+'" x2="'+xm.toFixed(1)+'" y2="'+ym.toFixed(1)+'" stroke="'+col+'" stroke-opacity=".6" stroke-dasharray="3 3"/>';
+  s+='<circle cx="'+xa+'" cy="'+ya.toFixed(1)+'" r="5" fill="#1c2333" stroke="#fff" stroke-width="1.4"/><circle cx="'+xb+'" cy="'+yb.toFixed(1)+'" r="5" fill="#1c2333" stroke="#fff" stroke-width="1.4"/>';
+  s+='<circle cx="'+xm.toFixed(1)+'" cy="'+ym.toFixed(1)+'" r="6.5" fill="'+col+'" stroke="#fff" stroke-width="1.6" filter="url(#ti-ds)"/>';
+  s+='<text x="'+(xa+8)+'" y="'+(ya<y0+hh/2?ya+17:ya-9).toFixed(1)+'" font-size="10.5" fill="#1c2333">'+fmtv(a)+'</text>';
+  s+='<text x="'+(xb-8)+'" y="'+(yb<y0+hh/2?yb+17:yb-9).toFixed(1)+'" text-anchor="end" font-size="10.5" fill="#1c2333">'+fmtv(b)+'</text>';
+  s+='<text x="'+(x0+w/2)+'" y="'+(y0+hh+34)+'" text-anchor="middle" font-size="11" font-weight="700" fill="'+col+'">'+res+'</text>';
+  return s;
+}
+function paintTI(){
+  var I=D.itab,p=+$('#tiP').value,T=+$('#tiT').value;
+  $('#tiPv').textContent=p;$('#tiTv').textContent=T;
+  var bp=tiBrk(I.P,p),bt=tiBrk(I.T,T),p0=I.P[bp[0]],p1=I.P[bp[1]],t0=I.T[bt[0]],t1=I.T[bt[1]];
+  var fT=t1===t0?0:(T-t0)/(t1-t0),fp=p1===p0?0:(p-p0)/(p1-p0);
+  function val(k,pp,ti){return I[k][String(pp)][ti];}
+  function vT(k,pp){var a=val(k,pp,bt[0]),b=val(k,pp,bt[1]);return a+fT*(b-a);}
+  var res={};['v','h'].forEach(function(k){var a=vT(k,p0),b=vT(k,p1);res[k]={a:a,b:b,y:a+fp*(b-a)};});
+  /* tabla */
+  var two=p1!==p0,rows='',cols=[p0].concat(two?[p1]:[]);
+  function cell(x,k,cls){return '<td class="'+cls+'">'+(k==='v'?x.toFixed(4):x.toFixed(1)).replace('.',',')+'</td>';}
+  var h='<table class="itab"><tr><th rowspan="2">T (°C)</th>'+cols.map(function(q){return '<th colspan="2" style="text-align:center">p = '+q+' bar</th>';}).join('')+'</tr><tr>'+cols.map(function(){return '<th>v (m³/kg)</th><th>h (kJ/kg)</th>';}).join('')+'</tr>';
+  [bt[0],bt[1]].filter(function(q,i,a){return i===0||q!==a[0];}).forEach(function(ti){
+    h+='<tr><td>'+I.T[ti]+'</td>'+cols.map(function(q){return cell(val('v',q,ti),'v','hl')+cell(val('h',q,ti),'h','hl');}).join('')+'</tr>';
+  });
+  if(t1!==t0){
+    h+='<tr><td>'+T+' (interpolado)</td>'+cols.map(function(q,j){var r=j?{v:res.v.b,h:res.h.b}:{v:res.v.a,h:res.h.a};return '<td class="res">'+r.v.toFixed(5).replace('.',',')+'</td><td class="res">'+r.h.toFixed(2).replace('.',',')+'</td>';}).join('')+'</tr>';
+  }
+  h+='</table>';
+  $('#tiTab').innerHTML=h;
+  /* paneles */
+  var svg=$('#figTI');svg.setAttribute('viewBox','0 0 360 226');
+  var s=defs('ti')+'<rect width="360" height="226" fill="url(#ti-bg)"/>',fv=function(x){return comma(x,4);};
+  var w=108;
+  if(!two&&t1===t0){
+    s+='<rect x="6" y="6" width="348" height="214" rx="10" fill="#f6f8fc" stroke="#dfe4ef"/><text x="180" y="104" text-anchor="middle" font-size="13" fill="#59627a">Estado tabulado:</text><text x="180" y="124" text-anchor="middle" font-size="13" fill="#59627a">los valores se leen directamente.</text>';
+  }else{
+    s+=tiPanel(6,w,'v en T, p = '+p0+' bar','T',val('v',p0,bt[0]),val('v',p0,bt[1]),fT,'#1a7f4b',t1===t0?'tabulada':'f = '+comma(fT,3),fv);
+  }
+  if(two){
+    s+=tiPanel(126,w,'v en T, p = '+p1+' bar','T',val('v',p1,bt[0]),val('v',p1,bt[1]),fT,'#1a7f4b',t1===t0?'tabulada':'f = '+comma(fT,3),fv);
+    s+=tiPanel(246,w,'v en p, T = '+T+' °C','p',res.v.a,res.v.b,fp,'#a8231b','f = '+comma(fp,3),function(x){return comma(x,4);});
+  }else if(t1!==t0){
+    s+='<rect x="126" y="6" width="228" height="214" rx="10" fill="#f6f8fc" stroke="#dfe4ef"/><text x="240" y="108" text-anchor="middle" font-size="12" fill="#59627a">La presión está tabulada:</text><text x="240" y="126" text-anchor="middle" font-size="12" fill="#59627a">basta interpolar en la temperatura.</text>';
+  }
+  svg.innerHTML=s;
+  /* cálculo con unidades */
+  var uT=U('^\\circ C'),uP=U('bar'),c='';
+  function line(t){c+='<span class="srow">'+M(t)+'</span>';}
+  var ts=I.ts[String(p1)];
+  c+='<div class="pt">Con la presión y la temperatura elegidas</div>';
+  c+='<div class="sreg vap">Vapor sobrecalentado</div>';
+  line('T='+Q(tn(T,4),uT)+'\\gt T_\\text{sat}('+Q(String(p1),uP)+')='+Q(tn(ts,4),uT));
+  if(t1!==t0)line('f_T=\\dfrac{T-T_0}{T_1-T_0}=\\dfrac{('+tn(T,4)+'-'+tn(t0,4)+')\\ '+uT+'}{('+tn(t1,4)+'-'+tn(t0,4)+')\\ '+uT+'}='+tn(fT,3));
+  if(p1!==p0)line('f_p=\\dfrac{p-p_0}{p_1-p_0}=\\dfrac{('+tn(p,4)+'-'+tn(p0,4)+')\\ '+uP+'}{('+tn(p1,4)+'-'+tn(p0,4)+')\\ '+uP+'}='+tn(fp,3));
+  [['v',UV,5],['h',UH,6]].forEach(function(q){
+    var k=q[0],un=q[1],sg=q[2],a0=val(k,p0,bt[0]),a1=val(k,p0,bt[1]),b0=val(k,p1,bt[0]),b1=val(k,p1,bt[1]);
+    if(t1!==t0){
+      line(k+'\\,(p_0,T)='+Q(tn(a0,5),un)+'+'+tn(fT,3)+'\\,('+tn(a1,5)+'-'+tn(a0,5)+')\\ '+un+'='+Q(tn(res[k].a,sg),un));
+      if(p1!==p0)line(k+'\\,(p_1,T)='+Q(tn(b0,5),un)+'+'+tn(fT,3)+'\\,('+tn(b1,5)+'-'+tn(b0,5)+')\\ '+un+'='+Q(tn(res[k].b,sg),un));
+    }
+    if(p1!==p0)line(k+'='+Q(tn(res[k].a,sg),un)+'+'+tn(fp,3)+'\\,('+tn(res[k].b,sg)+'-'+tn(res[k].a,sg)+')\\ '+un+'='+Q(tn(res[k].y,5),un));
+    else if(t1===t0)line(k+'='+Q(tn(a0,5),un)+'\\quad\\text{(valor tabulado)}');
+  });
+  $('#tiCard').innerHTML=c;
+  $('#out4').innerHTML='Resultado: '+M('v='+Q(tn(res.v.y,5),UV)+',\\quad h='+Q(tn(res.h.y,5),UH))+'.';
+}
+/* ---------- 5. Gas ideal frente a la tabla ---------- */
+var GI={built:false,mb:null,last:0,pi:2,ti:5,n:20,ts:[0,0],rmin:0,rmax:1};
+var GCW=33,GCH=27,GX0=52,GY0=14;
+function giErr(pi,ti){
+  var v=D.gas.v[String(D.gas.P[pi])][ti];if(v===null||v===undefined)return null;
+  var vi=D.gas.R*(D.gas.T[ti]+273.15)/(D.gas.P[pi]*100);return {v:v,vi:vi,e:(vi-v)/v*100};
+}
+function giBuild(){
+  var G_=D.gas,i,j,r=[];
+  var sel=$('#giP');sel.innerHTML=G_.P.map(function(p,k){return '<option value="'+k+'">'+p+' bar</option>';}).join('');
+  var st=$('#giT');st.innerHTML=G_.T.map(function(t,k){return '<option value="'+k+'">'+t+' °C</option>';}).join('');
+  G_.P.forEach(function(p,a){G_.T.forEach(function(t,b){var e=giErr(a,b);if(e)r.push(1/e.v);});});
+  GI.rmin=Math.min.apply(null,r);GI.rmax=Math.max.apply(null,r);
+  var svg=$('#figGI');svg.setAttribute('viewBox','0 0 360 262');
+  var s=defs('gi')+'<rect width="360" height="262" fill="url(#gi-bg)"/>',np=G_.P.length,nt=G_.T.length;
+  for(i=0;i<np;i++){
+    var y=GY0+(np-1-i)*GCH;
+    s+='<text x="'+(GX0-6)+'" y="'+(y+GCH/2+4)+'" text-anchor="end" font-size="11" fill="#59627a">'+G_.P[i]+'</text>';
+    for(j=0;j<nt;j++){
+      var e=giErr(i,j),x=GX0+j*GCW;
+      if(!e){s+='<rect x="'+(x+1)+'" y="'+(y+1)+'" width="'+(GCW-2)+'" height="'+(GCH-2)+'" rx="4" fill="#f1f3f8"/>';continue;}
+      var a=Math.abs(e.e),col=a<2?'#2e8b57':(a<10?'#e0a82e':'#c0392b');
+      s+='<rect x="'+(x+1)+'" y="'+(y+1)+'" width="'+(GCW-2)+'" height="'+(GCH-2)+'" rx="4" fill="'+col+'" data-i="'+i+'" data-j="'+j+'" style="cursor:pointer"/>'+
+         '<text x="'+(x+GCW/2)+'" y="'+(y+GCH/2+3.5)+'" text-anchor="middle" font-size="9.5" font-weight="600" fill="#fff" pointer-events="none">'+(a<10?comma(a,1):comma(a,0))+'</text>';
+    }
+  }
+  for(j=0;j<nt;j++)s+='<text x="'+(GX0+j*GCW+GCW/2)+'" y="'+(GY0+np*GCH+14)+'" text-anchor="middle" font-size="11" fill="#59627a">'+G_.T[j]+'</text>';
+  s+='<text x="'+(GX0+nt*GCW/2)+'" y="'+(GY0+np*GCH+30)+'" text-anchor="middle" font-size="11.5" fill="#59627a">temperatura, °C</text>';
+  s+='<text transform="translate(12 '+(GY0+np*GCH/2)+') rotate(-90)" text-anchor="middle" font-size="11.5" fill="#59627a">presión, bar</text>';
+  s+='<text x="'+(GX0+nt*GCW)+'" y="'+(GY0+np*GCH+44)+'" text-anchor="end" font-size="10" fill="#59627a">cifra: error del modelo, %</text>';
+  s+='<rect id="giSel" rx="5" fill="none" stroke="#1c2333" stroke-width="3"/>';
+  svg.innerHTML=s;
+  var b=$('#figGIb');b.setAttribute('viewBox','0 0 230 190');
+  var h=defs('gib')+'<rect width="230" height="190" fill="url(#gib-bg)"/><rect x="14" y="12" width="202" height="150" fill="url(#gib-gas)"/><g>';
+  for(i=0;i<40;i++)h+='<g id="gim'+i+'"><circle r="5" fill="url(#gib-mol)"/></g>';
+  h+='</g><rect x="8" y="12" width="6" height="156" fill="url(#gib-glass)" stroke="#59627a" stroke-opacity=".55" stroke-width=".8"/><rect x="216" y="12" width="6" height="156" fill="url(#gib-glass)" stroke="#59627a" stroke-opacity=".55" stroke-width=".8"/><rect x="4" y="162" width="222" height="12" rx="3" fill="url(#gib-basev)" stroke="#59627a" stroke-width=".8"/>';
+  h+='<text id="giLbl" x="115" y="186" text-anchor="middle" font-size="12" fill="#59627a"></text>';
+  b.innerHTML=h;
+  GI.mb=new MolBox('gim',40,5,{x0:14,x1:216,floor:function(){return 162;},top:function(){return 12;}},13);
+  GI.mb.bind();GI.built=true;
+}
+function paintGI(){
+  if(!GI.built)giBuild();
+  var G_=D.gas,pi=+$('#giP').value,ti=+$('#giT').value,E=giErr(pi,ti);
+  if(!E){var best=-1,bd=1e9;G_.T.forEach(function(t,k){if(giErr(pi,k)&&Math.abs(k-ti)<bd){bd=Math.abs(k-ti);best=k;}});ti=best;$('#giT').value=ti;E=giErr(pi,ti);}
+  GI.pi=pi;GI.ti=ti;
+  var np=G_.P.length,x=GX0+ti*GCW,y=GY0+(np-1-pi)*GCH;
+  at('giSel',{x:x+0.5,y:y+0.5,width:GCW-1,height:GCH-1});
+  var p=G_.P[pi],T=G_.T[ti],Tk=T+273.15,R=G_.R,Rbar=8.314,Mm=G_.M,a=Math.abs(E.e);
+  var uT=U('^\\circ C'),uK=U('K'),uP=U('bar'),uR=Uf('kJ','kg\\,K'),uM=Uf('kg','kmol'),uRb=Uf('kJ','kmol\\,K');
+  var verdict=a<2?'El modelo de gas ideal es válido en este estado.':(a<10?'El modelo se aleja de la tabla: conviene usar la tabla.':'El modelo falla: el estado está cerca de la campana o a alta presión.');
+  var cls=a<2?'liq':(a<10?'mix':'vap');
+  var h='<div class="pt">Vapor de agua a '+M('p='+Q(String(p),uP)+',\\ T='+Q(tn(T,4),uT))+'</div><div class="sreg '+cls+'">Error del modelo: '+comma(E.e,1)+' %</div>';
+  function line(t){h+='<span class="srow">'+M(t)+'</span>';}
+  line('T=('+tn(T,4)+'+273{,}15)\\ '+uK+'='+Q(tn(Tk,5),uK));
+  line('R=\\dfrac{\\bar R}{M}=\\dfrac{'+Q('8{,}314',uRb)+'}{'+Q(tn(Mm,4),uM)+'}='+Q(tn(R,4),uR));
+  line('v_\\text{ideal}=\\dfrac{R\\,T}{p}=\\dfrac{\\left('+Q(tn(R,4),uR)+'\\right)\\left('+Q(tn(Tk,5),uK)+'\\right)}{'+Q(String(p),uP)+'}\\,'+F('1\\ '+U('bar'),'100\\ '+U('kPa'))+'\\,'+F('1\\ '+U('kPa\\,m^3'),'1\\ '+U('kJ'))+'='+Q(tn(E.vi,4),UV));
+  line('\\text{error}=\\dfrac{v_\\text{ideal}-v_\\text{tabla}}{v_\\text{tabla}}=\\dfrac{('+tn(E.vi,4)+'-'+tn(E.v,4)+')\\ '+UV+'}{'+Q(tn(E.v,4),UV)+'}='+tn(E.e/100,3)+'\\ \\ ('+comma(E.e,1)+'\\ \\%)');
+  h+='<span class="srow m">'+verdict+'</span>';
+  $('#giCard').innerHTML=h;
+  $('#out5').innerHTML='Tabla A.4: '+M('v='+Q(tn(E.v,4),UV))+'; modelo: '+M('v='+Q(tn(E.vi,4),UV))+'.';
+  var fr=(Math.log(1/E.v)-Math.log(GI.rmin))/(Math.log(GI.rmax)-Math.log(GI.rmin));
+  GI.n=Math.round(5+35*fr);GI.T=Tk;
+  GI.mb.a.forEach(function(m,i){m.vis=i<GI.n;});
+  $('#giLbl').textContent='densidad = '+comma(1/E.v,GI.n>20?1:2)+' kg/m³';
+}
+ticks.push(function(t){
+  var svg=$('#figGIb');if(!svg||!GI.built||!shown(svg))return;
+  var dt=GI.last?Math.min(0.05,Math.max(0,(t-GI.last)/1000)):0.016;GI.last=t;
+  GI.mb.step(dt,40+50*Math.sqrt((GI.T||600)/900));GI.mb.draw(t,0);
+});
+function giPick(){
+  var svg=$('#figGI');
+  svg.addEventListener('click',function(e){
+    var el=e.target;if(!el||!el.getAttribute||el.getAttribute('data-i')===null)return;
+    $('#giP').value=el.getAttribute('data-i');$('#giT').value=el.getAttribute('data-j');paintGI();
+  });
+}
+/* ---------- Banco de preguntas ---------- */
+var TOPICS={
+  fase:{n:'Cambio de fase a presión constante',a:'../sustancia_pura_fases.html'},
+  tab:{n:'Diagramas y tablas de propiedades',a:'../sustancia_pura_tablas.html'},
+  cal:{n:'Región y calidad',a:'../sustancia_pura_tablas.html'},
+  int:{n:'Interpolación',a:'../sustancia_pura_interpolacion.html'},
+  gas:{n:'Modelo de gas ideal',a:'../sustancia_pura_gas_ideal.html'}
+};
+var VF=[
+ {t:'fase',q:'Durante el cambio de fase a presión constante de una sustancia pura, la temperatura permanece constante.',ans:true,
+  exp:'Mientras coexisten líquido y vapor, \\( T=T_\\text{sat}(p) \\). El calor que se agrega aumenta la fracción de vapor y deja la temperatura en ese valor.'},
+ {t:'cal',q:'La calidad de una mezcla líquido–vapor puede tomar cualquier valor positivo.',ans:false,
+  exp:'La calidad es la fracción de la masa que está como vapor, de modo que \\( 0\\le x\\le 1 \\). Fuera de la campana de saturación no se define.'},
+ {t:'tab',q:'En la región de mezcla, la presión y la temperatura son independientes y hay que dar las dos para fijar el estado.',ans:false,
+  exp:'En saturación \\( T \\) y \\( p \\) están ligadas por \\( T_\\text{sat}(p) \\). Una de ellas, junto con la calidad, fija el estado.'},
+ {t:'gas',q:'El modelo de gas ideal describe mejor el vapor de agua a \\( 1\\ \\mathrm{bar} \\) y \\( 400\\ ^\\circ\\mathrm{C} \\) que a \\( 100\\ \\mathrm{bar} \\) y \\( 400\\ ^\\circ\\mathrm{C} \\).',ans:true,
+  exp:'Con la tabla A.4, el error del volumen específico es \\( 0{,}09\\ \\% \\) a \\( 1\\ \\mathrm{bar} \\) y \\( 17{,}6\\ \\% \\) a \\( 100\\ \\mathrm{bar} \\). A baja presión la densidad es baja y el modelo se cumple.'}
+];
+var SU=[
+ {t:'tab',q:'Agua a \\( 10\\ \\mathrm{bar} \\) y \\( 150\\ ^\\circ\\mathrm{C} \\). ¿En qué región se encuentra?',
+  o:[{x:'Líquido comprimido',ok:true,w:'\\( T_\\text{sat}(10\\ \\mathrm{bar})=179{,}9\\ ^\\circ\\mathrm{C} \\) y \\( 150\\ ^\\circ\\mathrm{C} \\) es menor, de modo que el agua es líquido comprimido.'},
+     {x:'Mezcla líquido–vapor',w:'La mezcla exige \\( T=T_\\text{sat}(p) \\), y aquí la temperatura es menor que \\( 179{,}9\\ ^\\circ\\mathrm{C} \\).'},
+     {x:'Vapor sobrecalentado',w:'El vapor sobrecalentado exige \\( T\\gt T_\\text{sat}(p) \\), y aquí ocurre lo contrario.'},
+     {x:'Vapor saturado',w:'El vapor saturado exige \\( T=T_\\text{sat}(p) \\), con \\( T_\\text{sat}=179{,}9\\ ^\\circ\\mathrm{C} \\).'}]},
+ {t:'cal',q:'Un recipiente rígido contiene agua a \\( 100\\ ^\\circ\\mathrm{C} \\) con volumen específico \\( v=0{,}8\\ \\mathrm{m^3/kg} \\). ¿Cuál es el estado?',
+  o:[{x:'Mezcla líquido–vapor',ok:true,w:'A \\( 100\\ ^\\circ\\mathrm{C} \\), \\( v_f=1{,}0435\\times10^{-3} \\) y \\( v_g=1{,}673\\ \\mathrm{m^3/kg} \\), de modo que \\( v_f\\lt v\\lt v_g \\).'},
+     {x:'Vapor sobrecalentado',w:'Exigiría \\( v\\gt v_g=1{,}673\\ \\mathrm{m^3/kg} \\).'},
+     {x:'Líquido comprimido',w:'Exigiría \\( v\\lt v_f=1{,}0435\\times10^{-3}\\ \\mathrm{m^3/kg} \\).'},
+     {x:'Vapor saturado',w:'Exigiría \\( v=v_g=1{,}673\\ \\mathrm{m^3/kg} \\).'}]},
+ {t:'fase',q:'Una mezcla líquido–vapor tiene calidad \\( x=0{,}25 \\). Esto significa que:',
+  o:[{x:'el \\( 25\\ \\% \\) de la masa está como vapor',ok:true,w:'La calidad es la fracción másica de vapor: \\( x=m_\\text{vapor}/m_\\text{total} \\).'},
+     {x:'el \\( 25\\ \\% \\) del volumen está ocupado por vapor',w:'La calidad se define con masas. El volumen que ocupa cada fase depende además de \\( v_f \\) y \\( v_g \\).'},
+     {x:'la temperatura está a un \\( 25\\ \\% \\) del camino hasta \\( T_\\text{sat} \\)',w:'En la mezcla la temperatura es \\( T_\\text{sat}(p) \\) para cualquier calidad.'},
+     {x:'la presión es el \\( 25\\ \\% \\) de la presión crítica',w:'La calidad no se relaciona con la presión crítica; se refiere a la proporción de las fases.'}]},
+ {t:'tab',q:'En el diagrama \\( p \\)–\\( T \\) de una sustancia pura, la región de mezcla líquido–vapor de los diagramas \\( p \\)–\\( v \\) y \\( T \\)–\\( v \\) aparece como:',
+  o:[{x:'la curva de vaporización',ok:true,w:'En saturación \\( p \\) y \\( T \\) están ligadas, de modo que todos los estados de mezcla caen sobre una sola curva.'},
+     {x:'una región sombreada entre el punto triple y el crítico',w:'La mezcla tiene un solo grado de libertad intensivo, así que ocupa una línea y no un área.'},
+     {x:'el punto triple',w:'El punto triple es un solo estado, donde coexisten sólido, líquido y vapor.'},
+     {x:'una recta paralela al eje de presión',w:'Una recta vertical representaría una temperatura fija con presión variable, y en la mezcla ambas varían juntas.'}]}
+];
+var CALC=[
+ {t:'cal',q:'El refrigerante R-134a está como mezcla líquido–vapor a \\( 10\\ \\mathrm{bar} \\), con calidad \\( x=0{,}40 \\). Determine su volumen específico.',
+  unit:'\\dfrac{\\mathrm{m^3}}{\\mathrm{kg}}',ans:0.0086017,ansTex:'8{,}60\\times10^{-3}\\ \\dfrac{\\mathrm{m^3}}{\\mathrm{kg}}',ph:'ej. 0,0086',tol:0.01,
+  hint:'Con \\( v_f \\) y \\( v_g \\) de la tabla de saturación a esa presión: \\( v=v_f+x\\,(v_g-v_f) \\).',
+  sol:'<div class="formula">\\[ \\begin{aligned}v&=v_f+x\\,(v_g-v_f)\\\\&='+Q('0{,}8695\\times10^{-3}',UV)+'+0{,}40\\,('+'0{,}0202-0{,}8695\\times10^{-3})\\ '+UV+'\\\\&='+Q('8{,}60\\times10^{-3}',UV)+'\\end{aligned} \\]</div>'},
+ {t:'cal',q:'Un recipiente rígido de \\( 2\\ \\mathrm{m^3} \\) contiene \\( 5\\ \\mathrm{kg} \\) de agua a \\( 120\\ ^\\circ\\mathrm{C} \\). Determine la masa de vapor.',
+  unit:'\\mathrm{kg}',ans:2.239,ansTex:'2{,}239\\ \\mathrm{kg}',ph:'ej. 2,2',tol:0.01,
+  hint:'Primero \\( v=V/m \\); con \\( v_f \\) y \\( v_g \\) a esa temperatura se obtiene \\( x=(v-v_f)/(v_g-v_f) \\), y la masa de vapor es \\( x\\,m \\).',
+  sol:'<div class="formula">\\[ \\begin{aligned}v&=\\dfrac{V}{m}=\\dfrac{'+Q('2',U('m^3'))+'}{'+Q('5',U('kg'))+'}='+Q('0{,}4',UV)+'\\\\x&=\\dfrac{v-v_f}{v_g-v_f}=\\dfrac{(0{,}4-0{,}0010603)\\ '+UV+'}{(0{,}8919-0{,}0010603)\\ '+UV+'}=0{,}4478\\\\m_g&=x\\,m=0{,}4478\\,('+Q('5',U('kg'))+')='+Q('2{,}239',U('kg'))+'\\end{aligned} \\]</div>'},
+ {t:'int',q:'Determine el volumen específico del agua a \\( 20\\ \\mathrm{bar} \\) y \\( 296\\ ^\\circ\\mathrm{C} \\).',
+  unit:'\\dfrac{\\mathrm{m^3}}{\\mathrm{kg}}',ans:0.12432,ansTex:'0{,}1243\\ '+UV,ph:'ej. 0,12',tol:0.01,
+  hint:'Interpole en la temperatura entre las dos filas que encierran a \\( 296\\ ^\\circ\\mathrm{C} \\): primero la fracción \\( f \\), luego \\( v=v_0+f\\,(v_1-v_0) \\).',
+  sol:'<div class="formula">\\[ \\begin{aligned}f&=\\dfrac{(296-280)\\ '+U('^\\circ C')+'}{(320-280)\\ '+U('^\\circ C')+'}=0{,}4\\\\v&=v_0+f\\,(v_1-v_0)='+Q('0{,}1200',UV)+'+0{,}4\\,(0{,}1308-0{,}1200)\\ '+UV+'='+Q('0{,}12432',UV)+'\\end{aligned} \\]</div>'},
+ {t:'gas',q:'Un estanque de \\( 0{,}8\\ \\mathrm{m^3} \\) contiene aire a \\( 300\\ \\mathrm{kPa} \\) y \\( 27\\ ^\\circ\\mathrm{C} \\). Con el modelo de gas ideal y \\( R=0{,}287\\ \\mathrm{kJ/(kg\\cdot K)} \\), determine la masa de aire.',
+  unit:'\\mathrm{kg}',ans:2.786,ansTex:'2{,}79\\ \\mathrm{kg}',ph:'ej. 2,8',tol:0.01,
+  hint:'La temperatura va en kelvin y el producto \\( p\\,V \\) en kPa·m³ equivale a kJ.',
+  sol:'<div class="formula">\\[ \\begin{aligned}T&=(27+273{,}15)\\ '+U('K')+'='+Q('300{,}15',U('K'))+'\\\\m&=\\dfrac{p\\,V}{R\\,T}=\\dfrac{('+Q('300',U('kPa'))+')('+Q('0{,}8',U('m^3'))+')}{\\left('+Q('0{,}287',Uf('kJ','kg\\,K'))+'\\right)('+Q('300{,}15',U('K'))+')}\\,'+F('1\\ '+U('kJ'),'1\\ '+U('kPa\\,m^3'))+'='+Q('2{,}79',U('kg'))+'\\end{aligned} \\]</div>'}
+];
+var QZ={topics:TOPICS,vf:VF,su:SU,calc:CALC};
+
+QUIM.init({
+  title:'Sustancia pura',
+  subtitle:'Fases, tablas, calidad e interpolación',
+  pdf:'../pdf/sustancia_pura.pdf',
+  sections:[
+    {id:'s1',title:'Calentamiento a presión constante'},
+    {id:'s2',title:'Diagrama de fases p–T'},
+    {id:'s3',title:'Región y calidad'},
+    {id:'s4',title:'Interpolación'},
+    {id:'s5',title:'Gas ideal frente a la tabla'}
+  ],
+  quiz:QZ,
+  ready:function(){
+    try{$('#phP').addEventListener('change',paintPh);$('#phS').addEventListener('input',paintPh);}catch(e){}
+    try{paintPh();}catch(e){if(window.console)console.error(e);}
+    try{$('#ptF').addEventListener('change',ptFluid);['#ptT','#ptPr'].forEach(function(s){$(s).addEventListener('input',paintPT);});ptFluid();}catch(e){if(window.console)console.error(e);}
+    try{['#rqT','#rqV'].forEach(function(s){$(s).addEventListener('input',paintRQ);});$('#rqY').addEventListener('change',paintRQ);
+      $('#rqSL').addEventListener('click',function(){rqSet('f');});$('#rqSV').addEventListener('click',function(){rqSet('g');});paintRQ();rqDrag();}catch(e){if(window.console)console.error(e);}
+    try{['#tiP','#tiT'].forEach(function(s){$(s).addEventListener('input',paintTI);});paintTI();}catch(e){if(window.console)console.error(e);}
+    try{giBuild();$('#giP').value=2;$('#giT').value=5;['#giP','#giT'].forEach(function(s){$(s).addEventListener('change',paintGI);});giPick();paintGI();}catch(e){if(window.console)console.error(e);}
+  }
+});
+})();
+</script>
+</body>
+</html>

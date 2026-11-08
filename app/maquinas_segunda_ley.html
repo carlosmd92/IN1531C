@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Máquinas térmicas y segunda ley: ciclos, entropía y eficiencia isentrópica</title>
+<script>
+window.MathJax={loader:{load:['[tex]/color']},tex:{packages:{'[+]':['color']},inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'none'}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<link rel="stylesheet" href="css/base.css">
+<style>
+@page{@top-right{content:"Máquinas térmicas y segunda ley"}}
+figure > svg{max-width:100%;margin:0 auto;display:block}
+.fsvg{width:100%;max-width:600px;height:auto;margin:0 auto;display:block;user-select:none;-webkit-user-select:none;background:linear-gradient(#fdfeff,#f6f8fc);border:1px solid var(--line);border-radius:14px;box-shadow:0 2px 10px rgba(20,30,60,.08)}
+.fsvg [data-drag]{touch-action:none;cursor:grab}
+.fsvg [data-drag]:active{cursor:grabbing}
+.ctrl button.btn{padding:6px 14px}
+.ctrl input[type=range]{-webkit-appearance:none;appearance:none;height:8px;border-radius:5px;background:linear-gradient(180deg,#d5dcea,#e9edf6);box-shadow:inset 0 1px 2px rgba(20,30,60,.25);vertical-align:middle;margin-left:6px;outline:none}
+.ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#9db9ea 45%,#1f5fbf 100%);border:1px solid #174a96;box-shadow:0 2px 4px rgba(20,30,60,.35);cursor:grab}
+.ctrl input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#9db9ea 45%,#1f5fbf 100%);border:1px solid #174a96;box-shadow:0 2px 4px rgba(20,30,60,.35);cursor:grab}
+.ctrl input[type=range]::-moz-range-track{height:8px;border-radius:5px;background:#dfe5f1}
+.ctrl input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px rgba(31,95,191,.3),0 2px 4px rgba(20,30,60,.35)}
+.mrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-top:10px}
+.mrow .wide{grid-column:span 2}
+@media (max-width:520px){.mrow .wide{grid-column:auto}}
+.pcard{--pc:#59627a;position:relative;border:1px solid var(--line);border-radius:12px;padding:8px 14px 8px 18px;background:linear-gradient(180deg,#fff,#f6f8fc);box-shadow:0 1px 3px rgba(20,30,60,.08);min-width:0;overflow:hidden}
+.pcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--pc)}
+.pcard.red{--pc:#a8231b}.pcard.dark{--pc:#1c2333}.pcard.blue{--pc:#1f5fbf}.pcard.brn{--pc:#7a4b12}
+.pcard .pt{font-size:.82rem;color:var(--muted)}
+.pcard .pv{font-size:1.5rem;font-weight:700;line-height:1.2;color:var(--pc);font-variant-numeric:tabular-nums}
+.pcard .pv small{font-size:.82rem;font-weight:600;margin-left:5px;color:var(--muted)}
+.pcard .pv small mjx-container{margin:0!important}
+.pcard .ps{display:block;font-size:.82rem;color:var(--muted)}
+.pcard.main{--pc:#1f5fbf;border:1.5px solid #1f5fbf}
+.pcard.main .pv{font-size:2rem}
+.pbar{position:relative;display:flex;height:8px;border-radius:4px;background:#e7ebf3;margin:5px 0 3px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(20,30,60,.15)}
+.pbar i{display:block;height:100%;width:0;background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(0,0,0,.12)),#1f5fbf;transition:width .3s ease}
+.pbar .mk{position:absolute;top:0;bottom:0;width:3px;margin-left:-1px;background:#1c2333;border-radius:2px;transition:left .3s ease}
+.dbar{position:relative;height:9px;border-radius:5px;background:#e7ebf3;margin:6px 0 3px;box-shadow:inset 0 1px 2px rgba(20,30,60,.15)}
+.dbar::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;width:2px;margin-left:-1px;background:#59627a}
+.dbar i{position:absolute;top:0;bottom:0;border-radius:4px;background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(0,0,0,.12)),#1f5fbf;transition:left .3s ease,width .3s ease}
+.dbar i.r{background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(0,0,0,.12)),#a8231b}
+.chip{display:inline-block;margin-top:5px;padding:3px 11px;border-radius:999px;font-size:.82rem;font-weight:700;line-height:1.35}
+.chip.ok{background:#e6f5ec;color:#17703f;border:1px solid #b7dec6}
+.chip.bad{background:#fcebe9;color:#a8231b;border:1px solid #efbdb8}
+.chip.neu{background:#eaf1fc;color:#1f5fbf;border:1px solid #c6d6f2}
+.sbox{display:grid;gap:14px;align-items:start}
+@media (min-width:640px){.sbox.two{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}}
+.dev{width:100%;max-width:340px;height:auto;display:block;margin:0 auto 10px;background:linear-gradient(#fdfeff,#f1f5fb);border:1px solid var(--line);border-radius:12px}
+.readout{overflow-x:auto;overflow-y:hidden}
+.readout mjx-container{margin:2px 0!important}
+.rline{margin:3px 0}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside id="side" aria-label="Bloques de contenido"></aside>
+<div id="scrim"></div>
+<div class="content">
+<div id="topbar"></div>
+<main>
+
+<!-- 1 -->
+<section class="card" id="s1">
+  <h3><span class="badge">1</span>Máquina térmica y límite de Carnot</h3>
+  <p>Una máquina térmica opera en ciclo entre un depósito caliente a \( T_H \) y uno frío a \( T_C \). Recibe \( Q_H = 100\ \mathrm{kW} \), entrega el trabajo \( W \) y descarga \( Q_C \). El ancho de cada flecha es proporcional a la potencia que transporta.</p>
+  <div class="formula key">\[ W=Q_H-Q_C,\qquad \eta=\frac{W}{Q_H}\le\eta_\text{máx}=1-\frac{T_C}{T_H} \]</div>
+  <div class="ctrl">
+    <label>\( T_H = \) <b id="thEv"></b> K <input type="range" id="thE" min="500" max="1100" step="10" value="700"></label>
+    <label>\( T_C = \) <b id="tcEv"></b> K <input type="range" id="tcE" min="260" max="420" step="5" value="300"></label>
+    <label>\( \eta = \) <b id="xEv"></b> % <input type="range" id="xE" min="0" max="100" step="1" value="35"></label>
+  </div>
+  <figure>
+    <svg class="fsvg" id="figE" role="img" aria-label="Máquina térmica entre un depósito caliente y uno frío, con los flujos de calor y trabajo"></svg>
+    <div class="mrow" id="rowE"></div>
+    <figcaption>Si la eficiencia pedida supera la de Carnot, la máquina se marca como imposible: violaría la segunda ley.</figcaption>
+  </figure>
+  <p class="readout" id="outE"></p>
+</section>
+
+<!-- 2 -->
+<section class="card" id="s2">
+  <h3><span class="badge">2</span>Refrigerador y bomba de calor</h3>
+  <p>Para llevar calor del depósito frío al caliente hace falta trabajo. En el refrigerador se fija el calor extraído \( Q_C=10\ \mathrm{kW} \); en la bomba de calor, el calor entregado \( Q_H=10\ \mathrm{kW} \).</p>
+  <div class="formula key">\[ Q_H=Q_C+W,\qquad \text{COP}_\text{ref}=\frac{Q_C}{W}\le\frac{T_C}{T_H-T_C},\qquad \text{COP}_\text{bc}=\frac{Q_H}{W}\le\frac{T_H}{T_H-T_C} \]</div>
+  <div class="ctrl">
+    <label>Equipo <select id="modR"><option value="ref">Refrigerador</option><option value="bc">Bomba de calor</option></select></label>
+    <label>\( T_H = \) <b id="thRv"></b> K <input type="range" id="thR" min="290" max="330" step="1" value="300"></label>
+    <label>\( T_C = \) <b id="tcRv"></b> K <input type="range" id="tcR" min="240" max="290" step="1" value="268"></label>
+    <label>COP <b id="xRv"></b> <input type="range" id="xR" min="0.5" max="15" step="0.1" value="3"></label>
+  </div>
+  <figure>
+    <svg class="fsvg" id="figR" role="img" aria-label="Refrigerador o bomba de calor entre dos depósitos, con los flujos de calor y trabajo"></svg>
+    <div class="mrow" id="rowR"></div>
+    <figcaption>El trabajo entra al equipo; el ancho de cada flecha es proporcional a la potencia que transporta.</figcaption>
+  </figure>
+  <p class="readout" id="outR"></p>
+</section>
+
+<!-- 3 -->
+<section class="card" id="s3">
+  <h3><span class="badge">3</span>Entropía y ciclo de Carnot en el plano T–S</h3>
+  <p>En un proceso internamente reversible el calor es el área bajo la curva en el plano \( T \)–\( S \). El ciclo de Carnot, con dos isotermas y dos adiabáticas reversibles (isentrópicas), es un rectángulo. Se arrastran los bordes del rectángulo.</p>
+  <div class="formula key">\[ Q=\int T\,dS,\qquad Q_H=T_H\,\Delta S,\quad Q_C=T_C\,\Delta S,\quad W=Q_H-Q_C,\quad \eta=1-\frac{T_C}{T_H} \]</div>
+  <div class="ctrl">
+    <label>\( T_H = \) <b id="th3v"></b> K <input type="range" id="th3" min="350" max="950" step="5" value="800"></label>
+    <label>\( T_C = \) <b id="tc3v"></b> K <input type="range" id="tc3" min="200" max="450" step="5" value="300"></label>
+    <label>\( \Delta S = \) <b id="ds3v"></b> \( \dfrac{\mathrm{kJ}}{\mathrm{K}} \) <input type="range" id="ds3" min="0.4" max="3" step="0.05" value="2"></label>
+  </div>
+  <figure>
+    <svg class="fsvg" id="fig3" role="img" aria-label="Ciclo de Carnot en el plano temperatura–entropía"></svg>
+    <div class="mrow" id="row3"></div>
+    <figcaption>Temperatura en kelvin y entropía en \( \dfrac{\mathrm{kJ}}{\mathrm{K}} \). La eficiencia depende solo de las dos temperaturas: cambiar \( \Delta S \) escala las áreas y deja \( \eta \) igual.</figcaption>
+  </figure>
+  <p class="readout" id="out3"></p>
+</section>
+
+<!-- 4 -->
+<section class="card" id="s4">
+  <h3><span class="badge">4</span>Cambio de entropía de un gas ideal</h3>
+  <p>Aire modelado como gas ideal con calores específicos constantes (baja densidad, lejos de la saturación), con \( c_p=1{,}005\ \dfrac{\mathrm{kJ}}{\mathrm{kg\cdot K}} \) y \( R=0{,}287\ \dfrac{\mathrm{kJ}}{\mathrm{kg\cdot K}} \). El estado 1 es \( 300\ \mathrm{K} \) y \( 100\ \mathrm{kPa} \). Se mueve el estado 2 con los controles o arrastrándolo.</p>
+  <div class="formula key">\[ s_2-s_1=c_p\ln\frac{T_2}{T_1}-R\ln\frac{p_2}{p_1} \]</div>
+  <div class="ctrl">
+    <label>\( T_2 = \) <b id="t24v"></b> K <input type="range" id="t24" min="250" max="1000" step="5" value="450"></label>
+    <label>\( p_2 = \) <b id="p24v"></b> kPa <input type="range" id="p24" min="0" max="100" step="0.5" value="50"></label>
+    <button type="button" class="btn sec" id="b4a">Isobárico</button>
+    <button type="button" class="btn sec" id="b4b">Isotérmico</button>
+    <button type="button" class="btn sec" id="b4c">Isentrópico</button>
+  </div>
+  <figure>
+    <svg class="fsvg" id="fig4" role="img" aria-label="Plano temperatura–entropía del aire con isobaras y los estados 1 y 2"></svg>
+    <div class="mrow" id="row4"></div>
+    <figcaption>Temperatura en kelvin; la entropía se mide respecto del estado 1, en \( \dfrac{\mathrm{kJ}}{\mathrm{kg\cdot K}} \). Las curvas son isobaras; cada número es su presión en kPa.</figcaption>
+  </figure>
+  <p class="readout" id="out4"></p>
+</section>
+
+<!-- 5 -->
+<section class="card" id="s5">
+  <h3><span class="badge">5</span>Balance de entropía en un sistema cerrado</h3>
+  <p>Un bloque de aluminio de \( 6\ \mathrm{kg} \) (\( c=0{,}903\ \dfrac{\mathrm{kJ}}{\mathrm{kg\cdot K}} \)) parte de \( 300\ \mathrm{K} \) y se calienta, sin cambio de volumen, al contacto con un depósito a \( T_R \), hasta alcanzar \( T_2 \). El calor transfiere entropía en la frontera; el resto de la variación es entropía generada.</p>
+  <div class="formula key">\[ S_2-S_1=\frac{Q}{T_R}+S_\text{gen},\qquad S_\text{gen}\ge 0 \]</div>
+  <div class="ctrl">
+    <label>\( T_R = \) <b id="tr5v"></b> K <input type="range" id="tr5" min="310" max="900" step="5" value="600"></label>
+    <label>\( T_2 = \) <b id="t25v"></b> K <input type="range" id="t25" min="305" max="900" step="5" value="600"></label>
+  </div>
+  <figure>
+    <svg class="fsvg" id="fig5" role="img" aria-label="Depósito a temperatura constante que calienta un bloque de aluminio a través de una pared"></svg>
+    <div class="mrow" id="row5"></div>
+    <figcaption>Si \( T_2>T_R \) el calor tendría que pasar de menor a mayor temperatura: \( S_\text{gen} \) resulta negativa y el proceso es imposible.</figcaption>
+  </figure>
+  <p class="readout" id="out5"></p>
+</section>
+
+<!-- 6 -->
+<section class="card" id="s6">
+  <h3><span class="badge">6</span>Turbina y compresor: eficiencia isentrópica</h3>
+  <p>Aire como gas ideal (\( c_p=1{,}005\ \dfrac{\mathrm{kJ}}{\mathrm{kg\cdot K}} \), \( R=0{,}287\ \dfrac{\mathrm{kJ}}{\mathrm{kg\cdot K}} \)) en un volumen de control adiabático en régimen estacionario. El estado \( 2s \) es la salida isentrópica a la presión de salida; el estado 2 es la salida real. Se arrastra el estado 2 o se ajusta la eficiencia.</p>
+  <div class="formula key">\[ \eta_T=\frac{h_1-h_2}{h_1-h_{2s}},\qquad \eta_C=\frac{h_{2s}-h_1}{h_2-h_1},\qquad s_\text{gen}=s_2-s_1\ge 0 \]</div>
+  <div class="ctrl">
+    <label>Equipo <select id="mod6"><option value="t">Turbina</option><option value="c">Compresor</option></select></label>
+    <label>Razón de presiones <b id="r6v"></b> <input type="range" id="r6" min="2" max="16" step="0.5" value="8"></label>
+    <label>\( \eta_s = \) <b id="e6v"></b> <input type="range" id="e6" min="0.5" max="1" step="0.01" value="0.85"></label>
+  </div>
+  <figure>
+    <div class="sbox two">
+      <svg class="fsvg" id="fig6" role="img" aria-label="Plano temperatura–entropía del aire con la salida real y la salida isentrópica"></svg>
+      <div>
+        <svg class="dev" id="dev6" role="img" aria-label="Esquema del equipo con la entrada, la salida y el trabajo"></svg>
+        <div class="mrow" id="row6" style="margin-top:0"></div>
+      </div>
+    </div>
+    <figcaption>Temperatura en kelvin; la entropía se mide respecto del estado 1, en \( \dfrac{\mathrm{kJ}}{\mathrm{kg\cdot K}} \). Los valores son por kilogramo de aire.</figcaption>
+  </figure>
+  <p class="readout" id="out6"></p>
+</section>
+
+</main>
+</div>
+</div>
+<script src="js/base.js"></script>
+<script>
+(function(){
+"use strict";
+var $=QUIM.$,M=QUIM.m,tn=QUIM.tn;
+var BLU='#1f5fbf',RED='#a8231b',DRK='#1c2333',BRN='#7a4b12',MUT='#59627a';
+var CP=1.005,RG=0.287,EXP=RG/CP;
+function comma(x,d){return x.toFixed(d).replace('.',',').replace('-','\u2212');}
+function sig(x,n){return Number(x.toPrecision(n));}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function SUBT(b,s){return '<tspan font-style="italic">'+b+'</tspan><tspan font-size="9" dy="3">'+s+'</tspan><tspan dy="-3"></tspan>';}
+function g(id){return document.getElementById(id);}
+/* ajusta al ancho disponible las líneas de cálculo que lo exceden */
+function fitRead(){
+  [].forEach.call(document.querySelectorAll('.readout .rline'),function(r){
+    r.style.zoom=1;var w=r.scrollWidth,c=r.clientWidth;
+    if(c>0&&w>c+1)r.style.zoom=Math.max(0.55,c/w).toFixed(3);
+  });
+}
+window.addEventListener('resize',fitRead);
+window.addEventListener('load',function(){if(window.MathJax&&MathJax.startup)MathJax.startup.promise.then(fitRead);});
+var UKK='\\frac{\\mathrm{kJ}}{\\mathrm{kg\\cdot K}}',UKJK='\\frac{\\mathrm{kJ}}{\\mathrm{K}}',UKG='\\frac{\\mathrm{kJ}}{\\mathrm{kg}}';
+/* TeX de cálculo: unidades en azul y factores de conversión en verde */
+function ut(x){x=x.replace(/^\(|\)$/g,'');if(x==='°C')return '{}^\\circ\\mathrm{C}';if(x==='%')return '\\%';return '\\mathrm{'+x.replace(/[·*]/g,'\\cdot ')+'}';}
+function ub(s){var i=s.indexOf('/');return i<0?ut(s):'\\dfrac{'+ut(s.slice(0,i))+'}{'+ut(s.slice(i+1))+'}';}
+function U(s){return '{\\color{#1f5fbf}'+ub(s)+'}';}
+function F(a,b){function p(z){var k=z.indexOf(' ');if(k<0)return z;return z.slice(0,k)+'\\ '+ub(z.slice(k+1));}return '{\\color{#1a7f4b}\\dfrac{'+p(a)+'}{'+p(b)+'}}';}
+function N(x,d,u){return tn(x,d)+'\\ '+U(u);}
+
+/* ---------- Bucle de animación único ---------- */
+var ticks=[];
+(function loop(t){requestAnimationFrame(loop);ticks.forEach(function(f){try{f(t);}catch(e){}});})(0);
+function shown(e){if(document.body.classList.contains('embed'))return true;var v=e.closest('.view');return !!v&&!v.hidden;}
+
+/* ---------- Utilidades de interacción y de tarjetas ---------- */
+function svgPt(svg,e){var p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse());}
+function dragOn(svg,cb){
+  var cur=null;
+  svg.addEventListener('pointerdown',function(e){
+    var t=e.target.closest&&e.target.closest('[data-drag]');if(!t)return;
+    cur=t.getAttribute('data-drag');try{svg.setPointerCapture(e.pointerId);}catch(_){}
+    cb(cur,svgPt(svg,e));e.preventDefault();
+  });
+  svg.addEventListener('pointermove',function(e){if(cur)cb(cur,svgPt(svg,e));});
+  function end(){cur=null;}
+  svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+}
+function pc(cls,id,title,unit,extra,more){
+  return '<div class="pcard '+cls+'"><div class="pt">'+title+'</div><div class="pv"><span id="'+id+'v">&ndash;</span><small id="'+id+'u">'+(unit||'')+'</small></div>'+(extra||'')+'<span class="ps" id="'+id+'s">'+(more||'')+'</span></div>';
+}
+function setv(id,txt){var e=g(id+'v');if(e)e.textContent=txt;}
+function sets(id,html){var e=g(id+'s');if(e)e.innerHTML=html;}
+function setbar(id,pct,mk){
+  var b=g(id+'b');if(b)b.style.width=clamp(pct,0,100).toFixed(1)+'%';
+  var m=g(id+'m');if(m&&mk!=null)m.style.left=clamp(mk,0,100).toFixed(1)+'%';
+}
+function setd(id,val,scale,red){  /* barra divergente con cero al centro */
+  var b=g(id+'d');if(!b)return;
+  var f=clamp(val/scale,-1,1)*50;
+  b.className=red?'r':'';
+  if(f>=0){b.style.left='50%';b.style.width=f.toFixed(1)+'%';}
+  else{b.style.left=(50+f).toFixed(1)+'%';b.style.width=(-f).toFixed(1)+'%';}
+}
+function chip(id,cls,txt){var e=g(id+'s');if(e)e.innerHTML='<span class="chip '+cls+'">'+txt+'</span>';}
+function gearPath(R,r,n){
+  var d='',st=2*Math.PI/n,k,i,a,P=[[-0.30,r],[-0.16,R],[0.16,R],[0.30,r]];
+  for(k=0;k<n;k++){for(i=0;i<4;i++){a=k*st+P[i][0]*st;d+=((k||i)?'L':'M')+(Math.cos(a)*P[i][1]).toFixed(1)+' '+(Math.sin(a)*P[i][1]).toFixed(1);}}
+  return d+'Z';
+}
+/* flecha de bloque entre (ax,ay) y (bx,by), de ancho w */
+function arrowPoly(ax,ay,bx,by,w,fill){
+  var dx=bx-ax,dy=by-ay,L=Math.hypot(dx,dy);dx/=L;dy/=L;
+  var nx=-dy,ny=dx,hl=Math.min(16+w*0.3,L*0.55),hw=w/2+Math.max(6,w*0.4),sw=w/2,sx=bx-dx*hl,sy=by-dy*hl;
+  var P=[[ax+nx*sw,ay+ny*sw],[sx+nx*sw,sy+ny*sw],[sx+nx*hw,sy+ny*hw],[bx,by],[sx-nx*hw,sy-ny*hw],[sx-nx*sw,sy-ny*sw],[ax-nx*sw,ay-ny*sw]];
+  return '<polygon points="'+P.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' ')+'" fill="'+fill+'" stroke="#00000033" stroke-width="1" stroke-linejoin="round"/>'+
+    '<polygon points="'+[P[0],P[1],[sx-nx*sw*0.1,sy-ny*sw*0.1],[ax-nx*sw*0.1,ay-ny*sw*0.1]].map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' ')+'" fill="#ffffff" opacity=".18"/>'+
+    '';
+}
+
+/* =====================================================================
+   1 y 2. Ciclos entre dos depósitos
+   ===================================================================== */
+var CYC={E:{pk:[],gear:0,w:0,sgn:1,pre:'cyE'},R:{pk:[],gear:0,w:0,sgn:-1,pre:'cyR'}};
+function cycDefs(p){
+  function lg(id,x2,y2,stops){return '<linearGradient id="'+p+id+'" x1="0" y1="0" x2="'+x2+'" y2="'+y2+'">'+stops.map(function(s){return '<stop offset="'+s[0]+'" stop-color="'+s[1]+'"/>';}).join('')+'</linearGradient>';}
+  return '<defs>'+
+    lg('bg',0,1,[[0,'#fcfdff'],[1,'#edf3fc']])+
+    lg('hot',0,1,[[0,'#e5766b'],[.5,'#c0392b'],[1,'#8f2018']])+
+    lg('cold',0,1,[[0,'#7aa5ea'],[.5,'#2f6fd0'],[1,'#1a4a9c']])+
+    lg('qv',1,0,[[0,'#ec9a90'],[.5,'#c0392b'],[1,'#8f2018']])+
+    lg('qc',1,0,[[0,'#f0b3ac'],[.5,'#cf6a5f'],[1,'#a8433a']])+
+    lg('wh',0,1,[[0,'#8591a8'],[.5,'#2a3247'],[1,'#151a28']])+
+    '<radialGradient id="'+p+'mc" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#f4f7fc"/><stop offset=".6" stop-color="#bcc6d9"/><stop offset="1" stop-color="#7d89a3"/></radialGradient>'+
+    '<linearGradient id="'+p+'gear" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8591a8"/><stop offset=".5" stop-color="#2a3247"/><stop offset="1" stop-color="#151a28"/></linearGradient>'+
+    '<filter id="'+p+'sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="2.5" stdDeviation="2.6" flood-color="#1c2333" flood-opacity=".3"/></filter>'+
+    '</defs>';
+}
+function cycCalc(mode,TH,TC,x){
+  var o={};
+  if(mode==='eng'){o.QH=100;o.W=x*o.QH;o.QC=o.QH-o.W;o.lim=1-TC/TH;o.val=x;}
+  else if(mode==='ref'){o.QC=10;o.W=o.QC/x;o.QH=o.QC+o.W;o.lim=TC/(TH-TC);o.val=x;}
+  else{o.QH=10;o.W=o.QH/x;o.QC=o.QH-o.W;o.lim=TH/(TH-TC);o.val=x;}
+  o.ok=o.val<=o.lim+1e-9;
+  return o;
+}
+function cycBuild(k,mode,TH,TC,c){
+  var C=CYC[k],p=C.pre,svg=$('#fig'+k),ref=mode==='eng'?100:30,sc=44/ref;
+  function bw(q){return clamp(q*sc,3,58);}
+  var wH=bw(c.QH),wC=bw(c.QC),wW=bw(c.W);
+  var cx=280,cy=186,rm=50,yHb=76,yCt=296;
+  var h=cycDefs(p)+'<rect width="560" height="372" rx="14" fill="url(#'+p+'bg)"/>';
+  C.pk=[];C.late='';
+  /* depósitos */
+  h+='<rect x="130" y="14" width="300" height="62" rx="14" fill="url(#'+p+'hot)" stroke="#7d1912" filter="url(#'+p+'sh)"/>'+
+     '<rect x="140" y="19" width="280" height="11" rx="5.5" fill="#fff" opacity=".22"/>'+
+     '<text x="280" y="42" text-anchor="middle" font-size="12.5" fill="#ffe9e6">Depósito caliente</text>'+
+     '<text x="280" y="64" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">'+SUBT('T','H')+' = '+comma(TH,0)+' K</text>';
+  h+='<rect x="130" y="'+yCt+'" width="300" height="62" rx="14" fill="url(#'+p+'cold)" stroke="#143a7a" filter="url(#'+p+'sh)"/>'+
+     '<rect x="140" y="'+(yCt+5)+'" width="280" height="11" rx="5.5" fill="#fff" opacity=".22"/>'+
+     '<text x="280" y="'+(yCt+28)+'" text-anchor="middle" font-size="12.5" fill="#e3edff">Depósito frío</text>'+
+     '<text x="280" y="'+(yCt+50)+'" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">'+SUBT('T','C')+' = '+comma(TC,0)+' K</text>';
+  /* flechas */
+  var down=(mode==='eng');
+  var qh=down?[cx,yHb,cx,cy-rm]:[cx,cy-rm,cx,yHb];
+  var qc=down?[cx,cy+rm,cx,yCt]:[cx,yCt,cx,cy+rm];
+  var wa=down?[cx+rm,cy,490,cy]:[490,cy,cx+rm,cy];
+  h+=arrowPoly(qh[0],qh[1],qh[2],qh[3],wH,'url(#'+p+'qv)');
+  h+=arrowPoly(qc[0],qc[1],qc[2],qc[3],wC,'url(#'+p+'qc)');
+  h+=arrowPoly(wa[0],wa[1],wa[2],wa[3],wW,'url(#'+p+'wh)');
+  function bandPk(a,n,T,col){
+    var dx=a[2]-a[0],dy=a[3]-a[1],L=Math.hypot(dx,dy),u=[dx/L,dy/L],hl=Math.min(16+0,L*0.55);
+    var o={x0:a[0],y0:a[1],x1:a[2]-u[0]*(hl*0.9),y1:a[3]-u[1]*(hl*0.9),T:T,ids:[]},j;
+    for(j=0;j<n;j++){o.ids.push(p+'pk'+C.pk.length+'_'+j);C.late+='<circle id="'+p+'pk'+C.pk.length+'_'+j+'" r="'+clamp(wH*0.0+3.6,3.2,4.2)+'" fill="#fff" stroke="'+col+'" stroke-width="1.6" opacity="0"/>';}
+    C.pk.push(o);
+  }
+  if(c.QH>0.01)bandPk(qh,4,2200,'#7d1912');
+  if(c.QC>0.01)bandPk(qc,4,2200,'#7d1912');
+  if(c.W>0.01)bandPk(wa,4,2200,DRK);
+  /* etiquetas */
+  var hy=(yHb+cy-rm)/2+4,cyl=(cy+rm+yCt)/2+4;
+  h+='<text x="'+(cx+wH/2+16)+'" y="'+hy+'" font-size="15" fill="'+RED+'">'+SUBT('Q','H')+' = '+comma(c.QH,1)+' kW</text>';
+  h+='<text x="'+(cx+wC/2+16)+'" y="'+cyl+'" font-size="15" fill="'+RED+'">'+SUBT('Q','C')+' = '+comma(c.QC,1)+' kW</text>';
+  h+='<text x="'+(cx+rm+78)+'" y="'+(cy-wW/2-14)+'" text-anchor="middle" font-size="15" fill="'+DRK+'"><tspan font-style="italic">W</tspan> = '+comma(c.W,1)+' kW</text>';
+  h+='<text x="'+(cx+rm+78)+'" y="'+(cy+wW/2+22)+'" text-anchor="middle" font-size="11.5" fill="'+MUT+'">'+(down?'trabajo que sale':'trabajo que entra')+'</text>';
+  /* máquina */
+  h+='<circle cx="'+cx+'" cy="'+cy+'" r="'+rm+'" fill="url(#'+p+'mc)" stroke="#5d6a86" stroke-width="2" filter="url(#'+p+'sh)"/>'+
+     '<g id="'+p+'gear" transform="translate('+cx+' '+cy+')"><path d="'+gearPath(40,33,14)+'" fill="url(#'+p+'gear)" stroke="#0d111b" stroke-width="1"/><circle r="22" fill="#10141f" opacity=".35"/></g>'+
+     '<text x="'+cx+'" y="'+(cy+7)+'" text-anchor="middle" font-size="21" font-weight="700" fill="#fff" stroke="#0d111b" stroke-width="3.2" paint-order="stroke">'+(mode==='eng'?'MT':(mode==='ref'?'R':'BC'))+'</text>';
+  if(!c.ok){
+    h+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(rm+6)+'" fill="none" stroke="'+RED+'" stroke-width="3.4" stroke-dasharray="8 5"/>'+
+       '<line x1="'+(cx-rm-8)+'" y1="'+(cy-rm-8)+'" x2="'+(cx+rm+8)+'" y2="'+(cy+rm+8)+'" stroke="'+RED+'" stroke-width="5" stroke-linecap="round"/>'+
+       '<line x1="'+(cx-rm-8)+'" y1="'+(cy+rm+8)+'" x2="'+(cx+rm+8)+'" y2="'+(cy-rm-8)+'" stroke="'+RED+'" stroke-width="5" stroke-linecap="round"/>'+
+       '<rect x="18" y="164" width="104" height="44" rx="10" fill="#fcebe9" stroke="#efbdb8"/>'+
+       '<text x="70" y="183" text-anchor="middle" font-size="13" font-weight="700" fill="'+RED+'">Imposible</text>'+
+       '<text x="70" y="199" text-anchor="middle" font-size="11" fill="'+RED+'">viola la 2.ª ley</text>';
+  }
+  svg.setAttribute('viewBox','0 0 560 372');
+  svg.innerHTML=h+C.late;
+  C.pk.forEach(function(o){o.els=o.ids.map(g);});
+  C.gearEl=g(p+'gear');C.w=c.W;C.ref=ref;C.sgn=(mode==='eng')?1:-1;
+}
+ticks.push(function(t){
+  ['E','R'].forEach(function(k){
+    var C=CYC[k],svg=$('#fig'+k);if(!svg||!shown(svg))return;
+    C.pk.forEach(function(o){
+      o.els.forEach(function(e,j){
+        if(!e)return;
+        var f=((t/o.T)+j/o.els.length)%1,x=o.x0+(o.x1-o.x0)*f,y=o.y0+(o.y1-o.y0)*f;
+        e.setAttribute('cx',x.toFixed(1));e.setAttribute('cy',y.toFixed(1));
+        e.setAttribute('opacity',Math.min(1,f/0.12,(1-f)/0.15).toFixed(2));
+      });
+    });
+    if(C.gearEl){var sp=C.w>0.01?0.012+0.07*Math.min(1,C.w/C.ref):0;C.gearEl.setAttribute('transform','translate(280 186) rotate('+((t*sp*C.sgn)%360).toFixed(1)+')');}
+  });
+});
+function cycCards(k,mode){
+  var row=$('#row'+k),ec=(mode==='eng');
+  row.innerHTML=
+    pc('red','k'+k+'h',M('Q_H')+(ec?' recibido':(mode==='ref'?' cedido al depósito caliente':' entregado')),'kW','','')+
+    pc('dark','k'+k+'w',M('W')+(ec?' entregado':' consumido'),'kW','','')+
+    pc('red','k'+k+'c',M('Q_C')+(ec?' descargado':(mode==='ref'?' extraído':' tomado del depósito frío')),'kW','','')+
+    '<div class="pcard main wide"><div class="pt">'+(ec?M('\\eta=W/Q_H'):(mode==='ref'?M('\\text{COP}_\\text{ref}=Q_C/W'):M('\\text{COP}_\\text{bc}=Q_H/W')))+'</div>'+
+    '<div class="pv"><span id="k'+k+'xv">&ndash;</span><small id="k'+k+'xu"></small></div>'+
+    '<div class="pbar"><i id="k'+k+'xb"></i><b class="mk" id="k'+k+'xm"></b></div>'+
+    '<span class="ps" id="k'+k+'xs"></span><span class="ps" id="k'+k+'xt"></span></div>';
+}
+function cycUpdate(k,mode,TH,TC,x){
+  var c=cycCalc(mode,TH,TC,x),ec=(mode==='eng');
+  cycBuild(k,mode,TH,TC,c);
+  setv('k'+k+'h',comma(c.QH,1));setv('k'+k+'w',comma(c.W,1));setv('k'+k+'c',comma(c.QC,1));
+  var top=Math.max(c.val,c.lim)*1.12||1;
+  setv('k'+k+'x',ec?comma(c.val*100,1):comma(c.val,2));
+  g('k'+k+'xu').textContent=ec?'%':'';
+  setbar('k'+k+'x',c.val/top*100,c.lim/top*100);
+  chip('k'+k+'x',c.ok?'ok':'bad',c.ok?'Cumple la segunda ley':'Viola la segunda ley');
+  var lt=$('#k'+k+'xt');
+  lt.innerHTML=(ec?'Máximo (Carnot): '+comma(c.lim*100,1)+' %':'Máximo (Carnot): '+comma(c.lim,2));
+  var out=$('#out'+k),th=N(TH,4,'K'),tc=N(TC,4,'K'),kw=function(x){return N(x,4,'kW');};
+  if(ec){
+    out.innerHTML='<div class="rline">'+M('W=Q_H-Q_C='+kw(c.QH)+'-'+kw(c.QC)+'='+kw(c.W))+'</div>'+
+      '<div class="rline">'+M('\\eta_\\text{máx}=1-\\dfrac{'+tc+'}{'+th+'}='+tn(c.lim,3))+(c.ok?' &ge; ':' &lt; ')+M('\\eta='+tn(c.val,3))+'</div>';
+  }else if(mode==='ref'){
+    out.innerHTML='<div class="rline">'+M('W=\\dfrac{Q_C}{\\text{COP}}=\\dfrac{'+kw(c.QC)+'}{'+tn(c.val,3)+'}='+kw(c.W)+',\\qquad Q_H=Q_C+W='+kw(c.QC)+'+'+kw(c.W)+'='+kw(c.QH))+'</div>'+
+      '<div class="rline">'+M('\\text{COP}_\\text{ref,máx}=\\dfrac{'+tc+'}{'+th+'-'+tc+'}='+tn(c.lim,3))+(c.ok?' &ge; ':' &lt; ')+M('\\text{COP}_\\text{ref}='+tn(c.val,3))+'</div>';
+  }else{
+    out.innerHTML='<div class="rline">'+M('W=\\dfrac{Q_H}{\\text{COP}}=\\dfrac{'+kw(c.QH)+'}{'+tn(c.val,3)+'}='+kw(c.W)+',\\qquad Q_C=Q_H-W='+kw(c.QH)+'-'+kw(c.W)+'='+kw(c.QC))+'</div>'+
+      '<div class="rline">'+M('\\text{COP}_\\text{bc,máx}=\\dfrac{'+th+'}{'+th+'-'+tc+'}='+tn(c.lim,3))+(c.ok?' &ge; ':' &lt; ')+M('\\text{COP}_\\text{bc}='+tn(c.val,3))+'</div>';
+  }
+  fitRead();
+}
+var MODES={ref:{TH:[290,330,300],TC:[240,290,268],X:[0.5,15,3]},bc:{TH:[285,330,295],TC:[255,290,278],X:[1,20,3.5]}};
+function readE(){
+  var TH=+$('#thE').value,TC=+$('#tcE').value,x=+$('#xE').value/100;
+  if(TC>TH-5){TC=TH-5;$('#tcE').value=TC;}
+  $('#thEv').textContent=comma(TH,0);$('#tcEv').textContent=comma(TC,0);$('#xEv').textContent=comma(x*100,0);
+  cycUpdate('E','eng',TH,TC,x);
+}
+function readR(fromMode){
+  var mode=$('#modR').value,m=MODES[mode],sl={th:$('#thR'),tc:$('#tcR'),x:$('#xR')};
+  if(fromMode){
+    sl.th.min=m.TH[0];sl.th.max=m.TH[1];sl.th.value=m.TH[2];
+    sl.tc.min=m.TC[0];sl.tc.max=m.TC[1];sl.tc.value=m.TC[2];
+    sl.x.min=m.X[0];sl.x.max=m.X[1];sl.x.value=m.X[2];
+  }
+  var TH=+sl.th.value,TC=+sl.tc.value,x=+sl.x.value;
+  if(TC>TH-2){TC=TH-2;sl.tc.value=TC;}
+  $('#thRv').textContent=comma(TH,0);$('#tcRv').textContent=comma(TC,0);$('#xRv').textContent=comma(x,1);
+  cycCards('R',mode);
+  cycUpdate('R',mode,TH,TC,x);
+}
+function initCycles(){
+  cycCards('E','eng');
+  ['thE','tcE','xE'].forEach(function(i){$('#'+i).addEventListener('input',readE);});
+  readE();
+  ['thR','tcR','xR'].forEach(function(i){$('#'+i).addEventListener('input',function(){readR(false);});});
+  $('#modR').addEventListener('change',function(){readR(true);});
+  readR(true);
+}
+
+/* =====================================================================
+   Utilidades para gráficos T–s
+   ===================================================================== */
+function tsDefs(p){
+  return '<defs>'+
+    '<linearGradient id="'+p+'qc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4c9c4"/><stop offset="1" stop-color="#ecaaa3"/></linearGradient>'+
+    '<linearGradient id="'+p+'w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8d97ab" stop-opacity=".55"/><stop offset="1" stop-color="#3a4560" stop-opacity=".40"/></linearGradient>'+
+    '<radialGradient id="'+p+'kn" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#d4dcec"/></radialGradient>'+
+    '<radialGradient id="'+p+'dt" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#9db9ea"/><stop offset="1" stop-color="#1f5fbf"/></radialGradient>'+
+    '<radialGradient id="'+p+'dr" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#e49a92"/><stop offset="1" stop-color="#a8231b"/></radialGradient>'+
+    '<filter id="'+p+'sh" x="-60%" y="-60%" width="220%" height="220%"><feDropShadow dx="0" dy="1.6" stdDeviation="1.5" flood-color="#1c2333" flood-opacity=".35"/></filter>'+
+    '</defs>';
+}
+function knob(p,x,y,orient,key){
+  var a=orient==='v'?'M-3.2 -1.6 L0 -4.8 L3.2 -1.6 M-3.2 1.6 L0 4.8 L3.2 1.6':'M-1.6 -3.2 L-4.8 0 L-1.6 3.2 M1.6 -3.2 L4.8 0 L1.6 3.2';
+  return '<g data-drag="'+key+'" transform="translate('+x.toFixed(1)+' '+y.toFixed(1)+')" filter="url(#'+p+'sh)"><circle r="14" fill="rgba(0,0,0,0)"/><circle r="9.6" fill="url(#'+p+'kn)" stroke="'+BLU+'" stroke-width="1.8"/>'+
+    '<path d="'+a+'" fill="none" stroke="'+BLU+'" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g>';
+}
+function dot(p,x,y,cls,lbl,dx,dy,key){
+  return '<g'+(key?' data-drag="'+key+'"':'')+' filter="url(#'+p+'sh)"><circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+(key?'12':'0')+'" fill="rgba(0,0,0,0)"/>'+
+    '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="6.6" fill="url(#'+p+cls+')" stroke="#fff" stroke-width="1.4"/></g>'+
+    '<text x="'+(x+dx).toFixed(1)+'" y="'+(y+dy).toFixed(1)+'" font-size="14" font-weight="700" fill="'+DRK+'" pointer-events="none" paint-order="stroke" stroke="#fff" stroke-width="3">'+lbl+'</text>';
+}
+function axisLbl(t){return '<tspan font-style="italic">'+t+'</tspan>';}
+
+/* =====================================================================
+   3. Ciclo de Carnot en T–S
+   ===================================================================== */
+var C3={TH:800,TC:300,dS:2,sa:0.8,geo:null};
+function paint3(){
+  var svg=$('#fig3'),p='t3';
+  $('#th3').value=C3.TH;$('#tc3').value=C3.TC;$('#ds3').value=C3.dS;
+  $('#th3v').textContent=comma(C3.TH,0);$('#tc3v').textContent=comma(C3.TC,0);$('#ds3v').textContent=comma(C3.dS,2);
+  var ch=QUIM.chart(svg,{W:560,H:340,l:62,r:26,t:20,b:50,x:[0,4],y:[0,1000],xt:[0,1,2,3,4],yt:[0,200,400,600,800,1000],xl:axisLbl('S'),yl:axisLbl('T'),xgrid:true});
+  var sb=C3.sa+C3.dS,xa=ch.X(C3.sa),xb=ch.X(sb),yH=ch.Y(C3.TH),yC=ch.Y(C3.TC),y0=ch.Y(0),xm=(xa+xb)/2;
+  var QH=C3.TH*C3.dS,QC=C3.TC*C3.dS,W=QH-QC,eta=1-C3.TC/C3.TH;
+  var h=tsDefs(p);
+  h+='<rect x="'+xa.toFixed(1)+'" y="'+yC.toFixed(1)+'" width="'+(xb-xa).toFixed(1)+'" height="'+(y0-yC).toFixed(1)+'" fill="url(#'+p+'qc)"/>';
+  h+='<rect x="'+xa.toFixed(1)+'" y="'+yH.toFixed(1)+'" width="'+(xb-xa).toFixed(1)+'" height="'+(yC-yH).toFixed(1)+'" fill="url(#'+p+'w)"/>';
+  h+='<text x="'+xm.toFixed(1)+'" y="'+((yH+yC)/2+6).toFixed(1)+'" text-anchor="middle" font-size="19" font-style="italic" font-weight="700" fill="#1c2333" paint-order="stroke" stroke="#ffffffaa" stroke-width="3">W</text>';
+  h+='<text x="'+xm.toFixed(1)+'" y="'+((yC+y0)/2+6).toFixed(1)+'" text-anchor="middle" font-size="17" fill="'+RED+'">'+SUBT('Q','C')+'</text>';
+  /* llave de Q_H */
+  h+='<path d="M'+(xa-10).toFixed(1)+' '+y0.toFixed(1)+' h-7 V'+yH.toFixed(1)+' h7" fill="none" stroke="'+RED+'" stroke-width="1.6"/>'+
+     '<text x="'+(xa-24).toFixed(1)+'" y="'+((y0+yH)/2+5).toFixed(1)+'" text-anchor="end" font-size="16" fill="'+RED+'">'+SUBT('Q','H')+'</text>';
+  /* ciclo */
+  h+='<rect x="'+xa.toFixed(1)+'" y="'+yH.toFixed(1)+'" width="'+(xb-xa).toFixed(1)+'" height="'+(yC-yH).toFixed(1)+'" fill="none" stroke="'+DRK+'" stroke-width="2.4" stroke-dasharray="7 4" rx="1"/>';
+  h+='<line x1="'+xa.toFixed(1)+'" y1="'+yH.toFixed(1)+'" x2="'+xb.toFixed(1)+'" y2="'+yH.toFixed(1)+'" stroke="'+RED+'" stroke-width="3.6" stroke-linecap="round"/>';
+  h+='<line x1="'+xa.toFixed(1)+'" y1="'+yC.toFixed(1)+'" x2="'+xb.toFixed(1)+'" y2="'+yC.toFixed(1)+'" stroke="#c9574d" stroke-width="3.6" stroke-linecap="round"/>';
+  h+=dot(p,xa,yH,'dt','1',-16,-8)+dot(p,xb,yH,'dt','2',8,-8)+dot(p,xb,yC,'dt','3',8,16)+dot(p,xa,yC,'dt','4',-16,16);
+  h+='<circle id="t3m" r="5.4" fill="#fff" stroke="'+DRK+'" stroke-width="2"/>';
+  h+=knob(p,xm,yH,'v','TH')+knob(p,xm,yC,'v','TC')+knob(p,xb,(yH+yC)/2,'h','dS');
+  ch.add(h).done();
+  C3.geo={xa:xa,xb:xb,yH:yH,yC:yC,ch:ch};
+  setv('c3h',comma(QH,0));setv('c3w',comma(W,0));setv('c3c',comma(QC,0));
+  setv('c3x',comma(eta*100,1));setbar('c3x',eta*100,null);
+  sets('c3x','Depende solo de '+'<span class="m">'+M('T_C/T_H')+'</span>');
+  $('#out3').innerHTML='<div class="rline">'+M('Q_H=T_H\\,\\Delta S=('+N(C3.TH,4,'K')+')('+N(C3.dS,3,'kJ/K')+')='+N(QH,4,'kJ'))+'</div>'+
+    '<div class="rline">'+M('Q_C=T_C\\,\\Delta S=('+N(C3.TC,4,'K')+')('+N(C3.dS,3,'kJ/K')+')='+N(QC,4,'kJ'))+'</div>'+
+    '<div class="rline">'+M('\\eta=\\dfrac{W}{Q_H}=\\dfrac{'+N(W,4,'kJ')+'}{'+N(QH,4,'kJ')+'}=1-\\dfrac{'+N(C3.TC,4,'K')+'}{'+N(C3.TH,4,'K')+'}='+tn(eta,3))+'</div>';
+  fitRead();
+}
+ticks.push(function(t){
+  var svg=$('#fig3');if(!svg||!shown(svg)||!C3.geo)return;
+  var G=C3.geo,m=g('t3m');if(!m)return;
+  var a=G.xb-G.xa,b=G.yC-G.yH,Lp=2*(a+b),d=((t*0.09)%Lp),x,y;
+  if(d<a){x=G.xa+d;y=G.yH;}else if(d<a+b){x=G.xb;y=G.yH+(d-a);}else if(d<2*a+b){x=G.xb-(d-a-b);y=G.yC;}else{x=G.xa;y=G.yC-(d-2*a-b);}
+  m.setAttribute('cx',x.toFixed(1));m.setAttribute('cy',y.toFixed(1));
+});
+function initCarnot(){
+  $('#row3').innerHTML=pc('red','c3h',M('Q_H'),'kJ')+pc('dark','c3w',M('W'),'kJ')+pc('red','c3c',M('Q_C'),'kJ')+
+    '<div class="pcard main wide"><div class="pt">'+M('\\eta=1-T_C/T_H')+'</div><div class="pv"><span id="c3xv">&ndash;</span><small>%</small></div><div class="pbar"><i id="c3xb"></i></div><span class="ps" id="c3xs"></span></div>';
+  $('#th3').addEventListener('input',function(){C3.TH=+this.value;if(C3.TC>C3.TH-50)C3.TC=C3.TH-50;paint3();});
+  $('#tc3').addEventListener('input',function(){C3.TC=+this.value;if(C3.TC>C3.TH-50)C3.TH=C3.TC+50;paint3();});
+  $('#ds3').addEventListener('input',function(){C3.dS=+this.value;paint3();});
+  dragOn($('#fig3'),function(k,pt){
+    var ch=C3.geo.ch,Tv=1000*(ch.H-ch.B-pt.y)/(ch.H-ch.T-ch.B),Sv=4*(pt.x-ch.L)/(ch.W-ch.L-ch.R);
+    if(k==='TH')C3.TH=clamp(Math.round(Tv/5)*5,Math.max(350,C3.TC+50),950);
+    else if(k==='TC')C3.TC=clamp(Math.round(Tv/5)*5,200,Math.min(450,C3.TH-50));
+    else C3.dS=clamp(Math.round((Sv-C3.sa)/0.05)*0.05,0.4,3);
+    paint3();
+  });
+  paint3();
+}
+
+/* =====================================================================
+   4. Entropía de un gas ideal
+   ===================================================================== */
+var C4={T1:300,p1:100,T2:450,p2:200,geo:null},P4=[25,50,100,200,400,800,1600];
+function p4FromSl(v){return sig(25*Math.pow(64,v/100),3);}
+function p4ToSl(p){return 100*Math.log(p/25)/Math.log(64);}
+function ds4(){return CP*Math.log(C4.T2/C4.T1)-RG*Math.log(C4.p2/C4.p1);}
+function paint4(){
+  var svg=$('#fig4'),p='t4';
+  $('#t24').value=C4.T2;$('#p24').value=p4ToSl(C4.p2);
+  $('#t24v').textContent=comma(C4.T2,0);$('#p24v').textContent=comma(C4.p2,C4.p2<100?1:0).replace(/,0$/,'');
+  var ch=QUIM.chart(svg,{W:560,H:340,l:62,r:26,t:20,b:50,x:[-1,1.4],y:[200,1000],xt:[-1,-0.5,0,0.5,1],yt:[200,400,600,800,1000],xl:axisLbl('s')+' − '+SUBT('s','1'),yl:axisLbl('T'),xgrid:true});
+  var h=tsDefs(p),Tc=function(s,pp){return C4.T1*Math.exp((s+RG*Math.log(pp/C4.p1))/CP);};
+  P4.forEach(function(pp){
+    var isRef=(pp===100),pts=[],i;
+    for(i=0;i<=120;i++){var s=-1+2.4*i/120,T=Tc(s,pp);pts.push([s,T]);}
+    ch.path(pts,isRef?'#7d8aa6':'#b6c0d6',isRef?2.4:1.6,null);
+    var sl=Math.min(CP*Math.log(900/C4.T1)-RG*Math.log(pp/C4.p1),1.36);
+    h+='<text x="'+(ch.X(sl)+3).toFixed(1)+'" y="'+(ch.Y(Tc(sl,pp))-6).toFixed(1)+'" text-anchor="middle" font-size="11.5" font-weight="600" fill="#59627a" paint-order="stroke" stroke="#fbfcff" stroke-width="3">'+pp+'</text>';
+  });
+  var x1=ch.X(0),y1=ch.Y(C4.T1),d=ds4(),x2=ch.X(clamp(d,-1,1.4)),y2=ch.Y(C4.T2);
+  h+='<line x1="'+x1.toFixed(1)+'" y1="'+ch.Y(200)+'" x2="'+x1.toFixed(1)+'" y2="'+ch.Y(1000)+'" stroke="'+BLU+'" stroke-width="1.2" stroke-dasharray="3 5" opacity=".6"/>'+
+     '<text x="'+(x1+5).toFixed(1)+'" y="'+(ch.Y(1000)+14)+'" font-size="11.5" fill="'+BLU+'">isentrópica</text>';
+  h+='<line x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+y2.toFixed(1)+'" stroke="'+DRK+'" stroke-width="2.2" stroke-dasharray="6 4"/>';
+  h+=dot(p,x1,y1,'dt','1',-16,18)+dot(p,x2,y2,'dr','2',10,-10,'S2');
+  ch.add(h).done();
+  C4.geo={ch:ch};
+  var a=CP*Math.log(C4.T2/C4.T1),b=-RG*Math.log(C4.p2/C4.p1);
+  setv('c4a',comma(a,3));setv('c4b',comma(b,3));setv('c4s',comma(d,3));
+  setd('c4a',a,1.3,false);setd('c4b',b,1.3,true);setd('c4s',d,1.3,false);
+  var isen=Math.abs(d)<0.0015;
+  chip('c4s',isen?'neu':(d>0?'ok':'bad'),isen?'Isentrópico: la entropía no cambia':(d>0?'La entropía aumenta':'La entropía disminuye'));
+  var uk='kJ/(kg·K)';
+  $('#out4').innerHTML='<div class="rline">'+M('c_p\\ln\\dfrac{T_2}{T_1}=('+N(1.005,4,uk)+')\\ln\\dfrac{'+N(C4.T2,4,'K')+'}{'+N(300,3,'K')+'}='+N(a,3,uk))+'</div>'+
+    '<div class="rline">'+M('R\\ln\\dfrac{p_2}{p_1}=('+N(0.287,3,uk)+')\\ln\\dfrac{'+N(C4.p2,4,'kPa')+'}{'+N(100,3,'kPa')+'}='+N(-b,3,uk))+'</div>'+
+    '<div class="rline">'+M('s_2-s_1=('+N(a,3,uk)+')-('+N(-b,3,uk)+')='+N(d,3,uk))+'</div>'+
+    '<div class="rline">'+M('\\text{Isentrópico: }\\dfrac{T_2}{T_1}=\\left(\\dfrac{p_2}{p_1}\\right)^{R/c_p},\\quad \\dfrac{R}{c_p}=\\dfrac{'+N(0.287,3,uk)+'}{'+N(1.005,4,uk)+'}=0{,}2856')+'</div>';
+  fitRead();
+}
+function initGas(){
+  var u=M(UKK);
+  $('#row4').innerHTML=pc('blue','c4a',M('c_p\\ln\\dfrac{T_2}{T_1}'),u,'<div class="dbar"><i id="c4ad"></i></div>')+
+    pc('red','c4b',M('-R\\ln\\dfrac{p_2}{p_1}'),u,'<div class="dbar"><i id="c4bd"></i></div>')+
+    '<div class="pcard main wide"><div class="pt">'+M('s_2-s_1')+'</div><div class="pv"><span id="c4sv">&ndash;</span><small>'+u+'</small></div><div class="dbar"><i id="c4sd"></i></div><span class="ps" id="c4ss"></span></div>';
+  $('#t24').addEventListener('input',function(){C4.T2=+this.value;paint4();});
+  $('#p24').addEventListener('input',function(){C4.p2=p4FromSl(+this.value);paint4();});
+  $('#b4a').addEventListener('click',function(){C4.p2=100;paint4();});
+  $('#b4b').addEventListener('click',function(){C4.T2=300;paint4();});
+  $('#b4c').addEventListener('click',function(){C4.T2=clamp(Math.round(300*Math.pow(C4.p2/100,EXP)/5)*5,250,1000);paint4();});
+  dragOn($('#fig4'),function(k,pt){
+    var ch=C4.geo.ch,Tv=200+800*(ch.H-ch.B-pt.y)/(ch.H-ch.T-ch.B),Sv=-1+2.4*(pt.x-ch.L)/(ch.W-ch.L-ch.R);
+    C4.T2=clamp(Math.round(Tv/5)*5,250,1000);
+    var lp=(CP*Math.log(C4.T2/C4.T1)-Sv)/RG;
+    C4.p2=sig(clamp(100*Math.exp(lp),25,1600),3);
+    paint4();
+  });
+  paint4();
+}
+
+/* =====================================================================
+   5. Balance de entropía en un sistema cerrado
+   ===================================================================== */
+var C5={TR:600,T2:600},M5=6,CAL=0.903,T15=300;
+function mix(a,b,m){return [a[0]+(b[0]-a[0])*m,a[1]+(b[1]-a[1])*m,a[2]+(b[2]-a[2])*m];}
+function rgb(c){return 'rgb('+Math.round(c[0])+','+Math.round(c[1])+','+Math.round(c[2])+')';}
+var H5={pk:[],ok:true};
+function paint5(){
+  var svg=$('#fig5'),p='t5';
+  $('#tr5').value=C5.TR;$('#t25').value=C5.T2;$('#tr5v').textContent=comma(C5.TR,0);$('#t25v').textContent=comma(C5.T2,0);
+  var Q=M5*CAL*(C5.T2-T15),dS=M5*CAL*Math.log(C5.T2/T15),tr=Q/C5.TR,sg=dS-tr,ok=sg>=-1e-9;
+  var cr=clamp((C5.TR-300)/600,0,1),cb=clamp((C5.T2-300)/600,0,1);
+  var Rc=mix([200,92,70],[235,150,60],cr),Rd=mix(Rc,[0,0,0],.22),Rl=mix(Rc,[255,255,255],.35);
+  var Bc=mix([154,166,189],[222,96,52],cb),Bd=mix(Bc,[0,0,0],.28),Bl=mix(Bc,[255,255,255],.4);
+  var wq=clamp(Q/3300*40,3,46);
+  var h='<defs>'+
+    '<linearGradient id="'+p+'r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+rgb(Rl)+'"/><stop offset=".55" stop-color="'+rgb(Rc)+'"/><stop offset="1" stop-color="'+rgb(Rd)+'"/></linearGradient>'+
+    '<linearGradient id="'+p+'b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+rgb(Bl)+'"/><stop offset=".5" stop-color="'+rgb(Bc)+'"/><stop offset="1" stop-color="'+rgb(Bd)+'"/></linearGradient>'+
+    '<linearGradient id="'+p+'q" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ec9a90"/><stop offset=".5" stop-color="#c0392b"/><stop offset="1" stop-color="#8f2018"/></linearGradient>'+
+    '<linearGradient id="'+p+'w" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9efd9"/><stop offset="1" stop-color="#cfd9bf"/></linearGradient>'+
+    '<linearGradient id="'+p+'bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fcfdff"/><stop offset="1" stop-color="#edf3fc"/></linearGradient>'+
+    '<filter id="'+p+'sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="2.5" stdDeviation="2.6" flood-color="#1c2333" flood-opacity=".3"/></filter></defs>';
+  h+='<rect width="560" height="250" rx="14" fill="url(#'+p+'bg)"/>';
+  /* depósito, pared y bloque */
+  h+='<rect x="24" y="52" width="150" height="150" rx="14" fill="url(#'+p+'r)" stroke="'+rgb(Rd)+'" filter="url(#'+p+'sh)"/>'+
+     '<rect x="34" y="58" width="130" height="12" rx="6" fill="#fff" opacity=".24"/>'+
+     '<text x="99" y="104" text-anchor="middle" font-size="12.5" fill="#fff">Depósito</text>'+
+     '<text x="99" y="134" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">'+SUBT('T','R')+' = '+comma(C5.TR,0)+' K</text>'+
+     '<text x="99" y="160" text-anchor="middle" font-size="12" fill="#ffffffcc">temperatura constante</text>';
+  h+='<rect x="174" y="52" width="40" height="150" fill="url(#'+p+'w)" stroke="#a9b88a"/><text x="194" y="128" text-anchor="middle" font-size="11" fill="#59627a" transform="rotate(-90 194 128)">pared</text>';
+  h+='<rect x="356" y="62" width="170" height="130" rx="12" fill="url(#'+p+'b)" stroke="'+rgb(Bd)+'" filter="url(#'+p+'sh)"/>'+
+     '<rect x="366" y="68" width="150" height="11" rx="5.5" fill="#fff" opacity=".3"/>'+
+     '<text x="441" y="108" text-anchor="middle" font-size="12.5" fill="#1c2333">Bloque de aluminio, 6 kg</text>'+
+     '<text x="441" y="140" text-anchor="middle" font-size="19" font-weight="700" fill="#1c2333">'+SUBT('T','2')+' = '+comma(C5.T2,0)+' K</text>'+
+     '<text x="441" y="166" text-anchor="middle" font-size="12" fill="#1c2333aa">inicio: 300 K</text>';
+  /* calor */
+  H5.pk=[];var late='';
+  h+=ok?arrowPoly(214,127,356,127,wq,'url(#'+p+'q)'):arrowPoly(356,127,214,127,wq,'url(#'+p+'q)');
+  var a=ok?[214,356]:[356,214];
+  for(var j=0;j<4;j++){late+='<circle id="t5pk'+j+'" r="3.8" fill="#fff" stroke="#7d1912" stroke-width="1.6" opacity="0"/>';}
+  H5.a=a;H5.ok=ok;
+  h+='<text x="285" y="'+(127-wq/2-16)+'" text-anchor="middle" font-size="15" fill="'+RED+'"><tspan font-style="italic">Q</tspan> = '+comma(Math.abs(Q),0)+' kJ</text>';
+  if(!ok){
+    h+='<line x1="262" y1="99" x2="308" y2="155" stroke="'+RED+'" stroke-width="5" stroke-linecap="round"/><line x1="262" y1="155" x2="308" y2="99" stroke="'+RED+'" stroke-width="5" stroke-linecap="round"/>'+
+       '<rect x="196" y="204" width="176" height="30" rx="10" fill="#fcebe9" stroke="#efbdb8"/><text x="284" y="224" text-anchor="middle" font-size="12.5" font-weight="700" fill="'+RED+'">El calor no pasa a mayor temperatura</text>';
+  }
+  svg.setAttribute('viewBox','0 0 560 250');svg.innerHTML=h+late;
+  setv('c5a',comma(dS,3));setv('c5b',comma(tr,3));setv('c5s',comma(sg,3));
+  setd('c5a',dS,6,false);setd('c5b',tr,6,false);setd('c5s',sg,6,sg<0);
+  chip('c5s',ok?(sg<0.0005?'neu':'ok'):'bad',ok?(sg<0.0005?'Reversible: no se genera entropía':'Posible, con irreversibilidad'):'Imposible: entropía generada negativa');
+  var uk5='kJ/(kg·K)';
+  $('#out5').innerHTML='<div class="rline">'+M('Q=mc\\,(T_2-T_1)=('+N(6,1,'kg')+')('+N(0.903,3,uk5)+')('+N(C5.T2,4,'K')+'-'+N(300,3,'K')+')='+N(Q,5,'kJ'))+'</div>'+
+    '<div class="rline">'+M('mc\\ln\\dfrac{T_2}{T_1}=('+N(6,1,'kg')+')('+N(0.903,3,uk5)+')\\ln\\dfrac{'+N(C5.T2,4,'K')+'}{'+N(300,3,'K')+'}='+N(dS,4,'kJ/K'))+'</div>'+
+    '<div class="rline">'+M('\\dfrac{Q}{T_R}=\\dfrac{'+N(Q,5,'kJ')+'}{'+N(C5.TR,4,'K')+'}='+N(tr,4,'kJ/K'))+'</div>'+
+    '<div class="rline">'+M('S_\\text{gen}=mc\\ln\\dfrac{T_2}{T_1}-\\dfrac{Q}{T_R}='+N(dS,4,'kJ/K')+'-'+N(tr,4,'kJ/K')+'='+N(sg,4,'kJ/K'))+'</div>';
+  fitRead();
+}
+ticks.push(function(t){
+  var svg=$('#fig5');if(!svg||!shown(svg)||!H5.a)return;
+  for(var j=0;j<4;j++){
+    var e=g('t5pk'+j);if(!e)continue;
+    var f=((t/2200)+j/4)%1,x=H5.a[0]+(H5.a[1]-H5.a[0])*f;
+    e.setAttribute('cx',x.toFixed(1));e.setAttribute('cy',127);e.setAttribute('opacity',Math.min(1,f/0.1,(1-f)/0.12).toFixed(2));
+  }
+});
+function initClosed(){
+  var u=M(UKJK);
+  $('#row5').innerHTML=pc('blue','c5a',M('S_2-S_1=mc\\ln\\dfrac{T_2}{T_1}'),u,'<div class="dbar"><i id="c5ad"></i></div>')+
+    pc('red','c5b',M('Q/T_R'),u,'<div class="dbar"><i id="c5bd"></i></div>')+
+    '<div class="pcard main wide"><div class="pt">'+M('S_\\text{gen}')+'</div><div class="pv"><span id="c5sv">&ndash;</span><small>'+u+'</small></div><div class="dbar"><i id="c5sd"></i></div><span class="ps" id="c5ss"></span></div>';
+  $('#tr5').addEventListener('input',function(){C5.TR=+this.value;paint5();});
+  $('#t25').addEventListener('input',function(){C5.T2=+this.value;paint5();});
+  paint5();
+}
+
+/* =====================================================================
+   6. Turbina y compresor con eficiencia isentrópica
+   ===================================================================== */
+var C6={mode:'t',r:8,eta:0.85,geo:null,spin:0,w:0};
+function calc6(){
+  var t=C6.mode==='t',T1=t?1000:300,p1=t?800:100,p2=t?p1/C6.r:p1*C6.r;
+  var T2s=T1*Math.pow(p2/p1,EXP),T2=t?T1-C6.eta*(T1-T2s):T1+(T2s-T1)/C6.eta;
+  return {t:t,T1:T1,p1:p1,p2:p2,T2s:T2s,T2:T2,w:CP*(T1-T2),s2:CP*Math.log(T2/T1)-RG*Math.log(p2/p1)};
+}
+function paint6(){
+  var c=calc6(),p='t6',svg=$('#fig6');
+  $('#r6').value=C6.r;$('#e6').value=C6.eta;$('#r6v').textContent=comma(C6.r,1);$('#e6v').textContent=comma(C6.eta,2);
+  var ch=QUIM.chart(svg,{W:560,H:360,l:62,r:26,t:20,b:50,x:[-0.15,0.7],y:[250,1100],xt:[0,0.2,0.4,0.6],yt:[300,500,700,900,1100],xl:axisLbl('s')+' − '+SUBT('s','1'),yl:axisLbl('T'),xgrid:true});
+  var h=tsDefs(p),Tc=function(s,pp){return c.T1*Math.exp((s+RG*Math.log(pp/c.p1))/CP);};
+  [[c.p1,'#7d8aa6'],[c.p2,'#7d8aa6']].forEach(function(o){
+    var pts=[],i,last=null;
+    for(i=0;i<=120;i++){var s=-0.15+0.85*i/120,T=Tc(s,o[0]);pts.push([s,T]);if(T>=250&&T<=1100)last=[s,T];}
+    ch.path(pts,o[1],2.2,null);
+    if(last)h+='<text x="'+(ch.X(last[0])-4).toFixed(1)+'" y="'+(ch.Y(last[1])-8).toFixed(1)+'" text-anchor="end" font-size="12" fill="#59627a" paint-order="stroke" stroke="#fbfcff" stroke-width="3">'+comma(o[0],o[0]<100?1:0).replace(/,0$/,'')+' kPa</text>';
+  });
+  var x1=ch.X(0),y1=ch.Y(c.T1),xs=ch.X(0),ys=ch.Y(c.T2s),x2=ch.X(c.s2),y2=ch.Y(c.T2);
+  h+='<line x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+xs.toFixed(1)+'" y2="'+ys.toFixed(1)+'" stroke="'+BLU+'" stroke-width="2.4"/>';
+  h+='<line x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+y2.toFixed(1)+'" stroke="'+DRK+'" stroke-width="2.4" stroke-dasharray="6 4"/>';
+  h+=dot(p,x1,y1,'dt','1',-18,(c.t?-8:22))+dot(p,xs,ys,'dt','2s',-26,(c.t?20:-8))+dot(p,x2,y2,'dr','2',10,(c.t?16:-10),'S2');
+  if(c.s2>0.01)h+='<path d="M'+xs.toFixed(1)+' '+(ys+(c.t?30:-30))+' H'+x2.toFixed(1)+'" stroke="'+RED+'" stroke-width="1.6" fill="none" marker-end="none"/><text x="'+((xs+x2)/2).toFixed(1)+'" y="'+(ys+(c.t?44:-38))+'" text-anchor="middle" font-size="12.5" fill="'+RED+'">'+SUBT('s','gen')+'</text>';
+  ch.add(h).done();
+  C6.geo={ch:ch,c:c};C6.w=c.w;
+  /* tarjetas */
+  setv('c6t',comma(c.T2,1));setv('c6w',comma(c.w,1));setv('c6s',comma(c.s2,3));
+  sets('c6t','salida isentrópica: '+comma(c.T2s,1)+' K');
+  sets('c6w',c.w<0?'el signo negativo indica trabajo que entra':'trabajo que sale');
+  chip('c6s',c.s2<0.0005?'neu':'ok',c.s2<0.0005?'Isentrópico: no se genera entropía':'Irreversible: se genera entropía');
+  setd('c6s',c.s2,0.6,false);
+  /* esquema del equipo */
+  var d=$('#dev6'),dp='d6',t=c.t;
+  var body=t?'M104 54 L210 20 L210 100 L104 66 Z':'M104 20 L210 54 L210 66 L104 100 Z';
+  d.setAttribute('viewBox','0 0 320 124');
+  d.innerHTML='<defs><linearGradient id="'+dp+'m" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d7deec"/><stop offset=".5" stop-color="#9aa6bd"/><stop offset="1" stop-color="#5f6c88"/></linearGradient>'+
+    '<linearGradient id="'+dp+'p" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6f9ff"/><stop offset=".5" stop-color="#b9c9e4"/><stop offset="1" stop-color="#7d93b8"/></linearGradient>'+
+    '<linearGradient id="'+dp+'g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8591a8"/><stop offset=".5" stop-color="#2a3247"/><stop offset="1" stop-color="#151a28"/></linearGradient>'+
+    '<filter id="'+dp+'s" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#1c2333" flood-opacity=".3"/></filter></defs>'+
+    '<rect x="12" y="'+(t?47:40)+'" width="94" height="'+(t?20:34)+'" rx="3" fill="url(#'+dp+'p)" stroke="#5d7399"/>'+
+    '<rect x="208" y="'+(t?36:47)+'" width="100" height="'+(t?44:20)+'" rx="3" fill="url(#'+dp+'p)" stroke="#5d7399"/>'+
+    '<path d="'+body+'" fill="url(#'+dp+'m)" stroke="#3d4863" stroke-width="1.6" filter="url(#'+dp+'s)"/>'+
+    '<g id="d6gear" transform="translate(157 60)"><path d="'+gearPath(15,11.5,12)+'" fill="url(#'+dp+'g)" stroke="#0d111b" stroke-width=".8"/><circle r="4" fill="#edf3fc"/></g>'+
+    '<text x="12" y="30" font-size="12" font-style="italic" fill="'+MUT+'">entrada 1</text><text x="308" y="30" text-anchor="end" font-size="12" font-style="italic" fill="'+MUT+'">salida 2</text>'+
+    '<text x="12" y="108" font-size="12" fill="'+DRK+'">'+(t?'Turbina adiabática':'Compresor adiabático')+'</text>'+
+    '<g transform="translate(157 '+(t?'12':'104')+')"><text text-anchor="middle" font-size="12.5" fill="'+DRK+'" font-style="italic">w'+(t?' sale':' entra')+'</text></g>';
+  /* paquetes del esquema */
+  var late='';for(var j=0;j<5;j++)late+='<circle id="d6pk'+j+'" r="3.6" fill="#1f5fbf" stroke="#fff" stroke-width="1.2" opacity="0"/>';
+  d.insertAdjacentHTML('beforeend',late);
+  /* lectura */
+  var ou=$('#out6'),e=C6.eta;
+  var bal='<div class="rline">'+M('\\dot m_1=\\dot m_2=\\dot m,\\qquad 0=\\dot Q-\\dot W+\\dot m\\,(h_1-h_2)\\ \\overset{\\dot Q=0}{\\Longrightarrow}\\ w=h_1-h_2=c_p\\,(T_1-T_2)')+'</div>';
+  var uk='kJ/(kg·K)',K=function(x){return N(x,4,'K');},P=function(x){return N(x,4,'kPa');};
+  var l1='<div class="rline">'+M('T_{2s}=T_1\\left(\\dfrac{p_2}{p_1}\\right)^{R/c_p}='+K(c.T1)+'\\left(\\dfrac{'+P(c.p2)+'}{'+P(c.p1)+'}\\right)^{0{,}2856}='+K(c.T2s))+'</div>';
+  var l2=t?'<div class="rline">'+M('T_2=T_1-\\eta_T\\,(T_1-T_{2s})='+K(c.T1)+'-('+tn(e,3)+')('+K(c.T1)+'-'+K(c.T2s)+')='+K(c.T2))+'</div>':
+           '<div class="rline">'+M('T_2=T_1+\\dfrac{T_{2s}-T_1}{\\eta_C}='+K(c.T1)+'+\\dfrac{'+K(c.T2s)+'-'+K(c.T1)+'}{'+tn(e,3)+'}='+K(c.T2))+'</div>';
+  var l3='<div class="rline">'+M('w=c_p\\,(T_1-T_2)=('+N(1.005,4,uk)+')('+K(c.T1)+'-'+K(c.T2)+')='+N(c.w,4,'kJ/kg'))+'</div>';
+  var ta=CP*Math.log(c.T2/c.T1),tb=RG*Math.log(c.p2/c.p1);
+  var l4='<div class="rline">'+M('c_p\\ln\\dfrac{T_2}{T_1}=('+N(1.005,4,uk)+')\\ln\\dfrac{'+K(c.T2)+'}{'+K(c.T1)+'}='+N(ta,3,uk))+'</div>'+
+    '<div class="rline">'+M('R\\ln\\dfrac{p_2}{p_1}=('+N(0.287,3,uk)+')\\ln\\dfrac{'+P(c.p2)+'}{'+P(c.p1)+'}='+N(tb,3,uk))+'</div>'+
+    '<div class="rline">'+M('s_\\text{gen}=c_p\\ln\\dfrac{T_2}{T_1}-R\\ln\\dfrac{p_2}{p_1}=('+N(ta,3,uk)+')-('+N(tb,3,uk)+')='+N(c.s2,3,uk))+'</div>';
+  ou.innerHTML=bal+l1+l2+l3+l4;
+  fitRead();
+}
+ticks.push(function(t){
+  var svg=$('#dev6');if(!svg||!shown(svg))return;
+  var gr=g('d6gear');
+  if(gr){var sp=0.01+0.05*Math.min(1,Math.abs(C6.w)/700),sg=C6.w>=0?1:-1;gr.setAttribute('transform','translate(157 60) rotate('+((t*sp*sg)%360).toFixed(1)+')');}
+  var tt=(C6.mode==='t');
+  for(var j=0;j<5;j++){
+    var e=g('d6pk'+j);if(!e)continue;
+    var f=((t/2600)+j/5)%1,x=14+292*f;
+    e.setAttribute('cx',x.toFixed(1));e.setAttribute('cy',57);
+    e.setAttribute('opacity',(Math.min(1,f/0.08,(1-f)/0.1)*((x>108&&x<208)?0:1)).toFixed(2));
+  }
+});
+function initDevice(){
+  $('#row6').innerHTML=pc('blue','c6t',M('T_2'),'K','','')+pc('dark','c6w',M('w=h_1-h_2'),M(UKG),'','')+
+    '<div class="pcard main wide"><div class="pt">'+M('s_\\text{gen}=s_2-s_1')+'</div><div class="pv"><span id="c6sv">&ndash;</span><small>'+M(UKK)+'</small></div><div class="dbar"><i id="c6sd"></i></div><span class="ps" id="c6ss"></span></div>';
+  $('#mod6').addEventListener('change',function(){C6.mode=this.value;paint6();});
+  $('#r6').addEventListener('input',function(){C6.r=+this.value;paint6();});
+  $('#e6').addEventListener('input',function(){C6.eta=+this.value;paint6();});
+  dragOn($('#fig6'),function(k,pt){
+    var G=C6.geo,ch=G.ch,c=G.c,Sv=-0.15+0.85*(pt.x-ch.L)/(ch.W-ch.L-ch.R);
+    var T=c.T1*Math.exp((Sv+RG*Math.log(c.p2/c.p1))/CP),e;
+    e=c.t?(c.T1-T)/(c.T1-c.T2s):(c.T2s-c.T1)/(T-c.T1);
+    C6.eta=clamp(Math.round(e*100)/100,0.5,1);
+    paint6();
+  });
+  paint6();
+}
+
+/* =====================================================================
+   Banco de preguntas
+   ===================================================================== */
+var TOPICS={
+  seg:{n:'Segunda ley y máquinas térmicas',a:'../maquinas_segunda_ley_maquinas.html'},
+  ref:{n:'Refrigeradores y bombas de calor',a:'../maquinas_segunda_ley_maquinas.html'},
+  car:{n:'Ciclo de Carnot',a:'../maquinas_segunda_ley_carnot.html'},
+  ent:{n:'Entropía y su cambio',a:'../maquinas_segunda_ley_cambio_entropia.html'},
+  bal:{n:'Balance de entropía en sistemas cerrados',a:'../maquinas_segunda_ley_balance.html'},
+  vc:{n:'Balance de entropía en volumen de control',a:'../maquinas_segunda_ley_balance.html'},
+  iso:{n:'Eficiencia isentrópica',a:'../maquinas_segunda_ley_isentropica.html'}
+};
+var VF=[
+ {t:'seg',q:'Si se elimina por completo el roce, una máquina térmica que opera en ciclo puede convertir en trabajo todo el calor que recibe de un único depósito.',ans:false,
+  exp:'El enunciado de Kelvin–Planck no depende del roce: ningún ciclo produce trabajo neto intercambiando calor con un solo depósito. Hace falta un depósito frío que reciba \\( Q_C>0 \\), de modo que \\( \\eta<1 \\) incluso sin irreversibilidades.'},
+ {t:'car',q:'Todas las máquinas térmicas reversibles que operan entre los mismos dos depósitos tienen la misma eficiencia, cualquiera sea la sustancia de trabajo.',ans:true,
+  exp:'Es el segundo corolario de Carnot: la eficiencia reversible depende solo de \\( T_H \\) y \\( T_C \\), \\( \\eta=1-T_C/T_H \\), y no de la sustancia.'},
+ {t:'car',q:'La eficiencia de Carnot de un ciclo entre \\( 20\\ ^\\circ\\mathrm{C} \\) y \\( 520\\ ^\\circ\\mathrm{C} \\) se calcula con \\( 1-20/520 \\).',ans:false,
+  exp:'Las razones de calores reversibles son razones de temperaturas absolutas: \\( T_C='+N(20,2,'°C')+'+'+N(273.15,5,'K')+'='+N(293.15,5,'K')+' \\) y \\( T_H='+N(520,3,'°C')+'+'+N(273.15,5,'K')+'='+N(793.15,5,'K')+' \\). Entonces \\( \\eta=1-\\dfrac{'+N(293.15,5,'K')+'}{'+N(793.15,5,'K')+'}=0{,}630 \\), y no \\( 0{,}962 \\).'},
+ {t:'bal',q:'En un sistema cerrado que sufre un proceso adiabático, la entropía del sistema nunca disminuye.',ans:true,
+  exp:'Con \\( Q=0 \\) el balance queda \\( S_2-S_1=S_\\text{gen}\\ge 0 \\): la variación de entropía es igual a la entropía generada.'}
+];
+var SU=[
+ {t:'car',q:'Un fabricante informa que su máquina recibe \\( 200\\ \\mathrm{kW} \\) de un horno a \\( 900\\ \\mathrm{K} \\), descarga calor a un río a \\( 300\\ \\mathrm{K} \\) y entrega \\( 140\\ \\mathrm{kW} \\). Este funcionamiento es:',
+  o:[{x:'Imposible: viola la segunda ley',ok:true,w:'\\( \\eta=\\dfrac{'+N(140,3,'kW')+'}{'+N(200,3,'kW')+'}=0{,}70 \\) supera la eficiencia máxima \\( \\eta_\\text{máx}=1-\\dfrac{'+N(300,3,'K')+'}{'+N(900,3,'K')+'}=0{,}667 \\).'},
+     {x:'Posible pero irreversible',w:'Una máquina irreversible tiene \\( \\eta<\\eta_\\text{máx} \\); aquí \\( \\eta=0{,}70>0{,}667 \\).'},
+     {x:'Posible y reversible',w:'Una máquina reversible tendría \\( \\eta=0{,}667 \\), no \\( 0{,}70 \\).'},
+     {x:'Imposible: viola la primera ley',w:'El balance de energía se cumple (\\( Q_C='+N(200,3,'kW')+'-'+N(140,3,'kW')+'='+N(60,2,'kW')+' \\)); lo que se viola es la cota de Carnot.'}]},
+ {t:'vc',q:'Por un volumen de control adiabático, con una entrada y una salida, circula un fluido en régimen estacionario. El balance de entropía exige que la entropía específica de salida cumpla:',
+  o:[{x:'\\( s_2\\ge s_1 \\)',ok:true,w:'Con \\( \\dot Q=0 \\): \\( \\dot S_\\text{gen}=\\dot m\\,(s_2-s_1)\\ge 0 \\).'},
+     {x:'\\( s_2\\le s_1 \\)',w:'Esa desigualdad implicaría entropía generada negativa.'},
+     {x:'\\( s_2=s_1 \\) siempre',w:'Solo en el caso reversible; en un equipo real \\( \\dot S_\\text{gen}>0 \\).'},
+     {x:'No hay condición sobre \\( s_2 \\)',w:'La segunda ley impone \\( \\dot S_\\text{gen}\\ge 0 \\), y de ahí sale \\( s_2\\ge s_1 \\).'}]},
+ {t:'ref',q:'Una bomba de calor entrega \\( 12\\ \\mathrm{kW} \\) a una vivienda y consume \\( 3\\ \\mathrm{kW} \\) de potencia eléctrica. El calor que extrae del exterior y su coeficiente de operación son:',
+  o:[{x:'\\( 9\\ \\mathrm{kW} \\) y \\( 4 \\)',ok:true,w:'\\( Q_C=Q_H-W='+N(12,2,'kW')+'-'+N(3,1,'kW')+'='+N(9,1,'kW')+' \\) y \\( \\text{COP}_\\text{bc}=\\dfrac{Q_H}{W}=\\dfrac{'+N(12,2,'kW')+'}{'+N(3,1,'kW')+'}=4 \\).'},
+     {x:'\\( 15\\ \\mathrm{kW} \\) y \\( 5 \\)',w:'Esos valores resultan de sumar \\( W \\) a \\( Q_H \\), pero \\( Q_H \\) ya incluye el trabajo: \\( Q_H=Q_C+W \\).'},
+     {x:'\\( 9\\ \\mathrm{kW} \\) y \\( 3 \\)',w:'El calor extraído es correcto; el COP de la bomba de calor es \\( Q_H/W=4 \\), no \\( Q_C/W \\).'},
+     {x:'\\( 3\\ \\mathrm{kW} \\) y \\( 4 \\)',w:'El calor extraído es \\( Q_H-W=9\\ \\mathrm{kW} \\); \\( 3\\ \\mathrm{kW} \\) es el trabajo.'}]},
+ {t:'iso',q:'Un compresor adiabático real eleva la presión de aire entre dos presiones dadas. Comparado con el compresor isentrópico con la misma entrada y la misma presión de salida, el compresor real:',
+  o:[{x:'Requiere más trabajo por kilogramo y descarga el aire a mayor temperatura',ok:true,w:'\\( \\eta_C=(h_{2s}-h_1)/(h_2-h_1)<1 \\), de modo que \\( h_2>h_{2s} \\): el trabajo consumido y la temperatura de salida son mayores.'},
+     {x:'Requiere menos trabajo y descarga el aire a menor temperatura',w:'El compresor isentrópico es el de menor trabajo entre dos presiones; el real consume más.'},
+     {x:'Requiere el mismo trabajo, pero descarga a mayor temperatura',w:'Si el trabajo fuera el mismo, \\( h_2=h_{2s} \\) y el proceso sería isentrópico.'},
+     {x:'Requiere el mismo trabajo y descarga a la misma temperatura',w:'Eso solo ocurre con \\( \\eta_C=1 \\), el caso isentrópico.'}]}
+];
+var CALC=[
+ {t:'seg',q:'Una central térmica recibe \\( 92\\ \\mathrm{MW} \\) de la caldera y descarga \\( 61{,}5\\ \\mathrm{MW} \\) al agua de un río. Determine su eficiencia térmica.',
+  unit:'\\%',ans:33.15,ansTex:'33{,}2\\ \\%',ph:'ej. 35',tol:0.01,
+  hint:'En un ciclo, \\( W=Q_H-Q_C \\) y \\( \\eta=W/Q_H \\).',
+  sol:'<div class="formula">\\[ \\dot W=\\dot Q_H-\\dot Q_C='+N(92,3,'MW')+'-'+N(61.5,3,'MW')+'='+N(30.5,3,'MW')+' \\]</div><div class="formula">\\[ \\eta=\\frac{\\dot W}{\\dot Q_H}\\,'+F('100 %','1')+'=\\frac{'+N(30.5,3,'MW')+'}{'+N(92,3,'MW')+'}\\,'+F('100 %','1')+'='+N(33.15,4,'%')+' \\]</div>'},
+ {t:'car',q:'Un congelador debe mantener su interior a \\( -22\\ ^\\circ\\mathrm{C} \\) en un galpón a \\( 30\\ ^\\circ\\mathrm{C} \\). Determine el máximo coeficiente de operación posible.',
+  unit:'',ans:4.83,ansTex:'4{,}83',ph:'ej. 5',tol:0.01,
+  hint:'Use temperaturas absolutas en \\( \\text{COP}_\\text{ref,máx}=T_C/(T_H-T_C) \\).',
+  sol:'<div class="formula">\\[ T_C='+N(-22,2,'°C')+'+'+N(273.15,5,'K')+'='+N(251.15,5,'K')+',\\qquad T_H='+N(30,2,'°C')+'+'+N(273.15,5,'K')+'='+N(303.15,5,'K')+' \\]</div><div class="formula">\\[ \\text{COP}_\\text{ref,máx}=\\frac{T_C}{T_H-T_C}=\\frac{'+N(251.15,5,'K')+'}{'+N(303.15,5,'K')+'-'+N(251.15,5,'K')+'}=\\frac{'+N(251.15,5,'K')+'}{'+N(52,2,'K')+'}=4{,}83 \\]</div>'},
+ {t:'ent',q:'Aire, modelado como gas ideal con \\( c_p=1{,}005\\ \\dfrac{\\mathrm{kJ}}{\\mathrm{kg\\cdot K}} \\) y \\( R=0{,}287\\ \\dfrac{\\mathrm{kJ}}{\\mathrm{kg\\cdot K}} \\), pasa de \\( 600\\ \\mathrm{kPa} \\) y \\( 500\\ \\mathrm{K} \\) a \\( 150\\ \\mathrm{kPa} \\) y \\( 420\\ \\mathrm{K} \\). Determine el cambio de entropía específica.',
+  unit:UKK,uopts:[UKK,UKG,UKJK],uok:0,ans:0.2226,ansTex:'0{,}2226\\ '+UKK,ph:'ej. 0,2',tol:0.02,
+  hint:'Use la forma con \\( c_p \\) y la razón de presiones; los dos términos tienen signos distintos.',
+  sol:'<div class="formula">\\[ s_2-s_1=c_p\\ln\\frac{T_2}{T_1}-R\\ln\\frac{p_2}{p_1}=('+N(1.005,4,'kJ/(kg·K)')+')\\ln\\frac{'+N(420,3,'K')+'}{'+N(500,3,'K')+'}-('+N(0.287,3,'kJ/(kg·K)')+')\\ln\\frac{'+N(150,3,'kPa')+'}{'+N(600,3,'kPa')+'} \\]</div><div class="formula">\\[ s_2-s_1=-'+N(0.1752,4,'kJ/(kg·K)')+'+'+N(0.3979,4,'kJ/(kg·K)')+'='+N(0.2226,4,'kJ/(kg·K)')+' \\]</div>'},
+ {t:'bal',q:'Un horno a \\( 900\\ \\mathrm{K} \\) transfiere \\( 1500\\ \\mathrm{kJ} \\) de calor, a través de una pared, a un depósito a \\( 450\\ \\mathrm{K} \\). Ambos mantienen su temperatura. Determine la entropía generada en el proceso.',
+  unit:UKJK,uopts:[UKJK,UKK,'\\mathrm{kJ}'],uok:0,ans:1.667,ansTex:'1{,}667\\ '+UKJK,ph:'ej. 1,5',tol:0.02,
+  hint:'Tome como sistema los dos depósitos y la pared; el sistema es adiabático y la entropía que sale del horno entra al depósito frío.',
+  sol:'<div class="formula">\\[ S_\\text{gen}=\\frac{Q}{T_C}-\\frac{Q}{T_H}=\\frac{'+N(1500,4,'kJ')+'}{'+N(450,3,'K')+'}-\\frac{'+N(1500,4,'kJ')+'}{'+N(900,3,'K')+'}='+N(3.333,4,'kJ/K')+'-'+N(1.667,4,'kJ/K')+'='+N(1.667,4,'kJ/K')+' \\]</div>'},
+ {t:'iso',q:'Una turbina adiabática recibe aire a \\( 1000\\ \\mathrm{K} \\) y \\( 800\\ \\mathrm{kPa} \\) y lo descarga a \\( 100\\ \\mathrm{kPa} \\). Su eficiencia isentrópica es \\( 0{,}85 \\). Modele el aire como gas ideal con \\( c_p=1{,}005\\ \\dfrac{\\mathrm{kJ}}{\\mathrm{kg\\cdot K}} \\) y \\( R=0{,}287\\ \\dfrac{\\mathrm{kJ}}{\\mathrm{kg\\cdot K}} \\). Determine la temperatura de salida real.',
+  unit:'\\mathrm{K}',uopts:['\\mathrm{K}','^\\circ\\mathrm{C}'],uok:0,ans:619.4,ansTex:'619{,}4\\ \\mathrm{K}',ph:'ej. 620',tol:0.01,
+  hint:'Calcule primero la salida isentrópica con \\( T_{2s}=T_1(p_2/p_1)^{R/c_p} \\) y luego aplique la definición de eficiencia con \\( h=c_pT \\).',
+  sol:'<div class="formula">\\[ \\frac{R}{c_p}=\\frac{'+N(0.287,3,'kJ/(kg·K)')+'}{'+N(1.005,4,'kJ/(kg·K)')+'}=0{,}2856,\\qquad T_{2s}=T_1\\left(\\frac{p_2}{p_1}\\right)^{R/c_p}='+N(1000,4,'K')+'\\left(\\frac{'+N(100,3,'kPa')+'}{'+N(800,3,'kPa')+'}\\right)^{0{,}2856}='+N(552.2,4,'K')+' \\]</div><div class="formula">\\[ T_2=T_1-\\eta_T\\,(T_1-T_{2s})='+N(1000,4,'K')+'-(0{,}85)('+N(1000,4,'K')+'-'+N(552.2,4,'K')+')='+N(619.4,4,'K')+' \\]</div>'}
+];
+
+QUIM.init({
+  title:'Máquinas térmicas y segunda ley',
+  subtitle:'Ciclos, entropía y eficiencia isentrópica',
+  pdf:'../pdf/maquinas_segunda_ley.pdf',
+  sections:[
+    {id:'s1',title:'Máquina térmica'},
+    {id:'s2',title:'Refrigerador y bomba de calor'},
+    {id:'s3',title:'Ciclo de Carnot en T–S'},
+    {id:'s4',title:'Entropía de un gas ideal'},
+    {id:'s5',title:'Balance de entropía en cerrados'},
+    {id:'s6',title:'Turbina y compresor'}
+  ],
+  quiz:{topics:TOPICS,vf:VF,su:SU,calc:CALC},
+  ready:function(){
+    try{initCycles();}catch(e){}
+    try{initCarnot();}catch(e){}
+    try{initGas();}catch(e){}
+    try{initClosed();}catch(e){}
+    try{initDevice();}catch(e){}
+  }
+});
+})();
+</script>
+</body>
+</html>
